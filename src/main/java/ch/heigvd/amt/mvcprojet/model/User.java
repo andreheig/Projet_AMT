@@ -1,66 +1,65 @@
 package ch.heigvd.amt.mvcprojet.model;
 
 public class User {
-    private String Firstname;
-    private String Lastname;
-    private String username;
-    private String password;
-    private String email;
+    private int User_id;
+    private String Prenom;
+    private String Nom;
+    private String Email;
+    private String Type_compte;
 
 
-    public User(String Firstname, String Lastname, String username, String password, String email) {
-        this.Firstname = Firstname;
-        this.Lastname = Lastname;
-        this.username = username;
-        this.password = password;
-        this.email = email;
+    public User(int User_id, String Lastname, String username, String mail, String type_compte) {
+        this.User_id = User_id;
+        this.Prenom = Lastname;
+        this.Nom = username;
+        this.Email = mail;
+        this.Type_compte = type_compte;
     }
 
-    public void setFirstname(String Firstname) {
-        this.Firstname = Firstname;
+    public void setUser_id(int User_id) {
+        this.User_id = User_id;
     }
 
-    public void setLastname(String Lastname) {
-        this.Lastname = Lastname;
+    public void setPrenom(String Prenom) {
+        this.Prenom = Prenom;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNom(String nom) {
+        this.Nom = nom;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String mail) {
+        this.Email = mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTypeCompte(String type_compte) {
+        this.Type_compte = type_compte;
     }
 
-    public String getFirstname() {
-        return Firstname;
+    public int getUser_id() {
+        return User_id;
     }
 
-    public String getLastname() {
-        return Lastname;
+    public String getPrenom() {
+        return Prenom;
     }
 
 
     public User() { }
 
-    public boolean equals(User user) {
-        return username.equals(user.username) && password.equals(user.password);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public String getNom() {
+        return Nom;
     }
 
     public String getEmail() {
-        return email;
+        return Email;
     }
 
+    public String getTypeCompte() {
+        return Type_compte;
+    }
+
+    /*public boolean equals(User user) {
+        return Nom.equals(user.Nom) && password.equals(user.password);
+    }*/
 }
