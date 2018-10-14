@@ -1,6 +1,6 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.business.ControlForm;
+import ch.heigvd.amt.mvcprojet.Database.DBInterraction;
 import ch.heigvd.amt.mvcprojet.model.Developper;
 
 import javax.servlet.RequestDispatcher;
@@ -28,57 +28,86 @@ public class FormServlet extends javax.servlet.http.HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
-        boolean firstPassEmpty = false;
+        boolean firstNameOK = false;
+        boolean lastNameOK = false;
+        boolean emailOK = false;
+        boolean firstPassOK = false;
+        boolean secondPassOK = false;
 
         // Test prénom
         if(firstName.isEmpty()){
             request.setAttribute("firstNameNull", "Prénom manquant");
+            firstNameOK = false;
         }
         else{
             request.removeAttribute("firstNameNull");
+            firstNameOK = true;
         }
 
         // Test nom
         if(lastName.isEmpty()){
             request.setAttribute("lastNameNull", "Nom manquant");
+            lastNameOK = false;
         }
         else{
             request.removeAttribute("lastNameNull");
+            lastNameOK = true;
         }
 
         // Test mail
         if(email.isEmpty()){
             request.setAttribute("emailNull", "Email manquant");
+            emailOK = false;
         }
         else{
             request.removeAttribute("emailNull");
         }
         if(!email.contains("@") || !email.contains(".")){
             request.setAttribute("emailInccorect", "Syntaxe eronné");
+            emailOK = false;
         }
         else{
             request.removeAttribute("emailInccorect");
+            emailOK = true;
         }
 
         // Test password
         if(password.isEmpty()){
             request.setAttribute("passwordNull", "Mot de passe manquant");
-            firstPassEmpty = true;
         }
         else{
             request.removeAttribute("passwordNull");
+            firstPassOK = true;
         }
 
         // Test password2
         if(password2.isEmpty()){
             request.setAttribute("password2Null", "Mot de passe manquant");
-        } else if (!firstPassEmpty) {
+        } else if (firstPassOK) {
             request.removeAttribute("password2Null");
             if(password.compareTo(password2) != 0){
                 request.setAttribute("password2NotMatch", "Mot de passe non concordant");
             }
             else{
                 request.removeAttribute("password2NotMatch");
+                secondPassOK = true;
+            }
+        }
+
+        if(firstNameOK && lastNameOK && emailOK && firstPassOK && secondPassOK){
+            // TODO: Lancement vérif BDD + lancement page
+            DBInterraction db = new DBInterraction();
+            try {
+                // Recerche si le mail existe déjà!
+                if(db.emailExist(email) != 0){
+                    // Le mail existe, l'utilisateur doit donc s'authentifier
+                }
+                else{
+                    // Le mail n'existe pas, on peut entrer la personne dans la DB
+                }
+            }
+            catch (Exception e){
+
             }
         }
 
