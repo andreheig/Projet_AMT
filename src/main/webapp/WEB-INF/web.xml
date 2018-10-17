@@ -9,6 +9,18 @@
     <servlet-name>FormServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.mvcprojet.presentation.FormServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.HomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.LoginServlet</servlet-class>
+  </servlet>
+
+
+
+
   <servlet-mapping>
     <servlet-name>FormServlet</servlet-name>
     <url-pattern>/form</url-pattern>
