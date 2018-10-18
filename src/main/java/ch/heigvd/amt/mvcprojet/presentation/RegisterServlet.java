@@ -1,6 +1,7 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
 import ch.heigvd.amt.mvcprojet.Database.UserManager;
+import ch.heigvd.amt.mvcprojet.model.Developper;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -27,14 +28,14 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
     //TODO: A checker si c'est le premier affichage ou non
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        request.setAttribute("form",true);
+        request.setAttribute("register",true);
         request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
     }
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
@@ -45,7 +46,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         boolean secondPassOK = false;
 
         // Test prénom
-        if(firstName.isEmpty()){
+        if(firstname.isEmpty()){
             request.setAttribute("firstNameNull", "Prénom manquant");
             firstNameOK = false;
         }
@@ -55,7 +56,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         }
 
         // Test nom
-        if(lastName.isEmpty()){
+        if(lastname.isEmpty()){
             request.setAttribute("lastNameNull", "Nom manquant");
             lastNameOK = false;
         }
@@ -108,13 +109,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             // TODO: Lancement vérif BDD + lancement page
             try {
                 // Recerche si le mail existe déjà!
-                User user = new User(lastName, firstName, email, password, "dev");
-                /*user.setNom(lastName);
-                user.setEmail(email);
-                user.setPrenom(firstName);
-                user.setType_compte("dev");
-                user.setPassword(password);*/
-                if(!userManager.userExist(user)){
+                User user = new User(lastname, firstname, email, password, "dev");
+                if(userManager.userExist(user)){
                     // Le mail existe, l'utilisateur doit donc s'authentifier
                     response.sendRedirect("/Projet_AMT/login");
                     return;
@@ -130,8 +126,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             }
         }
 
-        //Developper dev = new Developper(firstName, lastName, email, password);
-        //request.setAttribute("developper", dev);
+        User dev = new User(firstname, lastname, email, password, "dev");
+        request.setAttribute("developper", dev);
 
         RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/register.jsp");
         requestDisp.forward(request, response);

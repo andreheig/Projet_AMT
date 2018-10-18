@@ -21,7 +21,7 @@
 
 <body>
 
-<div class="login-card">
+<div class="register">
     <h1>Log-in</h1><br>
     <form>
         <input type="text" name="user" placeholder="Username">
@@ -30,7 +30,7 @@
     </form>
 
     <div class="login-help">
-        <a href="#">Register</a> • <a href="#">Forgot Password</a>
+        <a href="register">Register</a> • <a href="#">Forgot Password <= vraiment neccessaire?</a>
     </div>
 </div>
 

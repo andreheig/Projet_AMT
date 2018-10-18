@@ -9,20 +9,27 @@
 <html>
 <head>
     <title>Inscription</title>
+    <!--
+<link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
+
+<link rel="stylesheet" href="static/css/register.css" media="screen" type="text/css" />
+-->
+
 </head>
 <body>
+<div class="register-card">
 <form method="POST" action="register">
     <fieldset>
         <legend>Informations</legend>
-        <label for="firstName">Prénom <span class="requis">*</span></label>
-        <input type="text" id="firstName" name="firstName" value="${developper.firstName}" size="20" maxlength="20" />
+        <label for="firstname">Prénom <span class="requis">*</span></label>
+        <input type="text" id="firstname" name="firstname" value="${developper.firstname}" size="20" maxlength="20" />
         <c:if test="${not empty firstNameNull}">
             <c:out> ${firstNameNull}</c:out>
         </c:if>
         <br />
 
-        <label for="lastName">Nom <span class="requis">*</span></label>
-        <input type="text" id="lastName" name="lastName" value="${developper.lastName}" size="20" maxlength="20" />
+        <label for="lastname">Nom <span class="requis">*</span></label>
+        <input type="text" id="lastname" name="lastname" value="${developper.lastname}" size="20" maxlength="20" />
         <c:if test="${empty lastNameNull}">
             <c:out> ${lastNameNull}</c:out>
         </c:if>
@@ -64,5 +71,6 @@
     <input type="submit" value="Valider"  />
     <br />
 </form>
+</div>
 </body>
 </html>
