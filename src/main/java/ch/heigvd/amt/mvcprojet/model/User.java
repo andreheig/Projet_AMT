@@ -1,28 +1,26 @@
 package ch.heigvd.amt.mvcprojet.model;
 
-import javax.ejb.Stateless;
-
 
 public class User {
     private int user_id;
-    private String prenom;
-    private String nom;
+    private String firstname;
+    private String lastname;
     private String email;
     private String password;
     private String type_compte;
 
 
-    public User(int user_id, String lastname, String firstname, String mail, String password, String type_compte) {
+    public User(int user_id, String firstname, String lastname, String mail, String password, String type_compte) {
         this.user_id = user_id;
-        this.prenom = lastname;
-        this.nom = firstname;
+        this.firstname = lastname;
+        this.lastname = firstname;
         this.email = mail;
         this.password=password;
         this.type_compte = type_compte;
     }
-    public User(String lastname, String firstname, String mail, String password, String type_compte) {
-        this.prenom = lastname;
-        this.nom = firstname;
+    public User(String firstname, String lastname, String mail, String password, String type_compte) {
+        this.firstname = lastname;
+        this.lastname = firstname;
         this.email = mail;
         this.password=password;
         this.type_compte = type_compte;
@@ -32,11 +30,11 @@ public class User {
         this.user_id = User_id;
     }
 
-    public void setPrenom(String Prenom) {
-        this.prenom = Prenom;
+    public void setFirstname(String Prenom) {
+        this.firstname = Prenom;
     }
 
-    public void setNom(String nom) {  this.nom = nom;  }
+    public void setLastname(String lastname) {  this.lastname = lastname;  }
 
     public void setEmail(String mail) {
         this.email = mail;
@@ -54,15 +52,15 @@ public class User {
         return user_id;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getFirstname() {
+        return firstname;
     }
 
 
     public User() { }
 
-    public String getNom() {
-        return nom;
+    public String getLastname() {
+        return lastname;
     }
 
     public String getEmail() {
@@ -82,6 +80,6 @@ public class User {
     }*/
 
     public String toString() {
-        return "User_id: " + user_id + ", Prenom: " + prenom + ", Nom: " + nom + ", Email: " + email + ", Type de compte: " + type_compte;
+        return "User_id: " + user_id + ", Prenom: " + firstname + ", Nom: " + lastname + ", Email: " + email + ", Type de compte: " + type_compte;
     }
 }

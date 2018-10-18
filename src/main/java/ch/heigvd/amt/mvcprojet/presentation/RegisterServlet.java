@@ -17,9 +17,6 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
     @EJB
     private UserManager userManager;
 
-    //@EJB
-    //private User user;
-
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -116,7 +113,9 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
                     return;
                 }
                 else{
-                    // Le mail n'existe pas, elle est rentrer dans la DB, on peut passer a la vue dev
+                    // Le mail n'existe pas, elle est rentrer dans la DB,
+                    userManager.insertUser(user);
+                    // On peut passer a la vue dev
                     response.sendRedirect("/Projet_AMT/test");
                     return;
                 }
