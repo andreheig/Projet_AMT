@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class FormServlet extends javax.servlet.http.HttpServlet {
+public class RegisterServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
     private UserManager userManager;
@@ -28,7 +28,7 @@ public class FormServlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setAttribute("form",true);
-        request.getRequestDispatcher("/WEB-INF/pages/form.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
     }
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
@@ -126,14 +126,14 @@ public class FormServlet extends javax.servlet.http.HttpServlet {
                 }
             }
             catch (Exception e){
-                Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
         //Developper dev = new Developper(firstName, lastName, email, password);
         //request.setAttribute("developper", dev);
 
-        RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/form.jsp");
+        RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/register.jsp");
         requestDisp.forward(request, response);
 
     }

@@ -6,8 +6,8 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
-    <servlet-name>FormServlet</servlet-name>
-    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.FormServlet</servlet-class>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.RegisterServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>HomeServlet</servlet-name>
@@ -30,8 +30,8 @@
     </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>FormServlet</servlet-name>
-    <url-pattern>/form</url-pattern>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
   </servlet-mapping>
 
     <servlet>

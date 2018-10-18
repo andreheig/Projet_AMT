@@ -11,7 +11,7 @@
     <title>Inscription</title>
 </head>
 <body>
-<form method="POST" action="form">
+<form method="POST" action="register">
     <fieldset>
         <legend>Informations</legend>
         <label for="firstName">Prénom <span class="requis">*</span></label>
