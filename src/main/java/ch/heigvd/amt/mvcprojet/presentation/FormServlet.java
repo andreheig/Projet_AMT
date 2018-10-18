@@ -1,14 +1,24 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.Database.DBInterraction;
-import ch.heigvd.amt.mvcprojet.model.Developper;
+import ch.heigvd.amt.mvcprojet.Database.UserManager;
+import ch.heigvd.amt.mvcprojet.model.User;
 
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FormServlet extends javax.servlet.http.HttpServlet {
+
+    @EJB
+    private UserManager userManager;
+
+    //@EJB
+    //private User user;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -96,23 +106,32 @@ public class FormServlet extends javax.servlet.http.HttpServlet {
 
         if(firstNameOK && lastNameOK && emailOK && firstPassOK && secondPassOK){
             // TODO: Lancement vérif BDD + lancement page
-            DBInterraction db = new DBInterraction();
             try {
                 // Recerche si le mail existe déjà!
-                if(db.emailExist(email) != 0){
+                User user = new User(lastName, firstName, email, password, "dev");
+                /*user.setNom(lastName);
+                user.setEmail(email);
+                user.setPrenom(firstName);
+                user.setType_compte("dev");
+                user.setPassword(password);*/
+                if(!userManager.userExist(user)){
                     // Le mail existe, l'utilisateur doit donc s'authentifier
+                    response.sendRedirect("/Projet_AMT/login");
+                    return;
                 }
                 else{
-                    // Le mail n'existe pas, on peut entrer la personne dans la DB
+                    // Le mail n'existe pas, elle est rentrer dans la DB, on peut passer a la vue dev
+                    response.sendRedirect("/Projet_AMT/test");
+                    return;
                 }
             }
             catch (Exception e){
-
+                Logger.getLogger(FormServlet.class.getName()).log(Level.SEVERE, null, e);
             }
         }
 
-        Developper dev = new Developper(firstName, lastName, email, password);
-        request.setAttribute("developper", dev);
+        //Developper dev = new Developper(firstName, lastName, email, password);
+        //request.setAttribute("developper", dev);
 
         RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/form.jsp");
         requestDisp.forward(request, response);

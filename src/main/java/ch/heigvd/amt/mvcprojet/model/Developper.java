@@ -1,48 +1,34 @@
 package ch.heigvd.amt.mvcprojet.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Developper {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    private int user_id;
+    private List<Application> applications = new ArrayList<>();
 
-    public Developper(String firstName, String lastName, String email, String password){
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+    public Developper(int user_id, List<Application> applications){
+        this.user_id = user_id;
+        this.applications = applications;
+    }
+    public void addApplication(Application application){
+        this.applications.add(application);
     }
 
-    public String getFirstName() {
-        return firstName;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public String getLastName() {
-        return lastName;
+    public List<Application> getApplications() {
+        return applications;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
 }
