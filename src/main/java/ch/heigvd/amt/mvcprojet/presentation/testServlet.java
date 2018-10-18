@@ -3,15 +3,17 @@ package ch.heigvd.amt.mvcprojet.presentation;
 import ch.heigvd.amt.mvcprojet.Database.ApplicationsManager;
 import ch.heigvd.amt.mvcprojet.Database.DevelopperManager;
 import ch.heigvd.amt.mvcprojet.Database.UserManager;
-import ch.heigvd.amt.mvcprojet.model.Application;
-import ch.heigvd.amt.mvcprojet.model.Developper;
+import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class testServlet extends HttpServlet {
 
@@ -37,14 +39,23 @@ public class testServlet extends HttpServlet {
                 throws ServletException, IOException {
 
             response.setContentType("text/html;charset=UTF-8");
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
             /* Partie test Users */
+            if(user.getType_compte().equalsIgnoreCase("admin")){
+                request.setAttribute("developpers", developperManager.findDevelopper());
+            }
+            else if(user.getType_compte().equalsIgnoreCase("dev")){
+                request.setAttribute("applications", applicationManager.findUserApplication(user.getUser_id()));
+            }
             request.setAttribute("users", userManager.findAllUser());
             //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
 
-            request.setAttribute("applications", applicationManager.findUserApplication(4));
+            //request.setAttribute("applications", applicationManager.findUserApplication(4));
             //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
 
-            request.setAttribute("developpers", developperManager.findDevelopper());
+            //request.setAttribute("developpers", developperManager.findDevelopper());
             request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
         }
 

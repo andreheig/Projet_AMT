@@ -9,6 +9,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,7 +70,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
                 // TODO : Fait-on une classe login, ou la classe User rempli comme ça suffit?
                 User user = new User("", "", email, password, "");
                 if(userManager.userExist(user) && userManager.loginMatch(user, password)){
-                    // Le mail n'existe pas, l'utilisateur doit donc s'enregistrer
+                    // Le mail existe, l'utilisateur est autorisé
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", userManager.setUserSession(user));
                     response.sendRedirect("/Projet_AMT/test");
                     return;
                 }
