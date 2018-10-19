@@ -37,26 +37,32 @@ public class testServlet extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response)
                 throws ServletException, IOException {
-
-            response.setContentType("text/html;charset=UTF-8");
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
-            Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
-            /* Partie test Users */
-            if(user.getType_compte().equalsIgnoreCase("admin")){
-                request.setAttribute("developpers", developperManager.findDevelopper());
+            if(user == null){
+                response.sendRedirect("/Projet_AMT/home");
+                return;
             }
-            else if(user.getType_compte().equalsIgnoreCase("dev")){
-                request.setAttribute("applications", applicationManager.findUserApplication(user.getUser_id()));
+            else {
+
+                response.setContentType("text/html;charset=UTF-8");
+
+                Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
+                /* Partie test Users */
+                if (user.getType_compte().equalsIgnoreCase("admin")) {
+                    request.setAttribute("developpers", developperManager.findDevelopper());
+                } else if (user.getType_compte().equalsIgnoreCase("dev")) {
+                    request.setAttribute("applications", applicationManager.findUserApplication(user.getUser_id()));
+                }
+                request.setAttribute("users", userManager.findAllUser());
+                //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
+
+                //request.setAttribute("applications", applicationManager.findUserApplication(4));
+                //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
+
+                //request.setAttribute("developpers", developperManager.findDevelopper());
+                request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
             }
-            request.setAttribute("users", userManager.findAllUser());
-            //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
-
-            //request.setAttribute("applications", applicationManager.findUserApplication(4));
-            //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
-
-            //request.setAttribute("developpers", developperManager.findDevelopper());
-            request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
         }
 
 }
