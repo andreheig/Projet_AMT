@@ -1,90 +1,98 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
+import ch.heigvd.amt.mvcprojet.Database.UserManager;
+import ch.heigvd.amt.mvcprojet.model.User;
 
-
-
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-public class LoginServlet extends HttpServelet {
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+public class LoginServlet extends javax.servlet.http.HttpServlet{
+
+
+    @EJB
+    private UserManager userManager;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+    }
+
+    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        request.setAttribute("login",true);
+        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        boolean emailOK = false;
+        boolean passOK = false;
 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        // Test mail
+        if(email.isEmpty()){
+            request.setAttribute("emailNull", "Email manquant");
+            emailOK = false;
         }
-    }
+        else{
+            request.removeAttribute("emailNull");
+        }
+        if(!email.contains("@") || !email.contains(".")){
+            request.setAttribute("emailInccorect", "Syntaxe eronné");
+            emailOK = false;
+        }
+        else{
+            request.removeAttribute("emailInccorect");
+            emailOK = true;
+        }
 
+        // Test password
+        if(password.isEmpty()){
+            request.setAttribute("passwordNull", "Mot de passe manquant");
+        }
+        else{
+            request.removeAttribute("passwordNull");
+            passOK = true;
+        }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        HttpSession session = request.getSession(false);
-
-        if(session != null)
-            session.invalidate();
-
-        request.getRequestDispatcher("/index.jsp").forward(request,response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        response.setContentType("text/html");
-        try (PrintWriter out = response.getWriter())
-        {
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String message;
-            boolean success = false;
-
-
-            Account a = accountDAO.verifyLogin(email, password);
-
-            if (a != null)
-            {
-                message = "sucessfully connected";
-                success = true;
-            } else
-            {
-                message = "Wrong email or password. Please try again!";
+        if(emailOK && passOK){
+            // TODO: Lancement vérif BDD + lancement page
+            try {
+                // Recerche si le mail existe déjà!
+                // TODO : Fait-on une classe login, ou la classe User rempli comme ça suffit?
+                User user = new User("", "", email, password, "");
+                if(userManager.userExist(user) && userManager.loginMatch(user, password)){
+                    // Le mail existe, l'utilisateur est autorisé
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", userManager.setUserSession(user));
+                    response.sendRedirect("/Projet_AMT/test");
+                    return;
+                }
+                else{
+                    // Le mail n'existe pas, l'utilisateur doit donc s'enregistrer
+                    response.sendRedirect("/Projet_AMT/register");
+                    return;
+                }
             }
-
-            request.setAttribute("success", message);
-            request.setAttribute("pageTitle", "Account created");
-
-            if (success)
-            {
-                request.getSession().setAttribute("connected", email);
-                request.getRequestDispatcher("/WEB-INF/pages/dashboard.jsp").forward(request, response);
-            } else
-            {
-                request.getRequestDispatcher("/WEB-INF/pages/home.jsp").forward(request, response);
+            catch (Exception e){
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
             }
         }
+
+        User user = new User("", "", email, password, "");
+        request.setAttribute("user", user);
+
+        RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp");
+        requestDisp.forward(request, response);
+
     }
 
-    @Override
-    public String getServletInfo()
-    {
-        return "Short description";
-    }
 }
