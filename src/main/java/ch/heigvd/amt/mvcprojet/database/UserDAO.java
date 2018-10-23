@@ -1,4 +1,4 @@
-package ch.heigvd.amt.mvcprojet.Database;
+package ch.heigvd.amt.mvcprojet.database;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
-public class UserManager {
+public class UserDAO {
 
     //@Stateless
     //protected static Connection con;
@@ -30,7 +30,7 @@ public class UserManager {
                 pstmt.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return users;
@@ -56,7 +56,7 @@ public class UserManager {
             pstmt.close();
 
     } catch (SQLException ex) {
-        Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
     return false;
     }
@@ -70,7 +70,7 @@ public class UserManager {
                 rs.next();
                 user = getUserFromResultSet(rs);
         } catch (SQLException ex) {
-            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }
@@ -87,7 +87,7 @@ public class UserManager {
             ResultSet rs = pstmt.executeQuery();
         }
              catch (SQLException  ex){
-                 Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+                 Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
              }
         return false;
     }
@@ -104,7 +104,7 @@ public class UserManager {
             pstmt.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -126,7 +126,7 @@ public class UserManager {
             pstmt.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }

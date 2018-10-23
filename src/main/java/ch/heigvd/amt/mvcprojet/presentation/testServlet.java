@@ -1,8 +1,8 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.Database.ApplicationsManager;
-import ch.heigvd.amt.mvcprojet.Database.DevelopperManager;
-import ch.heigvd.amt.mvcprojet.Database.UserManager;
+import ch.heigvd.amt.mvcprojet.database.ApplicationDAO;
+import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
+import ch.heigvd.amt.mvcprojet.database.UserDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -18,13 +18,13 @@ import java.util.logging.Logger;
 public class testServlet extends HttpServlet {
 
         @EJB
-        private UserManager userManager;
+        private UserDAO userDAO;
 
         @EJB
-        private ApplicationsManager applicationManager;
+        private ApplicationDAO applicationDAO;
 
         @EJB
-        private DevelopperManager developperManager;
+        private DevelopperDAO developperDAO;
 
         /**
          * Handles the HTTP <code>GET</code> method.
@@ -50,17 +50,17 @@ public class testServlet extends HttpServlet {
                 Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
                 /* Partie test Users */
                 if (user.getAccountType().equalsIgnoreCase("admin")) {
-                    request.setAttribute("developpers", developperManager.findDevelopper());
+                    request.setAttribute("developpers", developperDAO.findDevelopper());
                 } else if (user.getAccountType().equalsIgnoreCase("dev")) {
-                    request.setAttribute("applications", applicationManager.findUserApplication(user.getId()));
+                    request.setAttribute("applications", applicationDAO.findUserApplication(user.getId()));
                 }
-                request.setAttribute("users", userManager.findAllUser());
+                request.setAttribute("users", userDAO.findAllUser());
                 //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
 
                 //request.setAttribute("applications", applicationManager.findUserApplication(4));
                 //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
 
-                //request.setAttribute("developpers", developperManager.findDevelopper());
+                //request.setAttribute("developpers", developperDAO.findDevelopper());
                 request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
            // }
         }

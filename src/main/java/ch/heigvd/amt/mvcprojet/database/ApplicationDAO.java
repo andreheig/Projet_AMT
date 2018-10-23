@@ -1,6 +1,5 @@
-package ch.heigvd.amt.mvcprojet.Database;
+package ch.heigvd.amt.mvcprojet.database;
 import ch.heigvd.amt.mvcprojet.model.Application;
-import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
 
 
 @Stateless
-public class ApplicationsManager {
+public class ApplicationDAO {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
@@ -36,7 +35,7 @@ public class ApplicationsManager {
                 pstmt.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return applications;

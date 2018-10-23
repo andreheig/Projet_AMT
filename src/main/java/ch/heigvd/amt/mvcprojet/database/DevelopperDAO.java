@@ -1,5 +1,4 @@
-package ch.heigvd.amt.mvcprojet.Database;
-import ch.heigvd.amt.mvcprojet.model.Application;
+package ch.heigvd.amt.mvcprojet.database;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
 
 
 @Stateless
-public class DevelopperManager {
+public class DevelopperDAO {
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
 
@@ -35,7 +34,7 @@ public class DevelopperManager {
                 pstmt.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return developper;

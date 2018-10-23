@@ -1,6 +1,6 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.Database.ApplicationsManager;
+import ch.heigvd.amt.mvcprojet.database.ApplicationDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public class DeveloperServlet extends HttpServlet {
 
     @EJB
-    private ApplicationsManager applicationsManager;
+    private ApplicationDAO applicationDAO;
 
     private static final Logger LOGGER = Logger.getLogger(AdminServlet.class.getName());
 
@@ -26,7 +26,7 @@ public class DeveloperServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         response.setContentType("text/html;charset=UTF-8");
         LOGGER.log(Level.INFO, "list", session.getAttributeNames());
-        request.setAttribute("applications", applicationsManager.findUserApplication(user.getId()));
+        request.setAttribute("applications", applicationDAO.findUserApplication(user.getId()));
         request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
     }
 }
