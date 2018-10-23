@@ -25,12 +25,7 @@ public class UserManager {
                 PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User;");){
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    int user_id = rs.getInt("User_id");
-                    String prenom = rs.getString("Prenom");
-                    String nom = rs.getString("Nom");
-                    String email = rs.getString("Email");
-                    String type_compte = rs.getString("Type_compte");
-                    users.add(new User(user_id, prenom, nom, email, "", type_compte));
+                    users.add(getUserFromResultSet(rs));
                 }
                 pstmt.close();
             }
@@ -39,6 +34,15 @@ public class UserManager {
         }
 
         return users;
+    }
+
+    private User getUserFromResultSet(ResultSet rs) throws SQLException {
+        int user_id = rs.getInt("User_id");
+        String prenom = rs.getString("Prenom");
+        String nom = rs.getString("Nom");
+        String email = rs.getString("Email");
+        String type_compte = rs.getString("Type_compte");
+        return new User(user_id, prenom, nom, email, "", type_compte);
     }
 
     public boolean userExist(User user){
@@ -55,6 +59,20 @@ public class UserManager {
         Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
     }
     return false;
+    }
+
+    public User loadUser(String userEmail) {
+        User user = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ?;")) {
+                pstmt.setString(1, userEmail);
+                ResultSet rs = pstmt.executeQuery();
+                rs.next();
+                user = getUserFromResultSet(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
     }
 
     public boolean insertUser(User user){
