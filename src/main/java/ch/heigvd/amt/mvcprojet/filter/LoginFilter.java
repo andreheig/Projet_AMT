@@ -1,0 +1,48 @@
+package ch.heigvd.amt.mvcprojet.filter;
+
+import ch.heigvd.amt.mvcprojet.model.User;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class LoginFilter implements Filter {
+
+    private ServletContext context;
+
+    public void init( FilterConfig config ) throws ServletException {
+        this.context = config.getServletContext();
+        this.context.log("RequestLoggingFilter initialized");
+    }
+
+
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain ) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) req;
+        HttpServletResponse httpResponse = (HttpServletResponse) resp;
+
+        String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+        if(path.startsWith("/static")){
+            // Permet de savoir que l'on souhaite accéder au feuilles de style
+            chain.doFilter(httpRequest, httpResponse);
+            return;
+        }
+        // Permet de laisser passer s'il l'on veux se loguer ou s'enregistrer
+        if(path.contains("login") || path.contains("register") || path.contains("home")){
+            chain.doFilter(httpRequest, httpResponse);
+            return;
+        }
+        User user = (User) httpRequest.getSession().getAttribute("user");
+        if(user == null){
+            httpRequest.getRequestDispatcher( "/home" ).forward( httpRequest, httpResponse );
+        }
+        else{
+            chain.doFilter(httpRequest, httpResponse);
+        }
+    }
+
+
+    public void destroy() {
+
+    }
+}

@@ -39,11 +39,11 @@ public class testServlet extends HttpServlet {
                 throws ServletException, IOException {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
-            if(user == null){
+            /*if(user == null){
                 response.sendRedirect("/Projet_AMT/home");
                 return;
             }
-            else {
+            else {*/
 
                 response.setContentType("text/html;charset=UTF-8");
 
@@ -62,7 +62,7 @@ public class testServlet extends HttpServlet {
 
                 //request.setAttribute("developpers", developperManager.findDevelopper());
                 request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
-            }
+           // }
         }
 
 }
