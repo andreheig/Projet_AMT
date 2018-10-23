@@ -68,12 +68,20 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
             try {
                 // Recerche si le mail existe déjà!
                 // TODO : Fait-on une classe login, ou la classe User rempli comme ça suffit?
-                User user = new User("", "", email, password, "");
+                User user = userManager.loadUser(email);
                 if(userManager.userExist(user) && userManager.loginMatch(user, password)){
                     // Le mail existe, l'utilisateur est autorisé
                     HttpSession session = request.getSession();
                     session.setAttribute("user", userManager.setUserSession(user));
-                    response.sendRedirect("/Projet_AMT/test");
+
+                    final String accountType = user.getType_compte();
+                    if("admin".equals(accountType)) {
+                        response.sendRedirect("/Projet_AMT/admin");
+                    } else if("dev".equals(accountType)) {
+                        response.sendRedirect("/Projet_AMT/dev");
+                    } else {
+                        throw new IllegalStateException("Account type is not correct: " + accountType);
+                    }
                     return;
                 }
                 else{
