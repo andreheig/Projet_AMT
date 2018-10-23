@@ -2,39 +2,39 @@ package ch.heigvd.amt.mvcprojet.model;
 
 
 public class User {
-    private int user_id;
-    private String firstname;
-    private String lastname;
+    private int id;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-    private String type_compte;
+    private String accountType;
 
 
-    public User(int user_id, String firstname, String lastname, String mail, String password, String type_compte) {
-        this.user_id = user_id;
-        this.firstname = lastname;
-        this.lastname = firstname;
+    public User(int id, String firstName, String lastName, String mail, String password, String accountType) {
+        this.id = id;
+        this.firstName = lastName;
+        this.lastName = firstName;
         this.email = mail;
-        this.password=password;
-        this.type_compte = type_compte;
+        this.password = password;
+        this.accountType = accountType;
     }
-    public User(String firstname, String lastname, String mail, String password, String type_compte) {
-        this.firstname = lastname;
-        this.lastname = firstname;
+    public User(String firstName, String lastName, String mail, String password, String accountType) {
+        this.firstName = lastName;
+        this.lastName = firstName;
         this.email = mail;
-        this.password=password;
-        this.type_compte = type_compte;
+        this.password = password;
+        this.accountType = accountType;
     }
 
-    public void setUser_id(int User_id) {
-        this.user_id = User_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setFirstname(String Prenom) {
-        this.firstname = Prenom;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setLastname(String lastname) {  this.lastname = lastname;  }
+    public void setLastName(String lastName) {  this.lastName = lastName;  }
 
     public void setEmail(String mail) {
         this.email = mail;
@@ -44,23 +44,23 @@ public class User {
         this.password = password;
     }
 
-    public void setType_compte(String type_compte) {
-        this.type_compte = type_compte;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getId() {
+        return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
 
     public User() { }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -71,8 +71,8 @@ public class User {
         return password;
     }
 
-    public String getType_compte() {
-        return type_compte;
+    public String getAccountType() {
+        return accountType;
     }
 
     /*public boolean equals(User user) {
@@ -80,6 +80,6 @@ public class User {
     }*/
 
     public String toString() {
-        return "User_id: " + user_id + ", Prenom: " + firstname + ", Nom: " + lastname + ", Email: " + email + ", Type de compte: " + type_compte;
+        return "User_id: " + id + ", Prenom: " + firstName + ", Nom: " + lastName + ", Email: " + email + ", Type de compte: " + accountType;
     }
 }

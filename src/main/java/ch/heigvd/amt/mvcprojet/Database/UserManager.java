@@ -79,11 +79,11 @@ public class UserManager {
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
              PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (Prenom, Nom, Email, " +
                      "Password, Type_compte) VALUES (?, ?, ?, ?, ?);");){
-            pstmt.setString(1, user.getFirstname());
-            pstmt.setString(2, user.getLastname());
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getEmail());
             pstmt.setString(4, user.getPassword());
-            pstmt.setString(5, user.getType_compte());
+            pstmt.setString(5, user.getAccountType());
             ResultSet rs = pstmt.executeQuery();
         }
              catch (SQLException  ex){

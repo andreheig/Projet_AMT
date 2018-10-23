@@ -18,11 +18,11 @@
         </h1>
         <c:forEach items="${developpers}" var = "dev">
             <tr>
-                <td>${dev.user_id}</td>
-                <td>${dev.firstname}</td>
-                <td>${dev.lastname}</td>
+                <td>${dev.id}</td>
+                <td>${dev.firstName}</td>
+                <td>${dev.lastName}</td>
                 <td>${dev.email}</td>
-                <td>${dev.type_compte}</td>
+                <td>${dev.accountType}</td>
             </tr>
         </c:forEach>
     </table>

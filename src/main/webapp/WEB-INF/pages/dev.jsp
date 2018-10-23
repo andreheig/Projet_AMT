@@ -16,7 +16,7 @@
     <h1>Applications</h1>
     <c:forEach items="${applications}" var="appli">
         <tr>
-            <td>${appli.application_id}</td>
+            <td>${appli.id}</td>
             <td>${appli.name}</td>
             <td>${appli.description}</td>
         </tr>

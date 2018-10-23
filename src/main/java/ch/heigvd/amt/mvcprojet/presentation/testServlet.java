@@ -49,10 +49,10 @@ public class testServlet extends HttpServlet {
 
                 Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
                 /* Partie test Users */
-                if (user.getType_compte().equalsIgnoreCase("admin")) {
+                if (user.getAccountType().equalsIgnoreCase("admin")) {
                     request.setAttribute("developpers", developperManager.findDevelopper());
-                } else if (user.getType_compte().equalsIgnoreCase("dev")) {
-                    request.setAttribute("applications", applicationManager.findUserApplication(user.getUser_id()));
+                } else if (user.getAccountType().equalsIgnoreCase("dev")) {
+                    request.setAttribute("applications", applicationManager.findUserApplication(user.getId()));
                 }
                 request.setAttribute("users", userManager.findAllUser());
                 //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);

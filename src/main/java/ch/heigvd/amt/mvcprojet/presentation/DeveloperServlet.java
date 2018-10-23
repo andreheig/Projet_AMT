@@ -26,7 +26,7 @@ public class DeveloperServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         response.setContentType("text/html;charset=UTF-8");
         LOGGER.log(Level.INFO, "list", session.getAttributeNames());
-        request.setAttribute("applications", applicationsManager.findUserApplication(user.getUser_id()));
+        request.setAttribute("applications", applicationsManager.findUserApplication(user.getId()));
         request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
     }
 }

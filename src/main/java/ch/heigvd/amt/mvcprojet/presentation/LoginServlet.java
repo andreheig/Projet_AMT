@@ -74,7 +74,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
                     HttpSession session = request.getSession();
                     session.setAttribute("user", userManager.setUserSession(user));
 
-                    final String accountType = user.getType_compte();
+                    final String accountType = user.getAccountType();
                     if("admin".equals(accountType)) {
                         response.sendRedirect("/Projet_AMT/admin");
                     } else if("dev".equals(accountType)) {
