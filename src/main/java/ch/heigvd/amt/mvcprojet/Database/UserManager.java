@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.System.out;
-
 @Stateless
 public class UserManager {
 
@@ -49,25 +47,22 @@ public class UserManager {
             pstmt.setString(1, user.getEmail());
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()){
-                return false;
-            }
-            else{
-                insertUser(user);
+                return true;
             }
             pstmt.close();
 
     } catch (SQLException ex) {
         Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
     }
-    return true;
+    return false;
     }
 
-    private boolean insertUser(User user){
+    public boolean insertUser(User user){
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
              PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (Prenom, Nom, Email, " +
                      "Password, Type_compte) VALUES (?, ?, ?, ?, ?);");){
-            pstmt.setString(1, user.getPrenom());
-            pstmt.setString(2, user.getNom());
+            pstmt.setString(1, user.getFirstname());
+            pstmt.setString(2, user.getLastname());
             pstmt.setString(3, user.getEmail());
             pstmt.setString(4, user.getPassword());
             pstmt.setString(5, user.getType_compte());
@@ -79,4 +74,42 @@ public class UserManager {
         return false;
     }
 
+    public boolean loginMatch(User user, String password) {
+        try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ? AND User.Password = ?;");){
+            pstmt.setString(1, user.getEmail());
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public User setUserSession(User user){
+        User ret = null;
+        try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ?;");){
+            pstmt.setString(1, user.getEmail());
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+                int user_id = rs.getInt("User_id");
+                String prenom = rs.getString("Prenom");
+                String nom = rs.getString("Nom");
+                String email = rs.getString("Email");
+                String type_compte = rs.getString("Type_compte");
+                ret = new User(user_id, prenom, nom, email, "", type_compte);
+            }
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ret;
+    }
 }
