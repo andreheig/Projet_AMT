@@ -20,15 +20,15 @@ public class DevelopperDAO {
         List<User> developper = new ArrayList<>();
         try {
             try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-                 PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Type_compte = 'dev';");){
+                 PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.accountType = 'dev';");){
 
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    int user_id = rs.getInt("User_id");
-                    String prenom = rs.getString("Prenom");
-                    String nom = rs.getString("Nom");
-                    String email = rs.getString("Email");
-                    String type_compte = rs.getString("Type_compte");
+                    int user_id = rs.getInt("userId");
+                    String prenom = rs.getString("firstName");
+                    String nom = rs.getString("lastName");
+                    String email = rs.getString("email");
+                    String type_compte = rs.getString("accountType");
                     developper.add(new User(user_id, prenom, nom, email, "", type_compte));
                 }
                 pstmt.close();

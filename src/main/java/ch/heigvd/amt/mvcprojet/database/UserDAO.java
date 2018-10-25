@@ -37,17 +37,17 @@ public class UserDAO {
     }
 
     private User getUserFromResultSet(ResultSet rs) throws SQLException {
-        int user_id = rs.getInt("User_id");
-        String prenom = rs.getString("Prenom");
-        String nom = rs.getString("Nom");
-        String email = rs.getString("Email");
-        String type_compte = rs.getString("Type_compte");
+        int user_id = rs.getInt("userId");
+        String prenom = rs.getString("firstName");
+        String nom = rs.getString("lastName");
+        String email = rs.getString("email");
+        String type_compte = rs.getString("accountType");
         return new User(user_id, prenom, nom, email, "", type_compte);
     }
 
     public boolean userExist(User user){
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ?;");){
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ?;");){
             pstmt.setString(1, user.getEmail());
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()){
@@ -64,7 +64,7 @@ public class UserDAO {
     public User loadUser(String userEmail) {
         User user = null;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ?;")) {
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ?;")) {
                 pstmt.setString(1, userEmail);
                 ResultSet rs = pstmt.executeQuery();
                 rs.next();
@@ -77,8 +77,8 @@ public class UserDAO {
 
     public boolean insertUser(User user){
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (Prenom, Nom, Email, " +
-                     "Password, Type_compte) VALUES (?, ?, ?, ?, ?);");){
+             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (firstName, lastName, email, " +
+                     "password, accountType) VALUES (?, ?, ?, ?, ?);");){
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getEmail());
@@ -94,7 +94,7 @@ public class UserDAO {
 
     public boolean loginMatch(User user, String password) {
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ? AND User.Password = ?;");){
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ? AND User.password = ?;");){
             pstmt.setString(1, user.getEmail());
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
@@ -112,15 +112,15 @@ public class UserDAO {
     public User setUserSession(User user){
         User ret = null;
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.Email = ?;");){
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ?;");){
             pstmt.setString(1, user.getEmail());
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()){
-                int user_id = rs.getInt("User_id");
-                String prenom = rs.getString("Prenom");
-                String nom = rs.getString("Nom");
-                String email = rs.getString("Email");
-                String type_compte = rs.getString("Type_compte");
+                int user_id = rs.getInt("userId");
+                String prenom = rs.getString("firstName");
+                String nom = rs.getString("lastName");
+                String email = rs.getString("email");
+                String type_compte = rs.getString("accountType");
                 ret = new User(user_id, prenom, nom, email, "", type_compte);
             }
             pstmt.close();
@@ -133,7 +133,7 @@ public class UserDAO {
 
     public boolean changePass(User user){
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET Password = ? WHERE User.User_id = ?;");){
+             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET password = ? WHERE User.userId = ?;");){
             pstmt.setString(1, user.getPassword());
             pstmt.setInt(2, user.getUserId());
             ResultSet rs = pstmt.executeQuery();

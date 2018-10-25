@@ -16,20 +16,21 @@ public class ApplicationDAO {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
-
+// SELECT * FROM Application INNER JOIN DevApp ON Application.appId = DevApp.appId INNER JOIN Developper ON DevApp.userId = Developper.userId INNER JOIN User ON User.userId = Developper.userId WHERE User.userId = 4;
+    // SELECT * FROM Application INNER JOIN DevApp ON Application.appId = DevApp.appId INNER JOIN User ON User.userId = DevApp.userId WHERE User.userId = 4;
     public List<Application> findUserApplication(int id) {
         List<Application> applications = new ArrayList<>();
         try {
             try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-                 PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM Application INNER JOIN Developper " +
-                         "ON Application.Application_id = Developper.Application_id INNER JOIN User ON " +
-                         "User.User_id = Developper.User_id WHERE User.User_id = ?;");){
+                 PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM Application INNER JOIN DevApp " +
+                         "ON Application.appId = DevApp.appId INNER JOIN User ON " +
+                         "User.userId = DevApp.userId WHERE User.userId = ?;");){
                 pstmt.setInt(1, id);
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {
-                    int user_id = rs.getInt("Application_id");
-                    String nom = rs.getString("Nom");
-                    String description = rs.getString("Description");
+                    int user_id = rs.getInt("appId");
+                    String nom = rs.getString("appName");
+                    String description = rs.getString("appDescription");
                     applications.add(new Application(user_id, nom, description));
                 }
                 pstmt.close();
