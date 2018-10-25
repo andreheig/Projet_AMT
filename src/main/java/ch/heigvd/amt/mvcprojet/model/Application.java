@@ -2,18 +2,18 @@ package ch.heigvd.amt.mvcprojet.model;
 
 public class Application {
 
-    private int application_id;
+    private int id;
     private String name;
     private String description;
 
-    public Application(int application_id, String name, String description){
-        this.application_id = application_id;
+    public Application(int id, String name, String description){
+        this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public int getApplication_id() {
-        return application_id;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -24,8 +24,8 @@ public class Application {
         return description;
     }
 
-    public void setApplication_id(int application_id) {
-        this.application_id = application_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

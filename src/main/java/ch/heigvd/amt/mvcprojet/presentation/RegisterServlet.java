@@ -1,7 +1,6 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.Database.UserManager;
-import ch.heigvd.amt.mvcprojet.model.Developper;
+import ch.heigvd.amt.mvcprojet.database.UserDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
 public class RegisterServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
-    private UserManager userManager;
+    private UserDAO userDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -107,14 +106,14 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
             try {
                 // Recerche si le mail existe déjà!
                 User user = new User(lastname, firstname, email, password, "dev");
-                if(userManager.userExist(user)){
+                if(userDAO.userExist(user)){
                     // Le mail existe, l'utilisateur doit donc s'authentifier
                     response.sendRedirect("/Projet_AMT/login");
                     return;
                 }
                 else{
                     // Le mail n'existe pas, elle est rentrer dans la DB,
-                    userManager.insertUser(user);
+                    userDAO.insertUser(user);
                     // On peut passer a la vue dev
                     response.sendRedirect("/Projet_AMT/test");
                     return;

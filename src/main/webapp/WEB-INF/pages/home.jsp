@@ -39,7 +39,7 @@
     <section class="caption">
         <p class="cap_title">AMT PROJECT 2018 - part 1</p>
         <p class="cap_desc">Made by Andre JACQUEMOND - Alexandre VOUILLOZ - Silver KAMENI </p>
-        <a href="">copyrigth 2018 <i></i></a>
+        <a href="">copyright 2018 <i></i></a>
     </section>
 </section><!-- End billboard -->
 

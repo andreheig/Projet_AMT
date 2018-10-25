@@ -12,12 +12,12 @@
     <title>Test</title>
 </head>
 <body>
-    <c:if test="${session.user.type_compte == 'dev'}">
+    <c:if test="${session.user.accountType == 'dev'}">
         <table>
             <h1>Applications</h1>
             <c:forEach items="${applications}" var="appli">
                 <tr>
-                    <td>${appli.application_id}</td>
+                    <td>${appli.id}</td>
                     <td>${appli.name}</td>
                     <td>${appli.description}</td>
                 </tr>
@@ -28,23 +28,23 @@
         <h1>Applications</h1>
         <c:forEach items="${applications}" var="appli">
             <tr>
-                <td>${appli.application_id}</td>
+                <td>${appli.id}</td>
                 <td>${appli.name}</td>
                 <td>${appli.description}</td>
             </tr>
         </c:forEach>
     </table>
 
-    <c:if test="${session.user.type_compte == 'admin'}">
+    <c:if test="${session.user.accountType == 'admin'}">
         <table>
             <h1>Dev</h1>
             <c:forEach items="${developpers}" var="dev">
                 <tr>
-                    <td>${dev.user_id}</td>
-                    <td>${dev.firstname}</td>
-                    <td>${dev.lastname}</td>
+                    <td>${dev.id}</td>
+                    <td>${dev.firstName}</td>
+                    <td>${dev.lastName}</td>
                     <td>${dev.email}</td>
-                    <td>${dev.type_compte}</td>
+                    <td>${dev.accountType}</td>
                 </tr>
             </c:forEach>
 
@@ -54,11 +54,11 @@
         <h1>Dev</h1>
         <c:forEach items="${developpers}" var="dev">
             <tr>
-                <td>${dev.user_id}</td>
-                <td>${dev.firstname}</td>
-                <td>${dev.lastname}</td>
+                <td>${dev.id}</td>
+                <td>${dev.firstName}</td>
+                <td>${dev.lastName}</td>
                 <td>${dev.email}</td>
-                <td>${dev.type_compte}</td>
+                <td>${dev.accountType}</td>
             </tr>
         </c:forEach>
 
@@ -68,11 +68,11 @@
     <h1>Users</h1>
     <c:forEach items="${users}" var="user">
         <tr>
-            <td>${user.user_id}</td>
-            <td>${user.firstname}</td>
-            <td>${user.lastname}</td>
+            <td>${user.id}</td>
+            <td>${user.firstName}</td>
+            <td>${user.lastName}</td>
             <td>${user.email}</td>
-            <td>${user.type_compte}</td>
+            <td>${user.accountType}</td>
         </tr>
     </c:forEach>
 </table>

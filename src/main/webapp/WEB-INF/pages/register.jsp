@@ -22,14 +22,14 @@
     <fieldset>
         <legend>Informations</legend>
         <label for="firstname">Prénom <span class="requis">*</span></label>
-        <input type="text" id="firstname" name="firstname" value="${developper.firstname}" size="20" maxlength="20" />
+        <input type="text" id="firstname" name="firstname" value="${developper.firstName}" size="20" maxlength="20" />
         <c:if test="${not empty firstNameNull}">
             <c:out> ${firstNameNull}</c:out>
         </c:if>
         <br />
 
-        <label for="lastname">Nom <span class="requis">*</span></label>
-        <input type="text" id="lastname" name="lastname" value="${developper.lastname}" size="20" maxlength="20" />
+        <label for="lastName">Nom <span class="requis">*</span></label>
+        <input type="text" id="lastName" name="lastName" value="${developper.lastName}" size="20" maxlength="20" />
         <c:if test="${empty lastNameNull}">
             <c:out> ${lastNameNull}</c:out>
         </c:if>

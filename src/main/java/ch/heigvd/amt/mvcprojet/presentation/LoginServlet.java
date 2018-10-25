@@ -1,6 +1,7 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.Database.UserManager;
+import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
+import ch.heigvd.amt.mvcprojet.database.UserDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -18,7 +19,10 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
 
 
     @EJB
-    private UserManager userManager;
+    private UserDAO userDAO;
+
+    @EJB
+    private DevelopperDAO devDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -68,12 +72,26 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
             try {
                 // Recerche si le mail existe déjà!
                 // TODO : Fait-on une classe login, ou la classe User rempli comme ça suffit?
-                User user = new User("", "", email, password, "");
-                if(userManager.userExist(user) && userManager.loginMatch(user, password)){
+                User user = userDAO.loadUser(email);
+                if(userDAO.userExist(user) && userDAO.loginMatch(user, password)){
                     // Le mail existe, l'utilisateur est autorisé
                     HttpSession session = request.getSession();
-                    session.setAttribute("user", userManager.setUserSession(user));
-                    response.sendRedirect("/Projet_AMT/test");
+                    session.setAttribute("user", userDAO.setUserSession(user));
+                    final String accountType = user.getAccountType();
+
+                    if("admin".equals(accountType)) {
+                        response.sendRedirect("/Projet_AMT/admin");
+                    } else if("dev".equals(accountType)) {
+                        if(devDAO.hasToResetPassword(user)){
+                            // TODO: On redirige vers la page de changement de pass
+                            response.sendRedirect("/Projet_AMT/changePass");
+                        }
+                        else {
+                            response.sendRedirect("/Projet_AMT/dev");
+                        }
+                    } else {
+                        throw new IllegalStateException("Account type is not correct: " + accountType);
+                    }
                     return;
                 }
                 else{

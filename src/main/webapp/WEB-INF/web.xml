@@ -4,35 +4,56 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
   <display-name>Archetype Created Web Application</display-name>
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
+
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>ch.heigvd.amt.mvcprojet.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
 
   <servlet>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.mvcprojet.presentation.RegisterServlet</servlet-class>
   </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
   <servlet>
     <servlet-name>HomeServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.mvcprojet.presentation.HomeServlet</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.LoginServlet</servlet-class>
-  </servlet>
-
-
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.LoginServlet</servlet-class>
+  </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>RegisterServlet</servlet-name>
-    <url-pattern>/register</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePass</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>testServlet</servlet-name>
@@ -42,4 +63,23 @@
         <servlet-name>testServlet</servlet-name>
         <url-pattern>/test</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeveloperServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.DeveloperServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeveloperServlet</servlet-name>
+        <url-pattern>/dev</url-pattern>
+    </servlet-mapping>
+
 </web-app>
