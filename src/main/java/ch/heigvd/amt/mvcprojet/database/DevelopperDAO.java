@@ -39,4 +39,22 @@ public class DevelopperDAO {
 
         return developper;
     }
+
+    public boolean hasToResetPassword(User user){
+        boolean res = false;
+        try {
+            try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+                 PreparedStatement pstmt = connection.prepareStatement("SELECT hasToResetPassword FROM Developper WHERE Developper.userId = ?;");){
+                pstmt.setInt(1, user.getUserId());
+                ResultSet rs = pstmt.executeQuery();
+                if(rs.next()){
+                    res = rs.getBoolean("hasToResetPassword");
+                }
+                pstmt.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
 }
