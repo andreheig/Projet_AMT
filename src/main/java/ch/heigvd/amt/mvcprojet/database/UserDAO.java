@@ -130,4 +130,18 @@ public class UserDAO {
         }
         return ret;
     }
+
+    public boolean changePass(User user){
+        try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET Password = ? WHERE User.User_id = ?;");){
+            pstmt.setString(1, user.getPassword());
+            pstmt.setInt(2, user.getUserId());
+            ResultSet rs = pstmt.executeQuery();
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

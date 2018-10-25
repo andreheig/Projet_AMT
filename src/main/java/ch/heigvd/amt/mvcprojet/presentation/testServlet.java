@@ -52,7 +52,7 @@ public class testServlet extends HttpServlet {
                 if (user.getAccountType().equalsIgnoreCase("admin")) {
                     request.setAttribute("developpers", developperDAO.findDevelopper());
                 } else if (user.getAccountType().equalsIgnoreCase("dev")) {
-                    request.setAttribute("applications", applicationDAO.findUserApplication(user.getId()));
+                    request.setAttribute("applications", applicationDAO.findUserApplication(user.getUserId()));
                 }
                 request.setAttribute("users", userDAO.findAllUser());
                 //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);

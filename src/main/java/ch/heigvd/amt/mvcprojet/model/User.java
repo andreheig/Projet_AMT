@@ -2,7 +2,7 @@ package ch.heigvd.amt.mvcprojet.model;
 
 
 public class User {
-    private int id;
+    private int userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -11,7 +11,7 @@ public class User {
 
 
     public User(int id, String firstName, String lastName, String mail, String password, String accountType) {
-        this.id = id;
+        this.userId = id;
         this.firstName = lastName;
         this.lastName = firstName;
         this.email = mail;
@@ -27,7 +27,7 @@ public class User {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public void setFirstName(String firstName) {
@@ -48,8 +48,8 @@ public class User {
         this.accountType = accountType;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
     public String getFirstName() {
@@ -80,6 +80,6 @@ public class User {
     }*/
 
     public String toString() {
-        return "User_id: " + id + ", Prenom: " + firstName + ", Nom: " + lastName + ", Email: " + email + ", Type de compte: " + accountType;
+        return "User_id: " + userId + ", Prenom: " + firstName + ", Nom: " + lastName + ", Email: " + email + ", Type de compte: " + accountType;
     }
 }
