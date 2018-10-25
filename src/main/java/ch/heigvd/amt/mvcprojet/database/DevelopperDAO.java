@@ -109,6 +109,28 @@ public class DevelopperDAO {
         }
     }
 
+    public void resetPassword(int devId) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE Developper SET hasToResetPassword  = 1 WHERE Developper.userId = ?;");
+            pstmt.setInt(1, devId);
+            pstmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void passwordWasResetted(int devId) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE Developper SET hasToResetPassword  = 0 WHERE Developper.userId = ?;");
+            pstmt.setInt(1, devId);
+            pstmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean hasToResetPassword(User user){
         boolean res = false;
         try {

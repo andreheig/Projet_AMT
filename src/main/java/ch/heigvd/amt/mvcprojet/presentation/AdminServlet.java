@@ -51,7 +51,7 @@ public class AdminServlet extends HttpServlet {
     }
 
     private void doHandleResetPassword(String paramName) {
-
+        developperDAO.resetPassword(Integer.parseInt(paramName.substring("reset-".length())));
     }
 
     private void doHandleSuspendAccount(String paramName) {
