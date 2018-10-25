@@ -8,6 +8,7 @@
         <session-timeout>15</session-timeout>
     </session-config>
 
+
     <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>ch.heigvd.amt.mvcprojet.filter.LoginFilter</filter-class>
@@ -22,31 +23,37 @@
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.mvcprojet.presentation.RegisterServlet</servlet-class>
   </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
   <servlet>
     <servlet-name>HomeServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.mvcprojet.presentation.HomeServlet</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.LoginServlet</servlet-class>
-  </servlet>
-
-
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.LoginServlet</servlet-class>
+  </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>RegisterServlet</servlet-name>
-    <url-pattern>/register</url-pattern>
-  </servlet-mapping>
-
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePass</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>testServlet</servlet-name>

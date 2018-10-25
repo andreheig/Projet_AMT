@@ -23,7 +23,7 @@
         <td>Account type</td>
         <c:forEach items="${developpers}" var = "dev">
             <tr>
-                <td>${dev.id}</td>
+                <td>${dev.userId}</td>
                 <td>${dev.firstName}</td>
                 <td>${dev.lastName}</td>
                 <td>${dev.email}</td>

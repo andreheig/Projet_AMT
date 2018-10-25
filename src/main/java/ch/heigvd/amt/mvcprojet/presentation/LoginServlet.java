@@ -1,5 +1,6 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
+import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
 import ch.heigvd.amt.mvcprojet.database.UserDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
 
@@ -19,6 +20,9 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
 
     @EJB
     private UserDAO userDAO;
+
+    @EJB
+    private DevelopperDAO devDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -73,12 +77,18 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
                     // Le mail existe, l'utilisateur est autorisé
                     HttpSession session = request.getSession();
                     session.setAttribute("user", userDAO.setUserSession(user));
-
                     final String accountType = user.getAccountType();
+
                     if("admin".equals(accountType)) {
                         response.sendRedirect("/Projet_AMT/admin");
                     } else if("dev".equals(accountType)) {
-                        response.sendRedirect("/Projet_AMT/dev");
+                        if(devDAO.hasToResetPassword(user)){
+                            // TODO: On redirige vers la page de changement de pass
+                            response.sendRedirect("/Projet_AMT/changePass");
+                        }
+                        else {
+                            response.sendRedirect("/Projet_AMT/dev");
+                        }
                     } else {
                         throw new IllegalStateException("Account type is not correct: " + accountType);
                     }

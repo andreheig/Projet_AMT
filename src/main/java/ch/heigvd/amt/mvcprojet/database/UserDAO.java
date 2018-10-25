@@ -77,7 +77,7 @@ public class UserDAO {
 
     public boolean insertUser(User user){
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (prenom, nom, email, " +
+             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (firstName, lastName, email, " +
                      "password, accountType) VALUES (?, ?, ?, ?, ?);");){
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getLastName());
@@ -129,5 +129,19 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
+    }
+
+    public boolean changePass(User user){
+        try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET password = ? WHERE User.userId = ?;");){
+            pstmt.setString(1, user.getPassword());
+            pstmt.setInt(2, user.getUserId());
+            ResultSet rs = pstmt.executeQuery();
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }
