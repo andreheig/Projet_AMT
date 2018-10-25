@@ -30,21 +30,21 @@
                 <td>${dev.accountType}</td>
                 <td>
                     <form method="POST" action="admin">
-                        <input type="submit" name ="reset-${dev.id}" value="Reset password">
+                        <input type="submit" name ="reset-${dev.userId}" value="Reset password">
                     </form>
                 </td>
                 <c:choose>
                     <c:when test="${dev.isAccountSuspended}">
                         <td>
                             <form method="POST" action="admin">
-                                <input type="submit" name="reactivate-${dev.id}" value="Reactivate account">
+                                <input type="submit" name="reactivate-${dev.userId}" value="Reactivate account">
                             </form>
                         </td>
                     </c:when>
                     <c:otherwise>
                         <td>
                             <form method="POST" action="admin">
-                                <input type="submit" name="suspend-${dev.id}" value="Suspend account">
+                                <input type="submit" name="suspend-${dev.userId}" value="Suspend account">
                             </form>
                         </td>
                     </c:otherwise>
