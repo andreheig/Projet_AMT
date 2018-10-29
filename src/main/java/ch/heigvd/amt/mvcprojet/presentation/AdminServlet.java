@@ -46,8 +46,7 @@ public class AdminServlet extends HttpServlet {
                 throw new IllegalStateException("Invalid admin form");
             }
         }
-        RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/admin.jsp");
-        requestDisp.forward(request, response);
+        response.sendRedirect("admin");
     }
 
     private void doHandleResetPassword(String paramName) {

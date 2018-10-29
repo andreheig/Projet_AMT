@@ -65,9 +65,6 @@ public class ChangePasswordServlet extends HttpServlet {
                 userDAO.updatePassword(user);
             }
         }
-        request.setAttribute("changePass", true);
-
-        RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/changePass.jsp");
-        requestDisp.forward(request, response);
+        response.sendRedirect("dev");
     }
 }
