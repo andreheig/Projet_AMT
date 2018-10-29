@@ -79,6 +79,20 @@ public class UserDAO {
         return user;
     }
 
+    public User loadUser(int id) {
+        User user = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.userId = ?;")) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            user = getUserFromResultSet(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
+    }
+
     public boolean insertUser(User user){
         try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
              PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (firstName, lastName, email, " +
