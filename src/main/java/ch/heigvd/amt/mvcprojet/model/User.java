@@ -12,15 +12,15 @@ public class User {
 
     public User(int id, String firstName, String lastName, String mail, String password, String accountType) {
         this.userId = id;
-        this.firstName = lastName;
-        this.lastName = firstName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = mail;
         this.password = password;
         this.accountType = accountType;
     }
     public User(String firstName, String lastName, String mail, String password, String accountType) {
-        this.firstName = lastName;
-        this.lastName = firstName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = mail;
         this.password = password;
         this.accountType = accountType;
