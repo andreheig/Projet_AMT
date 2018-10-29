@@ -3,6 +3,7 @@ package ch.heigvd.amt.mvcprojet.presentation;
 import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
 import ch.heigvd.amt.mvcprojet.database.UserDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
+import ch.heigvd.amt.mvcprojet.model.Developper;
 
 import javax.ejb.EJB;
 import javax.mail.MessagingException;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Random;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,8 +41,29 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
+        List<Developper> list = developperDAO.findDevelopper();
+
+        // Permet la pagination
+        int page = 1;
+        int recordPerPage = 5;
+        if(request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+        int nbDev = list.size();
+        int nbPage = (int) Math.ceil(nbDev * 1.0 / recordPerPage);
+        if (page == 1){
+            list = list.subList((page-1), (page*recordPerPage));
+        }
+        else if(page*recordPerPage >= nbDev){
+            list = list.subList(((page -1) *recordPerPage), nbDev);
+        }
+        else{
+            list = list.subList((page*recordPerPage), (page*recordPerPage + recordPerPage));
+        }
+        request.setAttribute("nbPage", nbPage);
+        request.setAttribute("page", page);
+
         LOGGER.log(Level.INFO, "list", session.getAttributeNames());
-        request.setAttribute("developpers", developperDAO.findDevelopper());
+        request.setAttribute("developpers", list);
         request.getRequestDispatcher("/WEB-INF/pages/admin.jsp").forward(request, response);
     }
 
