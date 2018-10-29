@@ -1,0 +1,4 @@
+Dans la console admin, aller dans ressources -> Java mail session
+Ajouter une session avec comme nom JNDI: java/mail/AMTProject
+Mail host: smtp.heig-vd.ch
++ vos infos de connections de l'HEIG-VD
