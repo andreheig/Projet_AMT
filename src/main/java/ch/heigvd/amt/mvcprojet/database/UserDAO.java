@@ -2,6 +2,7 @@ package ch.heigvd.amt.mvcprojet.database;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.*;
@@ -12,6 +13,9 @@ import java.util.logging.Logger;
 
 @Stateless
 public class UserDAO {
+
+    @EJB
+    private DevelopperDAO developperDAO;
 
     //@Stateless
     //protected static Connection con;
@@ -131,9 +135,10 @@ public class UserDAO {
         return ret;
     }
 
-    public boolean changePass(User user){
-        try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET password = ? WHERE User.userId = ?;");){
+    public void updatePassword(User user){
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET password = ? WHERE User.userId = ?;");
             pstmt.setString(1, user.getPassword());
             pstmt.setInt(2, user.getUserId());
             ResultSet rs = pstmt.executeQuery();
@@ -142,6 +147,7 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+
+        developperDAO.passwordWasResetted(user.getUserId());
     }
 }

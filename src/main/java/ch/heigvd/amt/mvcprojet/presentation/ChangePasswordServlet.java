@@ -1,5 +1,10 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
+import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
+import ch.heigvd.amt.mvcprojet.database.UserDAO;
+import ch.heigvd.amt.mvcprojet.model.User;
+
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -9,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ChangePasswordServlet extends HttpServlet {
+
+    @EJB
+    private UserDAO userDAO;
+
+    @EJB
+    private DevelopperDAO developperDAO;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -20,6 +32,8 @@ public class ChangePasswordServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+
         response.setContentType("text/html;charset=UTF-8");
         String password = request.getParameter("password");
         String password2 = request.getParameter("passwordCheck");
@@ -47,7 +61,8 @@ public class ChangePasswordServlet extends HttpServlet {
             else{
                 request.removeAttribute("password2NotMatch");
                 secondPassOK = true;
-                // TODO : On peut update le pass ici
+                user.setPassword(password);
+                userDAO.updatePassword(user);
             }
         }
         request.setAttribute("changePass", true);

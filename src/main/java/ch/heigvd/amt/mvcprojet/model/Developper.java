@@ -3,32 +3,45 @@ package ch.heigvd.amt.mvcprojet.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Developper {
+public class Developper extends User {
 
-    private int id;
-    private List<Application> applications = new ArrayList<>();
+    private List<Integer> applications = new ArrayList<>();
 
-    public Developper(int user_id, List<Application> applications){
-        this.id = user_id;
+    private boolean isAccountSuspended;
+    private boolean hasToResetPasswordOnNextLogin;
+
+    public Developper(int id, String firstName, String lastName, String mail, String password, String accountType,
+                      List<Integer> applications, boolean isAccountSuspended, boolean hasToResetPasswordOnNextLogin){
+        super(id, firstName, lastName, mail, password, accountType);
         this.applications = applications;
+        this.isAccountSuspended = isAccountSuspended;
+        this.hasToResetPasswordOnNextLogin = hasToResetPasswordOnNextLogin;
     }
-    public void addApplication(Application application){
+    public void addApplication(Integer application){
         this.applications.add(application);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public List<Application> getApplications() {
+    public List<Integer> getApplications() {
         return applications;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public boolean getIsAccountSuspended() {
+        return isAccountSuspended;
     }
 
-    public void setApplications(List<Application> applications) {
+    public boolean getHasToResetPasswordOnNextLogin() {
+        return hasToResetPasswordOnNextLogin;
+    }
+
+    public void setApplications(List<Integer> applications) {
         this.applications = applications;
+    }
+
+    public void setAccountSuspended(boolean accountSuspended) {
+        isAccountSuspended = accountSuspended;
+    }
+
+    public void setHasToResetPasswordOnNextLogin(boolean hasToResetPasswordOnNextLogin) {
+        this.hasToResetPasswordOnNextLogin = hasToResetPasswordOnNextLogin;
     }
 }
