@@ -13,9 +13,12 @@
 </head>
 <body>
 
+<jsp:include page="header.jsp" />
+
         <h1>
             Developpers
         </h1>
+
         <table border="1" cellpadding="5" cellspacing="5">
             <tr>
                 <th>Id</th>
@@ -81,6 +84,9 @@
         <c:if test="${page lt nbPage}">
             <td><a href="admin?page=${page + 1}">Next</a></td>
         </c:if>
+        <td></td>
+        <td></td>
+        <td></td>
 
 </body>
 </html>

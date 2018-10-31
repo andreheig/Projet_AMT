@@ -12,6 +12,9 @@
     <title>Applications</title>
 </head>
 <body>
+
+<jsp:include page="header.jsp" />
+
     <h1>Applications</h1>
     <table border="1" cellpadding="5" cellspacing="5">
         <tr>
