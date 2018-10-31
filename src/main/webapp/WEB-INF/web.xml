@@ -19,6 +19,15 @@
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
+    <servlet>
+        <servlet-name>DeconnexionServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.DeconnexionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeconnexionServlet</servlet-name>
+        <url-pattern>/deconnexion</url-pattern>
+    </servlet-mapping>
+
   <servlet>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>ch.heigvd.amt.mvcprojet.presentation.RegisterServlet</servlet-class>
