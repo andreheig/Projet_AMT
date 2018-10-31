@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginServlet extends javax.servlet.http.HttpServlet{
+public class LoginServlet extends javax.servlet.http.HttpServlet {
 
 
     @EJB
@@ -30,83 +30,113 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        request.setAttribute("login",true);
+        request.setAttribute("login", true);
         request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     }
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+
+        String message = "";
+
         boolean emailOK = false;
-        boolean passOK = false;
+        boolean passOK  = false;
 
         // Test mail
-        if(email.isEmpty()){
-            request.setAttribute("emailNull", "Email manquant");
+        if (email.isEmpty()) {
             emailOK = false;
-        }
-        else{
+            request.setAttribute("emailNull", "Email manquant");
+        } else {
             request.removeAttribute("emailNull");
         }
-        if(!email.contains("@") || !email.contains(".")){
-            request.setAttribute("emailInccorect", "Syntaxe eronné");
+
+
+        if (!email.contains("@") || !email.contains(".")) {
             emailOK = false;
-        }
-        else{
-            request.removeAttribute("emailInccorect");
+            request.setAttribute("emailInccorect", "Syntaxe eronné");
+        } else {
             emailOK = true;
+            request.removeAttribute("emailInccorect");
         }
+
 
         // Test password
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             request.setAttribute("passwordNull", "Mot de passe manquant");
-        }
-        else{
-            request.removeAttribute("passwordNull");
+        } else {
             passOK = true;
+            request.removeAttribute("passwordNull");
         }
 
-        if(emailOK && passOK){
-            try {
-                // Recerche si le mail existe déjà!
-                User user = userDAO.loadUser(email);
-                if(userDAO.userExist(user) && userDAO.loginMatch(user, password)){
-                    // Le mail existe, l'utilisateur est autorisé
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", userDAO.setUserSession(user));
-                    final String accountType = user.getAccountType();
 
-                    if("admin".equals(accountType)) {
-                        response.sendRedirect("/Projet_AMT/admin");
-                    } else if("dev".equals(accountType)) {
-                        if(devDAO.hasToResetPassword(user)){
-                            response.sendRedirect("/Projet_AMT/changePass");
-                        }
-                        else {
-                            response.sendRedirect("/Projet_AMT/dev");
-                        }
+        if (emailOK && passOK) {
+            // TODO: Lancement vérif BDD + lancement page
+            // try {
+            // Recherche si le mail existe déjà!
+            // TODO : Fait-on une classe login, ou la classe User rempli comme ça suffit?
+            User user = userDAO.loadUser(email);
+
+            if (userDAO.userExist(user) && userDAO.loginMatch(user, password)) {
+
+                // Le mail existe, l'utilisateur est autorisé
+                HttpSession session = request.getSession();
+                session.setAttribute("user", userDAO.setUserSession(user));
+                final String accountType = user.getAccountType();
+                boolean isSuspended = devDAO.isDeveloperSuspended(user.getUserId());
+
+                if ("admin".equals(accountType)) {
+                    response.sendRedirect("/Projet_AMT/admin");
+                } else if ("dev".equals(accountType)) {
+
+                    if (isSuspended) {
+                        // message = "Vous avez été suspendu, veuillez contacter votre Admin !";
+
+                        request.setAttribute("error","Vous avez été suspendu, veuillez contacter votre Admin !");
+                        // response.sendRedirect("/Projet_AMT/login");
+
+
+                    } else if (devDAO.hasToResetPassword(user)) {
+                        // TODO: On redirige vers la page de changement de pass
+
+                        response.sendRedirect("/Projet_AMT/changePass");
                     } else {
-                        throw new IllegalStateException("Account type is not correct: " + accountType);
+                        response.sendRedirect("/Projet_AMT/dev");
+
                     }
+                    // } else {
+                    //     throw new IllegalStateException("Account type is not correct: " + accountType);
+                    //  }
+
+
                     return;
-                }
-                else{
+
+                } else {
+
+                    message = "Connexion échouée, mauvaise combinaison identifiant/mot de passe !";
+                    request.setAttribute("error", "Connexion échouée, mauvaise combinaison identifiant/mot de passe !");
+                    // getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+
+
                     // Le mail n'existe pas, l'utilisateur doit donc s'enregistrer
-                    response.sendRedirect("/Projet_AMT/register");
+                    // response.sendRedirect("/Projet_AMT/register");
                     return;
                 }
+                // } catch (Exception e) {
+                //     Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
+                // }
             }
-            catch (Exception e){
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
-            }
+
+
+
+
         }
 
-        User user = new User("", "", email, password, "");
-        request.setAttribute("user", user);
+        // request.setAttribute("error", message);
 
-        RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp");
-        requestDisp.forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
 
     }
 
