@@ -36,6 +36,17 @@ public class LoginFilter implements Filter {
         if(user == null){
             httpRequest.getRequestDispatcher( "/home" ).forward( httpRequest, httpResponse );
         }
+        // Permet de checher que l'on est developpeur
+        else if(user.getAccountType().contains("dev")){
+            // test si l'on tente d'accéder à une page admin
+            // TODO : il serait bien de signaler que l'adresse est verboten!
+            if(path.contains("admin")){
+                httpRequest.getRequestDispatcher( "/dev" ).forward( httpRequest, httpResponse );
+            }
+            else{
+                chain.doFilter(httpRequest, httpResponse);
+            }
+        }
         else{
             chain.doFilter(httpRequest, httpResponse);
         }
