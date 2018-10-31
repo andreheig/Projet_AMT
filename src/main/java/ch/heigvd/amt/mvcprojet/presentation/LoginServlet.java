@@ -68,10 +68,8 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
         }
 
         if(emailOK && passOK){
-            // TODO: Lancement vérif BDD + lancement page
             try {
                 // Recerche si le mail existe déjà!
-                // TODO : Fait-on une classe login, ou la classe User rempli comme ça suffit?
                 User user = userDAO.loadUser(email);
                 if(userDAO.userExist(user) && userDAO.loginMatch(user, password)){
                     // Le mail existe, l'utilisateur est autorisé
@@ -83,7 +81,6 @@ public class LoginServlet extends javax.servlet.http.HttpServlet{
                         response.sendRedirect("/Projet_AMT/admin");
                     } else if("dev".equals(accountType)) {
                         if(devDAO.hasToResetPassword(user)){
-                            // TODO: On redirige vers la page de changement de pass
                             response.sendRedirect("/Projet_AMT/changePass");
                         }
                         else {
