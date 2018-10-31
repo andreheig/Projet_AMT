@@ -11,7 +11,7 @@
 
     <meta charset="UTF-8">
 
-    <title>CodePen - Log-in</title>
+    <title>Log-in AMT 2018</title>
 
     <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
 
@@ -22,9 +22,34 @@
 <body>
 
 <div class="register">
+
+    <% if(request.getAttribute("error") != null) {%>
+    <div class="error">Une erreur a été rencontrée: <%=request.getAttribute("error")%></div>
+    <%}%>
+
+
+    <%
+        String login_msg=(String)request.getAttribute("error");
+        if(login_msg!=null)
+            out.println("<font color=red size=4px>"+login_msg+"</font>");
+    %>
+
+
+    <c:if test="${not empty error}">
+        <c:out value="${error}"> </c:out>
+    </c:if>
+
+
     <h1>Log-in</h1><br>
+
     <form method="POST" action="login">
+        <c:if test="${not empty emailNull || emailInccorect}">
+            <c:out value="${emailNull}"> </c:out>
+        </c:if>
         <input type="text" name="email" placeholder="Username">
+        <c:if test="${not empty passwordNull}">
+            <c:out value="${error}"> </c:out>
+        </c:if>
         <input type="password" name="password" placeholder="Password">
         <input type="submit" name="login" class="login login-submit" value="login">
     </form>
