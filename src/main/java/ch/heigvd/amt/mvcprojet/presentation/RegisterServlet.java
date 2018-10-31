@@ -21,8 +21,6 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         super.init(config);
     }
 
-    //TODO: A checker si c'est le premier affichage ou non
-
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setAttribute("register",true);
         request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
@@ -30,8 +28,8 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
+        String firstname = request.getParameter("firstName");
+        String lastname = request.getParameter("lastName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
@@ -102,7 +100,6 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
         }
 
         if(firstNameOK && lastNameOK && emailOK && firstPassOK && secondPassOK){
-            // TODO: Lancement vérif BDD + lancement page
             try {
                 // Recerche si le mail existe déjà!
                 User user = new User(lastname, firstname, email, password, "dev");
@@ -115,7 +112,7 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
                     // Le mail n'existe pas, elle est rentrer dans la DB,
                     userDAO.insertUser(user);
                     // On peut passer a la vue dev
-                    response.sendRedirect("/Projet_AMT/test");
+                    response.sendRedirect("/Projet_AMT/dev");
                     return;
                 }
             }
