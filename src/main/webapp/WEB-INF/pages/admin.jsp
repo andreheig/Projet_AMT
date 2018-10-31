@@ -12,15 +12,18 @@
     <title>Admin page</title>
 </head>
 <body>
-    <table>
+
         <h1>
             Developpers
         </h1>
-        <td>Id</td>
-        <td>First name</td>
-        <td>Last name</td>
-        <td>Email</td>
-        <td>Account type</td>
+        <table border="1" cellpadding="5" cellspacing="5">
+            <tr>
+                <th>Id</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Account type</th>
+            </tr>
         <c:forEach items="${developpers}" var = "dev">
             <tr>
                 <td>${dev.userId}</td>
@@ -51,6 +54,33 @@
                 </c:choose>
             </tr>
         </c:forEach>
-    </table>
+            </table>
+        <%--For displaying Previous link except for the 1st page --%>
+        <c:if test="${page != 1}">
+            <td><a href="admin?page=${page - 1}">Previous</a></td>
+        </c:if>
+
+        <%--For displaying Page numbers.
+        The when condition does not display a link for the current page--%>
+        <table border="1" cellpadding="5" cellspacing="5">
+            <tr>
+                <c:forEach begin="1" end="${nbPage}" var="i">
+                    <c:choose>
+                        <c:when test="${page eq i}">
+                            <td>${i}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><a href="admin?page=${i}">${i}</a></td>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </tr>
+        </table>
+
+        <%--For displaying Next link --%>
+        <c:if test="${page lt nbPage}">
+            <td><a href="admin?page=${page + 1}">Next</a></td>
+        </c:if>
+
 </body>
 </html>
