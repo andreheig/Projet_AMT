@@ -24,7 +24,7 @@ public class ApplicationDAO {
             try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
                  PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM Application INNER JOIN DevApp " +
                          "ON Application.appId = DevApp.appId INNER JOIN User ON " +
-                         "User.userId = DevApp.userId WHERE User.userId = ?;");){
+                         "User.userId = DevApp.userId WHERE User.userId = ? ORDER BY Application.appId ;");){
                 pstmt.setInt(1, id);
                 ResultSet rs = pstmt.executeQuery();
                 while (rs.next()) {

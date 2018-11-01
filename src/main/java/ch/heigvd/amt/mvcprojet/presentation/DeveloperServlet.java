@@ -35,6 +35,14 @@ public class DeveloperServlet extends HttpServlet {
             page = Integer.parseInt(request.getParameter("page"));
         int nbApp = list.size();
         int nbPage = (int) Math.ceil(nbApp * 1.0 / recordPerPage);
+
+        if(page*recordPerPage >= nbApp){
+            list = list.subList(((page -1) *recordPerPage), nbApp);
+        }
+        else{
+            list = list.subList(((page -1) *recordPerPage), page * recordPerPage);
+        }
+        /*
         if (page == 1){
             list = list.subList((page-1), (page*recordPerPage));
         }
@@ -44,6 +52,7 @@ public class DeveloperServlet extends HttpServlet {
         else{
             list = list.subList((page*recordPerPage), (page*recordPerPage + recordPerPage));
         }
+        */
         request.setAttribute("nbPage", nbPage);
         request.setAttribute("page", page);
 
