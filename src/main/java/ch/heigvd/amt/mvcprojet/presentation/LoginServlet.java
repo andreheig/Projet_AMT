@@ -89,6 +89,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
                 if ("admin".equals(accountType)) {
                     response.sendRedirect("/Projet_AMT/admin");
+                    return;
                 } else if ("dev".equals(accountType)) {
 
                     if (isSuspended) {
