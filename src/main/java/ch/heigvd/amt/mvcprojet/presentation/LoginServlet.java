@@ -94,14 +94,12 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
                     if (isSuspended) {
                         // message = "Vous avez été suspendu, veuillez contacter votre Admin !";
-
+                        // TODO : tenté d'implémenter un message d'erreur
                         request.setAttribute("error","Vous avez été suspendu, veuillez contacter votre Admin !");
-                        // response.sendRedirect("/Projet_AMT/login");
+                        response.sendRedirect("/Projet_AMT/login");
 
 
                     } else if (devDAO.hasToResetPassword(user)) {
-                        // TODO: On redirige vers la page de changement de pass
-
                         response.sendRedirect("/Projet_AMT/changePass");
                     } else {
                         response.sendRedirect("/Projet_AMT/dev");
