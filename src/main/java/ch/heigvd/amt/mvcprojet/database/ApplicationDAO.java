@@ -42,4 +42,36 @@ public class ApplicationDAO {
         return applications;
     }
 
+    // Permet de mettre à jour une application
+    public void updateAppli(int id, Application appli){
+        try {
+            try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+                 PreparedStatement pstmt = connection.prepareStatement("UPDATE Application SET appName = ?, " +
+                         "appDescription = ? WHERE Application.appId = ?;");){
+                pstmt.setString(1, appli.getName());
+                pstmt.setString(2, appli.getDescription());
+                pstmt.setInt(3, id);
+                ResultSet rs = pstmt.executeQuery();
+                pstmt.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //INSERT INTO Application (appId, appName, appDescription) VALUES (NULL, ?, ?);
+    public void createAppli(Application appli){
+        try {
+            try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
+                 PreparedStatement pstmt = connection.prepareStatement("INSERT INTO Application " +
+                         "(appId, appName, appDescription) VALUES (NULL, ?, ?);");){
+                pstmt.setString(1, appli.getName());
+                pstmt.setString(2, appli.getDescription());
+                ResultSet rs = pstmt.executeQuery();
+                pstmt.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
