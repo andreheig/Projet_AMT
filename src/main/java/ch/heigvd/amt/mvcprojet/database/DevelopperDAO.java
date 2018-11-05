@@ -1,4 +1,5 @@
 package ch.heigvd.amt.mvcprojet.database;
+
 import ch.heigvd.amt.mvcprojet.model.Application;
 import ch.heigvd.amt.mvcprojet.model.Developper;
 import ch.heigvd.amt.mvcprojet.model.User;
@@ -21,10 +22,11 @@ public class DevelopperDAO {
 
     public List<Developper> findDevelopper() {
         List<Developper> developpers = new ArrayList<>();
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.accountType = 'dev';");
+        try (
+                Connection connection = dataSource.getConnection()) {
 
+            PreparedStatement pstmt = connection.prepareStatement(
+                    "SELECT * FROM User WHERE User.accountType = 'dev';");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int user_id = rs.getInt("userId");
@@ -41,6 +43,7 @@ public class DevelopperDAO {
                 devRS.next();
                 boolean isAccountSuspended = devRS.getBoolean("suspended");
                 boolean hasToResetPassword = devRS.getBoolean("hasToResetPassword");
+                loadDevStmt.close();
 
                 PreparedStatement loadAppsStmt = connection.prepareStatement(
                         "SELECT * FROM DevApp " +
@@ -49,12 +52,15 @@ public class DevelopperDAO {
                 loadAppsStmt.setInt(1, user_id);
                 ResultSet appsRS = loadAppsStmt.executeQuery();
                 List<Integer> applicationsIds = new LinkedList<>();
-                while(appsRS.next()) {
+                while (appsRS.next()) {
                     applicationsIds.add(appsRS.getInt("appId"));
                 }
+                loadAppsStmt.close();
 
                 developpers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
                         applicationsIds, isAccountSuspended, hasToResetPassword));
+
+                pstmt.close();
             }
 
         } catch (SQLException ex) {
@@ -66,13 +72,15 @@ public class DevelopperDAO {
 
     public boolean isDeveloperSuspended(int id) {
         boolean isSuspended = false;
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM Developper WHERE Developper.userId = ?;");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT * FROM Developper WHERE Developper.userId = ?;")) {
+
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             isSuspended = rs.getBoolean("suspended");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,13 +88,14 @@ public class DevelopperDAO {
     }
 
     public void suspendDeveloper(int id) {
-        if(isDeveloperSuspended(id)) {
+        if (isDeveloperSuspended(id)) {
             throw new IllegalArgumentException("Developer id = " + id + " is already suspended.");
         }
 
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE Developper SET suspended  = 1 WHERE Developper.userId = ?;");
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement(
+                        "UPDATE Developper SET suspended  = 1 WHERE Developper.userId = ?;")) {
             pstmt.setInt(1, id);
             pstmt.executeQuery();
         } catch (SQLException e) {
@@ -95,13 +104,14 @@ public class DevelopperDAO {
     }
 
     public void reactivateDeveloper(int id) {
-        if(!isDeveloperSuspended(id)) {
+        if (!isDeveloperSuspended(id)) {
             throw new IllegalArgumentException("Developer id = " + id + " is not currently suspended.");
         }
 
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE Developper SET suspended  = 0 WHERE Developper.userId = ?;");
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement(
+                        "UPDATE Developper SET suspended  = 0 WHERE Developper.userId = ?;")) {
             pstmt.setInt(1, id);
             pstmt.executeQuery();
         } catch (SQLException e) {
@@ -110,28 +120,30 @@ public class DevelopperDAO {
     }
 
     public void resetPassword(int devId, String newPassword) {
-        try {
-            Connection connection = dataSource.getConnection();
+        try (Connection connection = dataSource.getConnection()) {
 
             PreparedStatement updateChangePwdFieldStmt = connection.prepareStatement(
                     "UPDATE Developper SET hasToResetPassword  = 1 WHERE Developper.userId = ?;");
             updateChangePwdFieldStmt.setInt(1, devId);
             updateChangePwdFieldStmt.executeQuery();
+            updateChangePwdFieldStmt.close();
 
             PreparedStatement updatePwdFieldStmt = connection.prepareStatement(
                     "UPDATE User SET password = ? WHERE User.userId = ?;");
             updatePwdFieldStmt.setString(1, newPassword);
             updatePwdFieldStmt.setInt(2, devId);
             updatePwdFieldStmt.executeQuery();
+            updatePwdFieldStmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void passwordWasResetted(int devId) {
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE Developper SET hasToResetPassword  = 0 WHERE Developper.userId = ?;");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "UPDATE Developper SET hasToResetPassword  = 0 WHERE Developper.userId = ?;")) {
             pstmt.setInt(1, devId);
             pstmt.executeQuery();
         } catch (SQLException e) {
@@ -139,17 +151,15 @@ public class DevelopperDAO {
         }
     }
 
-    public boolean hasToResetPassword(User user){
+    public boolean hasToResetPassword(User user) {
         boolean res = false;
-        try {
-            try (Connection connection = dataSource.getConnection(); /*PreparedStatement pstmt = connection.prepareStatement("");) {*/
-                 PreparedStatement pstmt = connection.prepareStatement("SELECT hasToResetPassword FROM Developper WHERE Developper.userId = ?;");){
-                pstmt.setInt(1, user.getUserId());
-                ResultSet rs = pstmt.executeQuery();
-                if(rs.next()){
-                    res = rs.getBoolean("hasToResetPassword");
-                }
-                pstmt.close();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT hasToResetPassword FROM Developper WHERE Developper.userId = ?;")) {
+            pstmt.setInt(1, user.getUserId());
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                res = rs.getBoolean("hasToResetPassword");
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
