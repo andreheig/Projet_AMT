@@ -46,12 +46,12 @@
         <c:if test="${not empty emailNull || emailInccorect}">
             <c:out value="${emailNull}"> </c:out>
         </c:if>
-        <input id="login_email" type="text" name="email" placeholder="Username">
+        <input id="loginEmail" type="text" name="email" placeholder="Username">
         <c:if test="${not empty passwordNull}">
             <c:out value="${error}"> </c:out>
         </c:if>
-        <input id="login_password" type="password" name="password" placeholder="Password">
-        <input id="login_submit" type="submit" name="login" class="login login-submit" value="login">
+        <input id="loginPassword" type="password" name="password" placeholder="Password">
+        <button id="loginSubmit" type="submit" name="login" class="login login-submit" value="login"> </button>
     </form>
 
     <div class="login-help">

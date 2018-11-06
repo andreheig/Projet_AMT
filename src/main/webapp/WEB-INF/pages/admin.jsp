@@ -73,7 +73,7 @@
                             <td>${i}</td>
                         </c:when>
                         <c:otherwise>
-                            <td><a href="admin?page=${i}">${i}</a></td>
+                            <td><a id="pagesNumbers" href="admin?page=${i}">${i}</a></td>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
