@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Andre
@@ -23,43 +24,34 @@
 
 <div class="register">
 
-    <% if(request.getAttribute("error") != null) {%>
-    <div class="error">Une erreur a été rencontrée: <%=request.getAttribute("error")%></div>
-    <%}%>
-
-
-    <%
-        String login_msg=(String)request.getAttribute("error");
-        if(login_msg!=null)
-            out.println("<font color=red size=4px>"+login_msg+"</font>");
-    %>
-
-
     <c:if test="${not empty error}">
-        <c:out value="${error}"> </c:out>
+        <c:out value="${error}"> ${error}</c:out>
     </c:if>
+    <br />
 
 
     <h1>Log-in</h1><br>
 
     <form method="POST" action="login">
-        <c:if test="${not empty emailNull || emailInccorect}">
-            <c:out value="${emailNull}"> </c:out>
+
+        <c:if test="${not empty emailNull || emailInccorect }">
+            <c:out value="${emailNull}"> ${emailNull}</c:out>
         </c:if>
+        <br />
+
         <input id="loginEmail" type="text" name="email" placeholder="Username">
         <c:if test="${not empty passwordNull}">
-            <c:out value="${error}"> </c:out>
+            <c:out value="${passwordNull}"> ${passwordNull} </c:out>
         </c:if>
+        <br />
         <input id="loginPassword" type="password" name="password" placeholder="Password">
         <button id="loginSubmit" type="submit" name="login" class="login login-submit" value="login"> </button>
     </form>
 
     <div class="login-help">
-        <a href="register">Register</a> • <a href="#">Forgot Password <= vraiment neccessaire?</a>
+        <a href="register">Register</a>
     </div>
 </div>
-
-<!-- <div id="error"><img src="https://dl.dropboxusercontent.com/u/23299152/Delete-icon.png" /> Your caps-lock is on.</div> -->
 
 <script src='http://codepen.io/assets/libs/fullpage/jquery_and_jqueryui.js'></script>
 
