@@ -91,4 +91,13 @@
         <url-pattern>/dev</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UpdateAppServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.UpdateAppServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateAppServlet</servlet-name>
+        <url-pattern>/dev/updateApp</url-pattern>
+    </servlet-mapping>
+
 </web-app>
