@@ -102,7 +102,21 @@ public class UserDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        int userID = getLastInseredID();
+        if(userID != 0){
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement pstmt = connection.prepareStatement("INSERT INTO Developper (userId, suspended, hasToResetPassword)" +
+                         " VALUES (?, ?, ?);")) {
+                pstmt.setInt(1, userID);
+                pstmt.setInt(2, 0);
+                pstmt.setInt(3, 0);
+                pstmt.executeQuery();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        }
+            return false;
     }
 
     public boolean loginMatch(User user, String password) {
@@ -151,4 +165,19 @@ public class UserDAO {
         }
         developperDAO.passwordWasResetted(user.getUserId());
     }
+
+    private int getLastInseredID() {
+        int user_id = 0;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement("SELECT LAST_INSERT_ID();")) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                user_id = rs.getInt("LAST_INSERT_ID()");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user_id;
+    }
+
 }
