@@ -56,7 +56,7 @@ The when condition does not display a link for the current page--%>
                     <td>${i}</td>
                 </c:when>
                 <c:otherwise>
-                    <td><a href="dev?page=${i}">${i}</a></td>
+                    <td><a id="pagesNumbers" href="dev?page=${i}">${i}</a></td>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
