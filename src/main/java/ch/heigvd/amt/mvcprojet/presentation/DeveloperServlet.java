@@ -61,4 +61,9 @@ public class DeveloperServlet extends HttpServlet {
         request.setAttribute("applications", list);
         request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
     }
-}
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("/Projet_AMT/dev/updateApp");
+    }
+
+    }

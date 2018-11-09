@@ -27,6 +27,11 @@
             <td>${appli.id}</td>
             <td>${appli.name}</td>
             <td>${appli.description}</td>
+            <td>
+                <form method="POST">
+                    <input type="submit" name="update-app-${appli.id}" value="Update application">
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>
