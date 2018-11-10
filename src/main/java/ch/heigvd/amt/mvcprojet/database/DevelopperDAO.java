@@ -20,13 +20,30 @@ public class DevelopperDAO {
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
 
-    public List<Developper> findDevelopper() {
+    public int getNumberOfDevelopper(){
+        int number = 0;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT COUNT(*) AS dev FROM Developper;")) {
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            number = rs.getInt("dev");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return number;
+    }
+
+    public List<Developper> findDevelopper(int page) {
         List<Developper> developpers = new ArrayList<>();
         try (
                 Connection connection = dataSource.getConnection()) {
 
             PreparedStatement pstmt = connection.prepareStatement(
-                    "SELECT * FROM User WHERE User.accountType = 'dev';");
+                    "SELECT * FROM User WHERE User.accountType = 'dev' ORDER BY userId LIMIT ?, 10;");
+            pstmt.setInt(1, ((page -1) * 10));
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int user_id = rs.getInt("userId");

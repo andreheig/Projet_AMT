@@ -41,25 +41,26 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
-        List<Developper> list = developperDAO.findDevelopper();
+
 
         // Permet la pagination
         int page = 1;
         int recordPerPage = 10;
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
-        int nbDev = list.size();
+        int nbDev = developperDAO.getNumberOfDevelopper();
         int nbPage = (int) Math.ceil(nbDev * 1.0 / recordPerPage);
 
-        if(page*recordPerPage >= nbDev){
+        /*if(page*recordPerPage >= nbDev){
             list = list.subList(((page -1) *recordPerPage), nbDev);
         }
         else{
             list = list.subList(((page -1) *recordPerPage), page * recordPerPage);
-        }
+        }*/
 
         request.setAttribute("nbPage", nbPage);
         request.setAttribute("page", page);
+        List<Developper> list = developperDAO.findDevelopper(page);
 
         LOGGER.log(Level.INFO, "list", session.getAttributeNames());
         request.setAttribute("developpers", list);

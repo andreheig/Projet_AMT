@@ -31,7 +31,7 @@ public class DeveloperServlet extends HttpServlet {
         List<Application> list = applicationDAO.findUserApplication(user.getUserId());
         // Permet la pagination
         int page = 1;
-        int recordPerPage = 5;
+        int recordPerPage = 10;
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         int nbApp = list.size();

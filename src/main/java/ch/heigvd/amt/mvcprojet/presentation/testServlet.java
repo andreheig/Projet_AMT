@@ -50,7 +50,7 @@ public class testServlet extends HttpServlet {
                 Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
                 /* Partie test Users */
                 if (user.getAccountType().equalsIgnoreCase("admin")) {
-                    request.setAttribute("developpers", developperDAO.findDevelopper());
+                    request.setAttribute("developpers", developperDAO.findDevelopper(1));
                 } else if (user.getAccountType().equalsIgnoreCase("dev")) {
                     request.setAttribute("applications", applicationDAO.findUserApplication(user.getUserId()));
                 }
