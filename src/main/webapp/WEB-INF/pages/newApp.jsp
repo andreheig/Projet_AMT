@@ -15,7 +15,7 @@
 
 <h1>New application</h1>
 
-<form action = "POST" id="newAppForm">
+<form method="POST" action = "newApp" id="newAppForm">
     Application name
     </br>
     <textarea id="newAppName" name="appName" placeholder="Enter the application name here..."></textarea>

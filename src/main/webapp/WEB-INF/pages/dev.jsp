@@ -17,7 +17,7 @@
 
     <h1>Applications</h1>
 <form method="POST">
-    <input type="submit" name="newApplication-${user.userId}" value="New application">
+    <input type="submit" name="new-application-${user.userId}" value="New application">
 </form>
     <table border="1" cellpadding="5" cellspacing="5">
         <tr>
