@@ -43,17 +43,6 @@ public class DeveloperServlet extends HttpServlet {
         else{
             list = list.subList(((page -1) *recordPerPage), page * recordPerPage);
         }
-        /*
-        if (page == 1){
-            list = list.subList((page-1), (page*recordPerPage));
-        }
-        else if(page*recordPerPage >= nbApp){
-            list = list.subList(((page -1) *recordPerPage), nbApp);
-        }
-        else{
-            list = list.subList((page*recordPerPage), (page*recordPerPage + recordPerPage));
-        }
-        */
         request.setAttribute("nbPage", nbPage);
         request.setAttribute("page", page);
 
@@ -67,10 +56,10 @@ public class DeveloperServlet extends HttpServlet {
         Enumeration<String> parameterNames = request.getParameterNames();
         while(parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();
-            if(paramName.contains("update")) {
+            if(paramName.contains("update-app")) {
                 response.sendRedirect("/Projet_AMT/dev/updateApp");
                 return;
-            } else if (paramName.contains("new")) {
+            } else if (paramName.contains("new-application")) {
                 response.sendRedirect("/Projet_AMT/dev/newApp");
                 return;
             } else {

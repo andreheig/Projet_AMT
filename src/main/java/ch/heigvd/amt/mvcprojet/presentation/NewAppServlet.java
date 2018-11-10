@@ -1,12 +1,22 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
+import ch.heigvd.amt.mvcprojet.database.ApplicationDAO;
+import ch.heigvd.amt.mvcprojet.model.Application;
+import ch.heigvd.amt.mvcprojet.model.User;
+
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 public class NewAppServlet extends HttpServlet {
+
+    @EJB
+    private ApplicationDAO appliDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -15,12 +25,31 @@ public class NewAppServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        User user = (User) request.getSession().getAttribute("user");
         String name = request.getParameter("appName");
         String description = request.getParameter("appDescription");
 
+        if(name.isEmpty() && description.isEmpty()){
+            request.setAttribute("error", true);
+            response.sendRedirect("/Projet_AMT/dev/newApp");
+            return;
+        }
+        else {
+
+            UUID uuid = UUID.randomUUID();
+            String keyUUID = uuid.toString().replaceAll("-","");
+
+            uuid = UUID.randomUUID();
+            String secretUUID = uuid.toString().replaceAll("-","");
 
 
-        request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
+            appliDAO.createAppli(user.getUserId(), new Application(name, description, keyUUID, secretUUID));
+            request.setAttribute("request OK", true);
+
+            //request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
+            RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/dev.jsp");
+            requestDisp.forward(request, response);
+        }
     }
 
     }

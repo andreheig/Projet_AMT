@@ -5,6 +5,7 @@ import ch.heigvd.amt.mvcprojet.model.Application;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
+import javax.transaction.Synchronization;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,17 +43,33 @@ public class ApplicationDAO {
         return applications;
     }
 
-    public void createAppli(Application appli) {
+    public void createAppli(int userId, Application appli) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
-                     "INSERT INTO Application (appName, appDescription) VALUES (?, ?);")) {
+                     "INSERT INTO Application (appName, appDescription, appKey, appSecret) VALUES (?, ?, ?, ?);")) {
 
             pstmt.setString(1, appli.getName());
             pstmt.setString(2, appli.getDescription());
-
+            pstmt.setString(3, appli.getKeyUUID());
+            pstmt.setString(4, appli.getSecretUUID());
+            pstmt.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        int appli_id = getLastInseredID();
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "INSERT INTO DevApp (userId, appId) VALUES (?, ?);")) {
+
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, appli_id);
+            pstmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     // Permet de mettre à jour une application
@@ -68,5 +85,19 @@ public class ApplicationDAO {
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private int getLastInseredID() {
+        int app_id = 0;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement("SELECT LAST_INSERT_ID();")) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                app_id = rs.getInt("LAST_INSERT_ID()");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return app_id;
     }
 }
