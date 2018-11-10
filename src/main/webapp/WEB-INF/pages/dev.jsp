@@ -44,11 +44,6 @@
     <td><a href="dev?page=${page - 1}">Previous</a></td>
 </c:if>
 
-<%--For displaying Previous link except for the 1st page --%>
-<c:if test="${page != 1}">
-    <td><a href="dev?page=${page - 1}">Previous</a></td>
-</c:if>
-
 <%--For displaying Page numbers.
 The when condition does not display a link for the current page--%>
 <%--<table border="1" cellpadding="5" cellspacing="5">
