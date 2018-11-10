@@ -81,13 +81,13 @@
                         HttpSession session = request.getSession();
                         session.setAttribute("user", userDAO.setUserSession(user));
                         final String accountType = user.getAccountType();
-                        boolean isSuspended = devDAO.isDeveloperSuspended(user.getUserId());
 
                         if ("admin".equals(accountType)) {
                             response.sendRedirect("/Projet_AMT/admin");
                             return;
                         } else if ("dev".equals(accountType)) {
 
+                            boolean isSuspended = devDAO.isDeveloperSuspended(user.getUserId());
                             if (isSuspended) {
                                 request.setAttribute("error", "Vous avez été suspendu, veuillez contacter votre Admin !");
                                 response.sendRedirect("/Projet_AMT/login");

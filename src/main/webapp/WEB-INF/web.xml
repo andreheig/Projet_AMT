@@ -100,4 +100,13 @@
         <url-pattern>/dev/updateApp</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>NewAppServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.NewAppServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewAppServlet</servlet-name>
+        <url-pattern>/dev/newApp</url-pattern>
+    </servlet-mapping>
+
 </web-app>

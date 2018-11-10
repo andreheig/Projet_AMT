@@ -11,18 +11,20 @@
     <title>Update application</title>
 </head>
 
+<jsp:include page="header.jsp" />
+
 <h1>Update application</h1>
 
 <form action = "POST" id="updateAppForm">
     Application name
     </br>
-    <textarea name="appName">Enter text here...</textarea>
+    <textarea id="updateAppName" name="appName" placeholder="Enter the application name here..."></textarea>
     </br>
     Application description
     </br>
-    <textarea name="appDescription">Enter text here...</textarea>
+    <textarea id="updateAppDesc" name="appDescription" placeholder="Enter the application's description here..."></textarea>
     </br>
-    <input type="submit">
+    <input id="UpdateAppSubmit" type="submit" name="UpdateAppSubmit" value="update">
 </form>
 
 <body>

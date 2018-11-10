@@ -45,11 +45,11 @@
         </c:if>
         <br />
         <input id="loginPassword" type="password" name="password" placeholder="Password">
-        <button id="loginSubmit" type="submit" name="login" class="login login-submit" value="login"> </button>
+        <input id="loginSubmit" type="submit" name="login" class="login login-submit" value="login"> </input>
     </form>
 
     <div class="login-help">
-        <a href="register">Register</a>
+        <a href="register">Register</a> • <a href="forgotPassword">Forgot Password</a>
     </div>
 </div>
 

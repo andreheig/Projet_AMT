@@ -45,20 +45,19 @@ public class AdminServlet extends HttpServlet {
 
         // Permet la pagination
         int page = 1;
-        int recordPerPage = 5;
+        int recordPerPage = 10;
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         int nbDev = list.size();
         int nbPage = (int) Math.ceil(nbDev * 1.0 / recordPerPage);
-        if (page == 1){
-            list = list.subList((page-1), (page*recordPerPage));
-        }
-        else if(page*recordPerPage >= nbDev){
+
+        if(page*recordPerPage >= nbDev){
             list = list.subList(((page -1) *recordPerPage), nbDev);
         }
         else{
-            list = list.subList((page*recordPerPage), (page*recordPerPage + recordPerPage));
+            list = list.subList(((page -1) *recordPerPage), page * recordPerPage);
         }
+
         request.setAttribute("nbPage", nbPage);
         request.setAttribute("page", page);
 

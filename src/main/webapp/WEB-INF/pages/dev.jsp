@@ -16,6 +16,9 @@
 <jsp:include page="header.jsp" />
 
     <h1>Applications</h1>
+<form method="POST">
+    <input type="submit" name="newApplication-${user.userId}" value="New application">
+</form>
     <table border="1" cellpadding="5" cellspacing="5">
         <tr>
             <th>Id</th>
@@ -48,8 +51,8 @@
 
 <%--For displaying Page numbers.
 The when condition does not display a link for the current page--%>
-<table border="1" cellpadding="5" cellspacing="5">
-    <tr>
+<%--<table border="1" cellpadding="5" cellspacing="5">
+    <tr>--%>
         <c:forEach begin="1" end="${nbPage}" var="i">
             <c:choose>
                 <c:when test="${page eq i}">
@@ -60,8 +63,8 @@ The when condition does not display a link for the current page--%>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
-    </tr>
-</table>
+<%--    </tr>
+</table>--%>
 
 <%--For displaying Next link --%>
 <c:if test="${page lt nbPage}">

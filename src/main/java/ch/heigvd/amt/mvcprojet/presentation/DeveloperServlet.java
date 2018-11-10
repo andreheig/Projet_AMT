@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,7 +64,20 @@ public class DeveloperServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("/Projet_AMT/dev/updateApp");
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while(parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            if(paramName.contains("update")) {
+                response.sendRedirect("/Projet_AMT/dev/updateApp");
+                return;
+            } else if (paramName.contains("new")) {
+                response.sendRedirect("/Projet_AMT/dev/newApp");
+                return;
+            } else {
+                throw new IllegalStateException("Invalid admin form");
+            }
+        }
+
     }
 
     }

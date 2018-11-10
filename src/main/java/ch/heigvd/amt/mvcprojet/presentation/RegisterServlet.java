@@ -1,5 +1,6 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
+import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
 import ch.heigvd.amt.mvcprojet.database.UserDAO;
 import ch.heigvd.amt.mvcprojet.model.User;
 
@@ -7,6 +8,7 @@ import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,9 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
     private UserDAO userDAO;
+
+    @EJB
+    private DevelopperDAO devDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -112,8 +117,29 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
                     // Le mail n'existe pas, elle est rentrer dans la DB,
                     userDAO.insertUser(user);
                     // On peut passer a la vue dev
-                    response.sendRedirect("/Projet_AMT/dev");
-                    return;
+                    try {
+
+                        // Recherche si le mail existe déjà dans la DB!
+                        user = userDAO.loadUser(email);
+
+                        if (userDAO.userExist(user) && userDAO.loginMatch(user, password)) {
+
+                            // Le mail existe, l'utilisateur est autorisé
+                            HttpSession session = request.getSession();
+                            session.setAttribute("user", userDAO.setUserSession(user));
+                            final String accountType = user.getAccountType();
+
+                            if ("admin".equals(accountType)) {
+                                response.sendRedirect("/Projet_AMT/admin");
+                                return;
+                            } else if ("dev".equals(accountType)) {
+                                    response.sendRedirect("/Projet_AMT/dev");
+                                return;
+                            }
+                        }
+                    } catch (Exception e) {
+                        Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
+                    }
                 }
             }
             catch (Exception e){

@@ -14,9 +14,13 @@
         <th>Welcome : </th>
         <th>${user.firstName}</th>
         <th>${user.lastName}</th>
-
-
     </tr>
+    <tr>
+        <td>Email : </td>
+        <td>${user.email}</td>
+    </tr>
+</td>
+<td>
     <form method="POST" action="deconnexion">
         <input type="submit" name ="deco-${user.userId}" value="deconnection">
     </form>

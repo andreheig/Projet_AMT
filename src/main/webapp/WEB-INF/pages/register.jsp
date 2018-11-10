@@ -66,7 +66,7 @@
         <br />
 
 
-    <button type="submit" class="registry registry-submit" value="Valider"> </button>
+    <input type="submit" class="registry registry-submit" value="Valider"> </input>
     <br />
 </form>
 </div>
