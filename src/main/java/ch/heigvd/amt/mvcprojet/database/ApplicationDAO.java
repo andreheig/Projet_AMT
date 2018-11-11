@@ -43,6 +43,24 @@ public class ApplicationDAO {
         return applications;
     }
 
+    public Application loadAppli(int appId) {
+        Application appli = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT * FROM Application WHERE Application.appId = ?")) {
+
+            pstmt.setInt(1, appId);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            appli = new Application(appId, rs.getString("appName"),
+                    rs.getString("appDescription"));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return appli;
+    }
+
     public void createAppli(int userId, Application appli) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(

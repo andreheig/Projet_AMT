@@ -18,13 +18,13 @@
 <form action = "POST" id="updateAppForm">
     Application name
     </br>
-    <textarea id="updateAppName" name="appName" placeholder="Enter the application name here..."></textarea>
+    <textarea id="updateAppName" name="appName" placeholder="${appName}"></textarea>
     </br>
     Application description
     </br>
-    <textarea id="updateAppDesc" name="appDescription" placeholder="Enter the application's description here..."></textarea>
+    <textarea id="updateAppDesc" name="appDescription" placeholder="${appDescription}"></textarea>
     </br>
-    <input id="UpdateAppSubmit" type="submit" name="UpdateAppSubmit" value="update">
+    <input id="updateAppSubmit" type="submit" name="UpdateAppSubmit" value="Update">
 </form>
 
 <body>

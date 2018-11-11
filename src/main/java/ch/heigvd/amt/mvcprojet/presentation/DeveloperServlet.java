@@ -57,7 +57,8 @@ public class DeveloperServlet extends HttpServlet {
         while(parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();
             if(paramName.contains("update-app")) {
-                response.sendRedirect("/Projet_AMT/dev/updateApp");
+                int appId = Integer.parseInt(paramName.substring("update-app-".length()));
+                response.sendRedirect("/Projet_AMT/dev/updateApp?appId=" + appId);
                 return;
             } else if (paramName.contains("new-application")) {
                 response.sendRedirect("/Projet_AMT/dev/newApp");
