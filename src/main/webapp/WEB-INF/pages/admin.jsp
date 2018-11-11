@@ -26,6 +26,7 @@
                 <th>Last name</th>
                 <th>Email</th>
                 <th>Account type</th>
+                <th>Applications</th>
             </tr>
         <c:forEach items="${developpers}" var = "dev">
             <tr>
@@ -34,6 +35,7 @@
                 <td>${dev.lastName}</td>
                 <td>${dev.email}</td>
                 <td>${dev.accountType}</td>
+                <td><a href="admin/devApps?devId=${dev.userId}">See apps</a></td>
                 <td>
                     <form method="POST" action="admin">
                         <input type="submit" name ="reset-${dev.userId}" value="Reset password">

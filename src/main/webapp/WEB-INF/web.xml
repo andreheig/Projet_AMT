@@ -109,4 +109,13 @@
         <url-pattern>/dev/newApp</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DevAppsForAdminServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.DevAppsForAdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DevAppsForAdminServlet</servlet-name>
+        <url-pattern>/admin/devApps</url-pattern>
+    </servlet-mapping>
+
 </web-app>
