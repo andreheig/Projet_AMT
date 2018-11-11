@@ -28,7 +28,8 @@ public class LoginFilter implements Filter {
             return;
         }
         // Permet de laisser passer s'il l'on veux se loguer ou s'enregistrer
-        if(path.contains("login") || path.contains("register") || path.contains("home")){
+        if(path.contains("login") || path.contains("register")
+                || path.contains("home") || path.contains("forgotPassword")){
             chain.doFilter(httpRequest, httpResponse);
             return;
         }
