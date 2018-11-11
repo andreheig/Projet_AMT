@@ -22,7 +22,7 @@
 </td>
 <td>
     <form method="POST" action="deconnexion">
-        <input type="submit" name ="deco-${user.userId}" value="deconnection">
+        <input type="submit" name ="deco-${user.userId}" value="Log out">
     </form>
 </td>
 </body>
