@@ -37,7 +37,7 @@ public class ApplicationDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return applications;
@@ -72,7 +72,7 @@ public class ApplicationDAO {
             pstmt.setString(4, appli.getSecretUUID());
             pstmt.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int appli_id = getLastInseredID();
@@ -85,7 +85,7 @@ public class ApplicationDAO {
             pstmt.setInt(2, appli_id);
             pstmt.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -100,7 +100,22 @@ public class ApplicationDAO {
             pstmt.setInt(3, appli.getId());
             pstmt.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void deleteAppli(int appId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement deleteDevAppStmt = connection.prepareStatement(
+                     "DELETE FROM DevApp WHERE appId = ?;");
+             PreparedStatement deleteAppStmt = connection.prepareStatement(
+                     "DELETE FROM Application WHERE appId = ?;")) {
+            deleteDevAppStmt.setInt(1, appId);
+            deleteDevAppStmt.executeQuery();
+            deleteAppStmt.setInt(1, appId);
+            deleteAppStmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -113,7 +128,7 @@ public class ApplicationDAO {
                 app_id = rs.getInt("LAST_INSERT_ID()");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return app_id;
     }

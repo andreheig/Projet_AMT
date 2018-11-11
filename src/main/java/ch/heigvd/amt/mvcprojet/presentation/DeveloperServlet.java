@@ -63,11 +63,14 @@ public class DeveloperServlet extends HttpServlet {
             } else if (paramName.contains("new-application")) {
                 response.sendRedirect("/Projet_AMT/dev/newApp");
                 return;
-            } else {
-                throw new IllegalStateException("Invalid admin form");
+            } else if(paramName.contains("delete-app")) {
+                int appId = Integer.parseInt(paramName.substring("delete-app-".length()));
+                applicationDAO.deleteAppli(appId);
+                response.sendRedirect("/Projet_AMT/dev");
+                return;
             }
         }
-
+        throw new IllegalStateException("Invalid admin form");
     }
 
     }

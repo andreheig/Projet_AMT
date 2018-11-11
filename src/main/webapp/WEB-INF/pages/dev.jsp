@@ -35,6 +35,11 @@
                     <input type="submit" name="update-app-${appli.id}" value="Update application">
                 </form>
             </td>
+            <td>
+                <form method="POST">
+                    <input type="submit" name="delete-app-${appli.id}" value="Delete application">
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>
