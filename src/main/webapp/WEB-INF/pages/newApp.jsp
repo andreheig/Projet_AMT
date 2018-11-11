@@ -15,16 +15,18 @@
 
 <h1>New application</h1>
 
-<form method="POST" action = "newApp" id="newAppForm">
+<form method="POST" action="newApp" id="newAppForm">
     Application name
     </br>
-    <textarea id="newAppName" name="appName" placeholder="Enter the application name here..."></textarea>
+    <textarea id="newAppName" name="appName" placeholder="Enter the application name here..."
+              cols="40" rows="1"></textarea>
     </br>
     Application description
     </br>
-    <textarea id="newAppDesc" name="appDescription" placeholder="Enter the application's description name here..."></textarea>
+    <textarea id="newAppDesc" name="appDescription" placeholder="Enter the application's description name here..."
+              cols="40" rows="4"></textarea>
     </br>
-    <input id="newAppSubmit" type="submit" name="newAppSubmit" value="create">
+    <input id="newAppSubmit" type="submit" name="newAppSubmit" value="Create">
 </form>
 
 <body>

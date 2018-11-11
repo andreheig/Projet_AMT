@@ -46,10 +46,7 @@ public class NewAppServlet extends HttpServlet {
             appliDAO.createAppli(user.getUserId(), new Application(name, description, keyUUID, secretUUID));
             request.setAttribute("request OK", true);
 
-            //request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
-            RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/dev.jsp");
-            requestDisp.forward(request, response);
+            response.sendRedirect("../dev");
         }
     }
-
-    }
+}
