@@ -26,6 +26,12 @@
     </br>
     <input id="updateAppSubmit" type="submit" name="update-app-${app.id}" value="Update">
 </form>
+<form method="POST" id="addUserToAppForm">
+    <input id="addUserToAppEmail" type="text" name="add-user-${app.id}" placeholder="User email"
+            size="40">
+    </br>
+    <input id="addUserToAppButton" type="submit" name="addUserToAppButton" value="Add user">
+</form>
 
 <body>
 

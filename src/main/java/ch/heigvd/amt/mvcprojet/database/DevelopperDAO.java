@@ -184,4 +184,16 @@ public class DevelopperDAO {
         }
         return res;
     }
+
+    public void addDevToApp(int devId, int appId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "INSERT INTO DevApp (userId, appId) VALUES (?, ?);")) {
+            pstmt.setInt(1, devId);
+            pstmt.setInt(2, appId);
+            ResultSet rs = pstmt.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
