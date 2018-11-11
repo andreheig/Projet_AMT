@@ -30,7 +30,7 @@ public class DevelopperDAO {
             number = rs.getInt("dev");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
 
         return number;
@@ -81,7 +81,7 @@ public class DevelopperDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return developpers;
@@ -99,7 +99,7 @@ public class DevelopperDAO {
             isSuspended = rs.getBoolean("suspended");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return isSuspended;
     }
@@ -116,7 +116,7 @@ public class DevelopperDAO {
             pstmt.setInt(1, id);
             pstmt.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -132,7 +132,7 @@ public class DevelopperDAO {
             pstmt.setInt(1, id);
             pstmt.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -153,7 +153,8 @@ public class DevelopperDAO {
             updatePwdFieldStmt.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
+
         }
     }
 
@@ -164,7 +165,7 @@ public class DevelopperDAO {
             pstmt.setInt(1, devId);
             pstmt.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -179,7 +180,7 @@ public class DevelopperDAO {
                 res = rs.getBoolean("hasToResetPassword");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return res;
     }
