@@ -15,16 +15,16 @@
 
 <h1>Update application</h1>
 
-<form action = "POST" id="updateAppForm">
+<form method="POST" id="updateAppForm">
     Application name
     </br>
-    <textarea id="updateAppName" name="appName" cols="40" rows="1">${appName}</textarea>
+    <textarea id="updateAppName" name="appName" cols="40" rows="1">${app.name}</textarea>
     </br>
     Application description
     </br>
-    <textarea id="updateAppDesc" name="appDescription" cols="40" rows="4">${appDescription}</textarea>
+    <textarea id="updateAppDesc" name="appDescription" cols="40" rows="4">${app.description}</textarea>
     </br>
-    <input id="updateAppSubmit" type="submit" name="UpdateAppSubmit" value="Update">
+    <input id="updateAppSubmit" type="submit" name="update-app-${app.id}" value="Update">
 </form>
 
 <body>

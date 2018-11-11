@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 public class UpdateAppServlet extends HttpServlet {
 
@@ -19,20 +20,26 @@ public class UpdateAppServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int appId = Integer.parseInt(request.getParameter("appId"));
         Application app = appliDAO.loadAppli(appId);
-        request.setAttribute("appName", app.getName());
-        request.setAttribute("appDescription", app.getDescription());
+        request.setAttribute("app", app);
         request.getRequestDispatcher("/WEB-INF/pages/updateApp.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        int id = -1;
+        Enumeration<String> parameterNames = request.getParameterNames();
+        while(parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            if (paramName.contains("update-app")) {
+                id = Integer.parseInt(paramName.substring("update-app-".length()));
+                break;
+            }
+        }
         String name = request.getParameter("appName");
         String description = request.getParameter("appDescription");
-
-
-
-        request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
+        appliDAO.updateAppli(new Application(id, name, description));
+        response.sendRedirect("../dev");
     }
 
 }

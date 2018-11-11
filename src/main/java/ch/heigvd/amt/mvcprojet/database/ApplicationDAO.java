@@ -91,15 +91,14 @@ public class ApplicationDAO {
     }
 
     // Permet de mettre à jour une application
-    public void updateAppli(int id, Application appli) {
+    public void updateAppli(Application appli) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
                      "UPDATE Application SET appName = ?, appDescription = ? WHERE Application.appId = ?;")) {
-
             pstmt.setString(1, appli.getName());
             pstmt.setString(2, appli.getDescription());
-            pstmt.setInt(3, id);
-
+            pstmt.setInt(3, appli.getId());
+            pstmt.executeQuery();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
