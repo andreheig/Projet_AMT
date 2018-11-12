@@ -114,7 +114,7 @@ public class DevelopperDAO {
                 PreparedStatement pstmt = connection.prepareStatement(
                         "UPDATE Developper SET suspended  = 1 WHERE Developper.userId = ?;")) {
             pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -130,7 +130,7 @@ public class DevelopperDAO {
                 PreparedStatement pstmt = connection.prepareStatement(
                         "UPDATE Developper SET suspended  = 0 WHERE Developper.userId = ?;")) {
             pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -142,14 +142,14 @@ public class DevelopperDAO {
             PreparedStatement updateChangePwdFieldStmt = connection.prepareStatement(
                     "UPDATE Developper SET hasToResetPassword  = 1 WHERE Developper.userId = ?;");
             updateChangePwdFieldStmt.setInt(1, devId);
-            updateChangePwdFieldStmt.executeQuery();
+            updateChangePwdFieldStmt.executeUpdate();
             updateChangePwdFieldStmt.close();
 
             PreparedStatement updatePwdFieldStmt = connection.prepareStatement(
                     "UPDATE User SET password = ? WHERE User.userId = ?;");
             updatePwdFieldStmt.setString(1, newPassword);
             updatePwdFieldStmt.setInt(2, devId);
-            updatePwdFieldStmt.executeQuery();
+            updatePwdFieldStmt.executeUpdate();
             updatePwdFieldStmt.close();
 
         } catch (SQLException e) {
@@ -163,7 +163,7 @@ public class DevelopperDAO {
              PreparedStatement pstmt = connection.prepareStatement(
                      "UPDATE Developper SET hasToResetPassword  = 0 WHERE Developper.userId = ?;")) {
             pstmt.setInt(1, devId);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -191,7 +191,7 @@ public class DevelopperDAO {
                      "INSERT INTO DevApp (userId, appId) VALUES (?, ?);")) {
             pstmt.setInt(1, devId);
             pstmt.setInt(2, appId);
-            ResultSet rs = pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

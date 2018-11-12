@@ -98,7 +98,7 @@ public class UserDAO {
             pstmt.setString(3, user.getEmail());
             pstmt.setString(4, user.getPassword());
             pstmt.setString(5, user.getAccountType());
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,7 +110,7 @@ public class UserDAO {
                 pstmt.setInt(1, userID);
                 pstmt.setInt(2, 0);
                 pstmt.setInt(3, 0);
-                pstmt.executeQuery();
+                pstmt.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -159,7 +159,7 @@ public class UserDAO {
             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET password = ? WHERE User.userId = ?;")) {
             pstmt.setString(1, user.getPassword());
             pstmt.setInt(2, user.getUserId());
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

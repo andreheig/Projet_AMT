@@ -70,7 +70,7 @@ public class ApplicationDAO {
             pstmt.setString(2, appli.getDescription());
             pstmt.setString(3, appli.getKeyUUID());
             pstmt.setString(4, appli.getSecretUUID());
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,7 +83,7 @@ public class ApplicationDAO {
 
             pstmt.setInt(1, userId);
             pstmt.setInt(2, appli_id);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,7 +98,7 @@ public class ApplicationDAO {
             pstmt.setString(1, appli.getName());
             pstmt.setString(2, appli.getDescription());
             pstmt.setInt(3, appli.getId());
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -113,7 +113,7 @@ public class ApplicationDAO {
             deleteDevAppStmt.setInt(1, appId);
             deleteDevAppStmt.executeQuery();
             deleteAppStmt.setInt(1, appId);
-            deleteAppStmt.executeQuery();
+            deleteAppStmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
