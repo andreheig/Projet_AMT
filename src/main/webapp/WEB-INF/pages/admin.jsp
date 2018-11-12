@@ -62,7 +62,7 @@
             </table>
         <%--For displaying Previous link except for the 1st page --%>
         <c:if test="${page != 1}">
-            <td><a href="admin?page=${page - 1}">Previous</a></td>
+            <td><a id="Previous" href="admin?page=${page - 1}">Previous</a></td>
         </c:if>
 
         <%--For displaying Page numbers.
@@ -84,7 +84,7 @@
 
  <%--For displaying Next link --%>
         <c:if test="${page lt nbPage}">
-            <td><a href="admin?page=${page + 1}">Next</a></td>
+            <td><a id="Next" href="admin?page=${page + 1}">Next</a></td>
         </c:if>
         <td></td>
         <td></td>
