@@ -35,24 +35,16 @@ public class AdminServlet extends HttpServlet {
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
 
-        // Permet la pagination
-        int page = 1;
-        int recordPerPage = 10;
-        if(request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page"));
+        // Pagination
+        int pageToLoad = request.getParameter("page") != null ?
+                Integer.parseInt(request.getParameter("page")) :
+                1;
         int nbDev = developperDAO.getNumberOfDevelopper();
-        int nbPage = (int) Math.ceil(nbDev * 1.0 / recordPerPage);
-
-        /*if(page*recordPerPage >= nbDev){
-            list = list.subList(((page -1) *recordPerPage), nbDev);
-        }
-        else{
-            list = list.subList(((page -1) *recordPerPage), page * recordPerPage);
-        }*/
+        int nbPage = (int) Math.ceil((nbDev * 1.0) / Utils.NB_MAX_ELEMENTS_ON_PAGE);
 
         request.setAttribute("nbPage", nbPage);
-        request.setAttribute("page", page);
-        List<Developper> list = developperDAO.findDeveloppers(page);
+        request.setAttribute("page", pageToLoad);
+        List<Developper> list = developperDAO.findDeveloppersForPage(pageToLoad, Utils.NB_MAX_ELEMENTS_ON_PAGE);
 
         LOGGER.log(Level.INFO, "list", session.getAttributeNames());
         request.setAttribute("developpers", list);

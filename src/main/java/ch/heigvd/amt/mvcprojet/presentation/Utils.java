@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class Utils {
 
+    public static final int NB_MAX_ELEMENTS_ON_PAGE = 10;
+
     private static final int NEW_PASSWORD_LENGTH = 15;
 
     private final static Random rand = new Random();

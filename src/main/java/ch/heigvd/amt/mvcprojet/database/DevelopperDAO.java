@@ -1,6 +1,5 @@
 package ch.heigvd.amt.mvcprojet.database;
 
-import ch.heigvd.amt.mvcprojet.model.Application;
 import ch.heigvd.amt.mvcprojet.model.Developper;
 import ch.heigvd.amt.mvcprojet.model.User;
 
@@ -17,6 +16,7 @@ import java.util.logging.Logger;
 
 @Stateless
 public class DevelopperDAO {
+
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
 
@@ -36,14 +36,14 @@ public class DevelopperDAO {
         return number;
     }
 
-    public List<Developper> findDeveloppers(int page) {
+    public List<Developper> findDeveloppersForPage(int page, int nbMaxElementsPerPage) {
         List<Developper> developpers = new ArrayList<>();
         try (
                 Connection connection = dataSource.getConnection()) {
 
             PreparedStatement pstmt = connection.prepareStatement(
-                    "SELECT * FROM User WHERE User.accountType = 'dev' ORDER BY userId LIMIT ?, 10;");
-            pstmt.setInt(1, ((page -1) * 10));
+                    "SELECT * FROM User WHERE User.accountType = 'dev' ORDER BY userId LIMIT ?, " + nbMaxElementsPerPage + ";");
+            pstmt.setInt(1, ((page -1) * nbMaxElementsPerPage));
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int user_id = rs.getInt("userId");

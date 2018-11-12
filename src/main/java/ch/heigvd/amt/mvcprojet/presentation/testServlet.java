@@ -50,7 +50,7 @@ public class testServlet extends HttpServlet {
                 Logger.getLogger(testServlet.class.getName()).log(Level.INFO, "list", session.getAttributeNames());
                 /* Partie test Users */
                 if (user.getAccountType().equalsIgnoreCase("admin")) {
-                    request.setAttribute("developpers", developperDAO.findDeveloppers(1));
+                    request.setAttribute("developpers", developperDAO.findDeveloppersForPage(1, Utils.NB_MAX_ELEMENTS_ON_PAGE));
                 } else if (user.getAccountType().equalsIgnoreCase("dev")) {
                     request.setAttribute("applications", applicationDAO.findUserApplication(user.getUserId()));
                 }
@@ -60,7 +60,7 @@ public class testServlet extends HttpServlet {
                 //request.setAttribute("applications", applicationManager.findUserApplication(4));
                 //request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
 
-                //request.setAttribute("developpers", developperDAO.findDeveloppers());
+                //request.setAttribute("developpers", developperDAO.findDeveloppersForPage());
                 request.getRequestDispatcher("/WEB-INF/pages/test.jsp").forward(request, response);
            // }
         }
