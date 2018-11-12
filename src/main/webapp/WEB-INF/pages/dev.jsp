@@ -17,7 +17,7 @@
 
     <h1>Applications</h1>
 <form method="POST">
-    <input type="submit" name="new-application-${user.userId}" value="New application">
+    <input type="submit" id="newApp" name="new-application-${user.userId}" value="New application">
 </form>
     <table border="1" cellpadding="5" cellspacing="5">
         <tr>
@@ -46,7 +46,7 @@
 
 <%--For displaying Previous link except for the 1st page --%>
 <c:if test="${page != 1}">
-    <td><a href="dev?page=${page - 1}">Previous</a></td>
+    <td><a id="Previous" href="dev?page=${page - 1}">Previous</a></td>
 </c:if>
 
 <%--For displaying Page numbers.
@@ -68,7 +68,7 @@ The when condition does not display a link for the current page--%>
 
 <%--For displaying Next link --%>
 <c:if test="${page lt nbPage}">
-    <td><a href="dev?page=${page + 1}">Next</a></td>
+    <td><a id="Next" href="dev?page=${page + 1}">Next</a></td>
 </c:if>
 </body>
 </html>
