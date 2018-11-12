@@ -6,16 +6,13 @@ import ch.heigvd.amt.mvcprojet.model.User;
 import ch.heigvd.amt.mvcprojet.model.Developper;
 
 import javax.ejb.EJB;
-import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
-import java.util.Random;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +52,7 @@ public class AdminServlet extends HttpServlet {
 
         request.setAttribute("nbPage", nbPage);
         request.setAttribute("page", page);
-        List<Developper> list = developperDAO.findDevelopper(page);
+        List<Developper> list = developperDAO.findDeveloppers(page);
 
         LOGGER.log(Level.INFO, "list", session.getAttributeNames());
         request.setAttribute("developpers", list);

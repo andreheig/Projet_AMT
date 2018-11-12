@@ -36,7 +36,7 @@ public class DevelopperDAO {
         return number;
     }
 
-    public List<Developper> findDevelopper(int page) {
+    public List<Developper> findDeveloppers(int page) {
         List<Developper> developpers = new ArrayList<>();
         try (
                 Connection connection = dataSource.getConnection()) {
