@@ -35,13 +35,11 @@ public class NewAppServlet extends HttpServlet {
             return;
         }
         else {
-
             UUID uuid = UUID.randomUUID();
-            String keyUUID = uuid.toString().replaceAll("-","");
+            String keyUUID = uuid.toString();
 
             uuid = UUID.randomUUID();
-            String secretUUID = uuid.toString().replaceAll("-","");
-
+            String secretUUID = uuid.toString();
 
             appliDAO.createAppli(user.getUserId(), new Application(name, description, keyUUID, secretUUID));
             request.setAttribute("request OK", true);
