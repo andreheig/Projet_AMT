@@ -29,7 +29,8 @@
 
     <%-- Displays "next" link, except for last page --%>
     <c:if test="${page lt nbPages}">
-        <td><a id="Next" href="admin?page=${page + 1}">Next</a></td>
+        <%-- <td><a id="Next" href="admin?page=${page + 1}">Next</a></td> --%>
+        <td><a id="Next" href=".?page=${page + 1}">Next</a></td>
     </c:if>
 
 </body>

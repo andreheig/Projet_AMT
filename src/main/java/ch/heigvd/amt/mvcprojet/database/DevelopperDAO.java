@@ -4,6 +4,7 @@ import ch.heigvd.amt.mvcprojet.model.Developper;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.*;
@@ -15,12 +16,14 @@ import java.util.logging.Logger;
 
 
 @Stateless
-public class DevelopperDAO {
+@LocalBean
+public class DevelopperDAO implements IPaginatedDAO {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
 
-    public int getNumberOfDevelopper(){
+    @Override
+    public int getTotalNumberOfElements() {
         int number = 0;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
@@ -32,11 +35,11 @@ public class DevelopperDAO {
         } catch (SQLException e) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
         }
-
         return number;
     }
 
-    public List<Developper> findDeveloppersForPage(int page, int nbMaxElementsPerPage) {
+    @Override
+    public List<Developper> findElementsForPage(int page, int nbMaxElementsPerPage) {
         List<Developper> developpers = new ArrayList<>();
         try (
                 Connection connection = dataSource.getConnection()) {
