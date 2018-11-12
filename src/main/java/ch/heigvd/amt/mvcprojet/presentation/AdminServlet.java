@@ -42,7 +42,7 @@ public class AdminServlet extends HttpServlet {
         int nbDev = developperDAO.getNumberOfDevelopper();
         int nbPage = (int) Math.ceil((nbDev * 1.0) / Utils.NB_MAX_ELEMENTS_ON_PAGE);
 
-        request.setAttribute("nbPage", nbPage);
+        request.setAttribute("nbPages", nbPage);
         request.setAttribute("page", pageToLoad);
         List<Developper> list = developperDAO.findDeveloppersForPage(pageToLoad, Utils.NB_MAX_ELEMENTS_ON_PAGE);
 
