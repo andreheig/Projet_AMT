@@ -61,7 +61,7 @@ public class UpdateAppServlet extends HttpServlet {
         int appId = Integer.parseInt(paramName.substring("add-user-".length()));
         String email = request.getParameter(paramName);
         User user = userDAO.loadUser(email);
-        if("dev".equals(user.getAccountType())) {
+        if(user != null && "dev".equals(user.getAccountType())) {
             devDAO.addDevToApp(user.getUserId(), appId);
         }
     }
