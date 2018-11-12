@@ -61,33 +61,47 @@ public class ApplicationDAO {
         return appli;
     }
 
+    private Application loadAppliFromPublicAPIKey(String publicAPIKey) {
+        Application appli = null;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT * FROM Application WHERE Application.appKey = ?")) {
+
+            pstmt.setString(1, publicAPIKey);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            appli = new Application(rs.getInt("appId"), rs.getString("appName"),
+                    rs.getString("appDescription"));
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return appli;
+    }
+
     public void createAppli(int userId, Application appli) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(
-                     "INSERT INTO Application (appName, appDescription, appKey, appSecret) VALUES (?, ?, ?, ?);")) {
-
-            pstmt.setString(1, appli.getName());
-            pstmt.setString(2, appli.getDescription());
-            pstmt.setString(3, appli.getKeyUUID());
-            pstmt.setString(4, appli.getSecretUUID());
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        int appli_id = getLastInseredID();
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(
+             PreparedStatement insertAppPstmt = connection.prepareStatement(
+                     "INSERT INTO Application (appName, appDescription, appKey, appSecret) " +
+                             "VALUES (?, ?, ?, ?);");
+             PreparedStatement insertDevAppPstmt = connection.prepareStatement(
                      "INSERT INTO DevApp (userId, appId) VALUES (?, ?);")) {
 
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, appli_id);
-            pstmt.executeUpdate();
+            insertAppPstmt.setString(1, appli.getName());
+            insertAppPstmt.setString(2, appli.getDescription());
+            insertAppPstmt.setString(3, appli.getKeyUUID());
+            insertAppPstmt.setString(4, appli.getSecretUUID());
+            insertAppPstmt.executeUpdate();
+
+            int appId = loadAppliFromPublicAPIKey(appli.getKeyUUID()).getId();
+
+            insertDevAppPstmt.setInt(1, userId);
+            insertDevAppPstmt.setInt(2, appId);
+            insertDevAppPstmt.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     // Permet de mettre à jour une application
@@ -117,19 +131,5 @@ public class ApplicationDAO {
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private int getLastInseredID() {
-        int app_id = 0;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement("SELECT LAST_INSERT_ID();")) {
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                app_id = rs.getInt("LAST_INSERT_ID()");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return app_id;
     }
 }
