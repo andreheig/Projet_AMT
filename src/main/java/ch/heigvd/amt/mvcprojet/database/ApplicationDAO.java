@@ -111,7 +111,7 @@ public class ApplicationDAO {
              PreparedStatement deleteAppStmt = connection.prepareStatement(
                      "DELETE FROM Application WHERE appId = ?;")) {
             deleteDevAppStmt.setInt(1, appId);
-            deleteDevAppStmt.executeQuery();
+            deleteDevAppStmt.executeUpdate();
             deleteAppStmt.setInt(1, appId);
             deleteAppStmt.executeUpdate();
         } catch (SQLException ex) {
