@@ -24,28 +24,31 @@
 <body>
 
 <div class="register">
-
+    <br>
     <c:if test="${not empty error }">
-        <c:out value="${error}"> ${error}</c:out>
+        <c:out value="${error}">${error}</c:out>
     </c:if>
 
     <br />
 
-    <h1>Log-in</h1><br>
+    <h1>Log-in</h1>
 
+    <br>
     <form method="POST" action="login">
 
-        <c:if test="${not empty emailNull || emailInccorect }">
-            <c:out value="${emailNull}"> ${emailNull}</c:out>
+        <c:if test="${not empty emailNull || not empty emailInccorect }">
+            <c:out value="${emailNull}">${emailNull}</c:out>
+            <c:out value="${emailInccorect}">${emailInccorect}</c:out>
         </c:if>
         <br />
 
 
         <input id="loginEmail" type="text" name="email" placeholder="Username">
 
+        <br>
 
         <c:if test="${not empty passwordNull}">
-            <c:out value="${passwordNull}"> ${passwordNull} </c:out>
+            <c:out value="${passwordNull}">${passwordNull}</c:out>
         </c:if>
         <br />
 
@@ -54,7 +57,7 @@
     </form>
 
     <div class="login-help">
-        <a href="register">Register</a> • <a href="forgotPassword">Forgot Password</a>
+        <a href="register">Register</a> • <a href="forgotPassword">Forgot Pass</a>
     </div>
 </div>
 

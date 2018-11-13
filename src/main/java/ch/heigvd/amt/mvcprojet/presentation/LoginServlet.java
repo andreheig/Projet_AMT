@@ -95,19 +95,21 @@
 
                             suspendedMessage = "Vous avez été suspendu, veuillez contacter votre Admin !";
                             request.setAttribute("error", suspendedMessage);
-                            response.sendRedirect("/Projet_AMT/home");
-                            return;
+                           // response.sendRedirect("/Projet_AMT/login");
+                           // return;
 
                         } else if (devDAO.hasToResetPassword(user)){
 
                             response.sendRedirect("/Projet_AMT/changePass");
                             return;
 
+                        }else{
+                            response.sendRedirect("/Projet_AMT/dev");
+                            return;
+
                         }
 
 
-                        response.sendRedirect("/Projet_AMT/dev");
-                        return;
 
                     }
                 }
