@@ -18,11 +18,14 @@ public class DevAppsForAdminServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
         int devId = Integer.parseInt(request.getParameter("devId"));
         List<Application> apps = appDAO.findUserApplication(devId);
 
         request.setAttribute("devId", devId);
-        request.setAttribute("apps", apps);
+        PaginationHelper.addPaginationAttributesToRequest(request, appDAO, devId, "apps");
+        //request.setAttribute("apps", apps);
         request.getRequestDispatcher("/WEB-INF/pages/devAppsForAdmin.jsp").forward(request, response);
     }
 }

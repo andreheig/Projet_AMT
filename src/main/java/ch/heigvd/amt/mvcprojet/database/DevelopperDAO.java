@@ -23,14 +23,14 @@ public class DevelopperDAO implements IPaginatedDAO {
     private DataSource dataSource;
 
     @Override
-    public int getTotalNumberOfElements() {
+    public int getTotalNumberOfElements(Integer optionalId) {
         int number = 0;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
-                     "SELECT COUNT(*) AS dev FROM Developper;")) {
+                     "SELECT COUNT(*) AS devCount FROM Developper;")) {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            number = rs.getInt("dev");
+            number = rs.getInt("devCount");
 
         } catch (SQLException e) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -39,8 +39,8 @@ public class DevelopperDAO implements IPaginatedDAO {
     }
 
     @Override
-    public List<Developper> findElementsForPage(int page, int nbMaxElementsPerPage) {
-        List<Developper> developpers = new ArrayList<>();
+    public List<Developper> findElementsForPage(Integer optionalId, int page, int nbMaxElementsPerPage) {
+        List<Developper> developers = new ArrayList<>();
         try (
                 Connection connection = dataSource.getConnection()) {
 
@@ -77,7 +77,7 @@ public class DevelopperDAO implements IPaginatedDAO {
                 }
                 loadAppsStmt.close();
 
-                developpers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
+                developers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
                         applicationsIds, isAccountSuspended, hasToResetPassword));
 
                 pstmt.close();
@@ -87,7 +87,7 @@ public class DevelopperDAO implements IPaginatedDAO {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return developpers;
+        return developers;
     }
 
     public boolean isDeveloperSuspended(int id) {

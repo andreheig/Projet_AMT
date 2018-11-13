@@ -29,5 +29,6 @@
             </tr>
         </c:forEach>
     </table>
+    <jsp:include page="pagination.jsp" />
 </body>
 </html>

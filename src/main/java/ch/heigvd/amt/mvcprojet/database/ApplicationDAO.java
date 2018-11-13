@@ -3,9 +3,9 @@ package ch.heigvd.amt.mvcprojet.database;
 import ch.heigvd.amt.mvcprojet.model.Application;
 
 import javax.annotation.Resource;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-import javax.transaction.Synchronization;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,50 @@ import java.util.logging.Logger;
 
 
 @Stateless
-public class ApplicationDAO {
+@LocalBean
+public class ApplicationDAO implements IPaginatedDAO {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
 
-    public List<Application> findUserApplication(int id) {
+    @Override
+    public int getTotalNumberOfElements(Integer developerId) {
+        int number = 0;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT COUNT(*) AS appCount FROM DevApp WHERE userId = ?;")) {
+            pstmt.setInt(1, developerId);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            number = rs.getInt("appCount");
+
+        } catch (SQLException e) {
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return number;
+    }
+
+    @Override
+    public List<Application> findElementsForPage(Integer developerId, int page, int nbMaxElementsPerPage) {
+        List<Application> apps = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pstmt = connection.prepareStatement(
+                    "SELECT * FROM DevApp WHERE userId = ? ORDER BY appId LIMIT ?, " + nbMaxElementsPerPage + ";");
+            pstmt.setInt(1, developerId);
+            pstmt.setInt(2, ((page -1) * nbMaxElementsPerPage));
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int appId = rs.getInt("appId");
+                apps.add(loadAppli(appId));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return apps;
+    }
+
+    public List<Application> findUserApplication(int userId) {
         List<Application> applications = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
@@ -27,7 +65,7 @@ public class ApplicationDAO {
                      "ON Application.appId = DevApp.appId INNER JOIN User ON " +
                      "User.userId = DevApp.userId WHERE User.userId = ? ORDER BY Application.appId ;")) {
 
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, userId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int user_id = rs.getInt("appId");

@@ -4,6 +4,6 @@ import java.util.List;
 
 
 public interface IPaginatedDAO {
-    int getTotalNumberOfElements();
-    <T> List<T> findElementsForPage(int page, int nbMaxElementsPerPage);
+    int getTotalNumberOfElements(Integer optionalId);
+    <T> List<T> findElementsForPage(Integer optionalId, int page, int nbMaxElementsPerPage);
 }

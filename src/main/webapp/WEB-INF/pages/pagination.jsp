@@ -12,7 +12,21 @@
 
     <%-- Displays "Previous" link, except for first page --%>
     <c:if test="${page != 1}">
-        <td><a id="Previous" href="admin?page=${page - 1}">Previous</a></td>
+        <%-- Page param --%>
+        <c:choose>
+            <%-- Replace page param in URL --%>
+            <c:when test="${pageContext.request.queryString != null && pageContext.request.queryString.contains(\"page=\")}">
+                <td><a id="Previous" href="${pageContext.request.pathInfo}?${pageContext.request.queryString.replaceFirst("page=[0-9]*", "page=")}${page-1}">Previous</a></td>
+            </c:when>
+            <%-- Add page param to URL with other params --%>
+            <c:when test="${pageContext.request.queryString != null}">
+                <td><a id="Previous" href="${pageContext.request.pathInfo}?${pageContext.request.queryString}&page=${page - 1}">Previous</a></td>
+            </c:when>
+            <%-- Add page param to URL without other params --%>
+            <c:otherwise>
+                <td><a id="Previous" href="${pageContext.request.pathInfo}?page=${page - 1}">Previous</a></td>
+            </c:otherwise>
+        </c:choose>
     </c:if>
 
     <%-- Displays page numbers, except for the current one --%>
@@ -22,16 +36,42 @@
                 <td>${i}</td>
             </c:when>
             <c:otherwise>
-                <td><a id="pagesNumbers" href="admin?page=${i}">${i}</a></td>
+                <%-- Page param --%>
+                <c:choose>
+                    <%-- Replace page param in URL --%>
+                    <c:when test="${pageContext.request.queryString != null && pageContext.request.queryString.contains(\"page\")}">
+                        <td><a id="pagesNumbers" href="${pageContext.request.pathInfo}?${pageContext.request.queryString.replaceFirst("page=[0-9]*", "page=")}${i}">${i}</a></td>
+                    </c:when>
+                    <%-- Add page param to URL with other params --%>
+                    <c:when test="${pageContext.request.queryString != null}">
+                        <td><a id="pagesNumbers" href="${pageContext.request.pathInfo}?${pageContext.request.queryString}&page=${i}">${i}</a></td>
+                    </c:when>
+                    <%-- Add page param to URL without other params --%>
+                    <c:otherwise>
+                        <td><a id="pagesNumbers" href="${pageContext.request.pathInfo}?page=${i}">${i}</a></td>
+                    </c:otherwise>
+                </c:choose>
             </c:otherwise>
         </c:choose>
     </c:forEach>
 
     <%-- Displays "next" link, except for last page --%>
     <c:if test="${page lt nbPages}">
-        <%-- <td><a id="Next" href="admin?page=${page + 1}">Next</a></td> --%>
-        <td><a id="Next" href=".?page=${page + 1}">Next</a></td>
+        <%-- Add page param to URL --%>
+        <c:choose>
+            <%-- Replace page param in URL --%>
+            <c:when test="${pageContext.request.queryString != null && pageContext.request.queryString.contains(\"page=\")}">
+                <td><a id="Next" href="${pageContext.request.pathInfo}?${pageContext.request.queryString.replaceFirst("page=[0-9]*", "page=")}${page+1}">Next</a></td>
+            </c:when>
+            <%-- Add page param to URL with other params --%>
+            <c:when test="${pageContext.request.queryString != null}">
+                <td><a id="Next" href="${pageContext.request.pathInfo}?${pageContext.request.queryString}&page=${page + 1}">Next</a></td>
+            </c:when>
+            <%-- Add page param to URL without other params --%>
+            <c:otherwise>
+                <td><a id="Next" href="${pageContext.request.pathInfo}?page=${page + 1}">Next</a></td>
+            </c:otherwise>
+        </c:choose>
     </c:if>
-
 </body>
 </html>

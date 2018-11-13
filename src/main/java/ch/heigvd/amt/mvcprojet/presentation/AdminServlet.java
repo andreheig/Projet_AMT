@@ -26,7 +26,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PaginationHelper.addPaginationAttributesToRequest(request, developperDAO, "developpers");
+        PaginationHelper.addPaginationAttributesToRequest(request, developperDAO, null,"developpers");
         request.getRequestDispatcher("/WEB-INF/pages/admin.jsp").forward(request, response);
     }
 
