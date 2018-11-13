@@ -7,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -14,9 +15,9 @@
 
     <title>Log-in AMT 2018</title>
 
-    <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
-
     <link rel="stylesheet" href="static/css/style.css" media="screen" type="text/css" />
+
+    <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
 
 </head>
 
@@ -24,11 +25,11 @@
 
 <div class="register">
 
-    <c:if test="${not empty error}">
+    <c:if test="${not empty error }">
         <c:out value="${error}"> ${error}</c:out>
     </c:if>
-    <br />
 
+    <br />
 
     <h1>Log-in</h1><br>
 
@@ -39,11 +40,15 @@
         </c:if>
         <br />
 
+
         <input id="loginEmail" type="text" name="email" placeholder="Username">
+
+
         <c:if test="${not empty passwordNull}">
             <c:out value="${passwordNull}"> ${passwordNull} </c:out>
         </c:if>
         <br />
+
         <input id="loginPassword" type="password" name="password" placeholder="Password">
         <input id="loginSubmit" type="submit" name="login" class="login login-submit" value="login"> </input>
     </form>

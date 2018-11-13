@@ -42,6 +42,8 @@
 
             boolean emailOK = false;
             boolean passOK = false;
+            boolean isSuspended = false;
+            String suspendedMessage = "";
 
             // Test presence d'un mot dans le champ mail
             if (email.isEmpty()) {
@@ -70,57 +72,54 @@
 
             if (emailOK && passOK) {
 
-                try {
 
-                    // Recherche si le mail existe déjà dans la DB!
-                    User user = userDAO.loadUser(email);
+                // Recherche si le mail existe déjà dans la DB!
+                User user = userDAO.loadUser(email);
 
-                    if (userDAO.userExist(user) && userDAO.loginMatch(user, password)) {
+                if (userDAO.userExist(user) && userDAO.loginMatch(user, password)) {
 
-                        // Le mail existe, l'utilisateur est autorisé
-                        HttpSession session = request.getSession();
-                        session.setAttribute("user", userDAO.setUserSession(user));
-                        final String accountType = user.getAccountType();
+                    // Le mail existe, l'utilisateur est autorisé
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", userDAO.setUserSession(user));
+                    final String accountType = user.getAccountType();
+                    isSuspended = true;//devDAO.isDeveloperSuspended(user.getUserId());
 
-                        if ("admin".equals(accountType)) {
-                            response.sendRedirect("/Projet_AMT/admin");
+
+                    if ("admin".equals(accountType)) {
+                        response.sendRedirect("/Projet_AMT/admin");
+                        return;
+                    } else if("dev".equals(accountType)) {
+
+
+                        if (isSuspended) {
+
+                            suspendedMessage = "Vous avez été suspendu, veuillez contacter votre Admin !";
+                            request.setAttribute("error", suspendedMessage);
+                            response.sendRedirect("/Projet_AMT/home");
                             return;
-                        } else if ("dev".equals(accountType)) {
 
-                            boolean isSuspended = devDAO.isDeveloperSuspended(user.getUserId());
-                            if (isSuspended) {
-                                request.setAttribute("error", "Vous avez été suspendu, veuillez contacter votre Admin !");
-                                response.sendRedirect("/Projet_AMT/login");
+                        } else if (devDAO.hasToResetPassword(user)){
 
+                            response.sendRedirect("/Projet_AMT/changePass");
+                            return;
 
-
-                            } else if (devDAO.hasToResetPassword(user)) {
-                                response.sendRedirect("/Projet_AMT/changePass");
-
-                            } else {
-                                response.sendRedirect("/Projet_AMT/dev");
-
-                            }
-
-                           return;
-                        } else {
-                            throw new IllegalStateException("Account type is not correct: " + accountType);
                         }
 
 
-                    } else {
-                        // Le mail n'existe pas, l'utilisateur doit donc s'enregistrer
-                        request.setAttribute("error", "Connexion échouée,ce mail est inexistant, veuillez vous enregistrer !");
+                        response.sendRedirect("/Projet_AMT/dev");
+                        return;
 
                     }
-
-                } catch (Exception e) {
-                    Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
                 }
+
             }
 
-            RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/register.jsp");
+            User userlog = new User("", "", email, password, "");
+            request.setAttribute("user", userlog);
+
+            RequestDispatcher requestDisp = this.getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp");
             requestDisp.forward(request, response);
+            return;
 
 
         }
