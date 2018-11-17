@@ -109,8 +109,10 @@ public class RegisterServlet extends javax.servlet.http.HttpServlet {
                 // Recerche si le mail existe déjà!
                 User user = new User(lastname, firstname, email, password, "dev");
                 if(userDAO.userExist(user)){
+                    request.setAttribute("EmailAlreadyExist", "Cet email existe déja !");
                     // Le mail existe, l'utilisateur doit donc s'authentifier
-                    response.sendRedirect("/Projet_AMT/login");
+                    this.getServletContext().getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+                   // response.sendRedirect("/Projet_AMT/login");
                     return;
                 }
                 else{

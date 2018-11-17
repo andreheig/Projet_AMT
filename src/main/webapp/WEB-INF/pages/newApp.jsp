@@ -17,6 +17,12 @@
 <h1>New application</h1>
 
 <form method="POST" action="newApp" id="newAppForm">
+    <br>
+    <c:if test="${not empty AppError}">
+        <c:out value="${AppError}">${AppError}</c:out>
+    </c:if>
+    <br />
+
     Application name
     </br>
     <textarea id="newAppName" name="appName" placeholder="Enter the application name here..."

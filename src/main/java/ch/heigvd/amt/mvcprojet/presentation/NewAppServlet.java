@@ -30,8 +30,9 @@ public class NewAppServlet extends HttpServlet {
         String description = request.getParameter("appDescription");
 
         if(name.isEmpty() && description.isEmpty()){
-            request.setAttribute("error", true);
-            response.sendRedirect("/Projet_AMT/dev/newApp");
+            request.setAttribute("AppError", "cette application n'a pas été correctement definie !");
+            this.getServletContext().getRequestDispatcher("/WEB-INF/pages/newApp.jsp").forward(request, response);
+            //response.sendRedirect("/Projet_AMT/dev/newApp");
             return;
         }
         else {
