@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
-public class ApplicationDAO implements IPaginatedDAO {
+public class ApplicationDAO implements IPaginatedDAO, ApplicationDAOLocal {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
@@ -57,6 +57,7 @@ public class ApplicationDAO implements IPaginatedDAO {
         return apps;
     }
 
+    @Override
     public List<Application> findUserApplication(int userId) {
         List<Application> applications = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
@@ -81,6 +82,7 @@ public class ApplicationDAO implements IPaginatedDAO {
         return applications;
     }
 
+    @Override
     public Application loadAppli(int appId) {
         Application appli = null;
         try (Connection connection = dataSource.getConnection();
@@ -117,6 +119,7 @@ public class ApplicationDAO implements IPaginatedDAO {
         return appli;
     }
 
+    @Override
     public void createAppli(int userId, Application appli) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement insertAppPstmt = connection.prepareStatement(
@@ -142,6 +145,7 @@ public class ApplicationDAO implements IPaginatedDAO {
         }
     }
 
+    @Override
     // Permet de mettre à jour une application
     public void updateAppli(Application appli) {
         try (Connection connection = dataSource.getConnection();
@@ -156,6 +160,7 @@ public class ApplicationDAO implements IPaginatedDAO {
         }
     }
 
+    @Override
     public void deleteAppli(int appId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement deleteDevAppStmt = connection.prepareStatement(

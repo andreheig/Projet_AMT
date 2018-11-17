@@ -49,6 +49,9 @@ public class LoginFilter implements Filter {
             }
         }
         else{
+            if(path.contains("dev")){
+                httpRequest.getRequestDispatcher( "/admin" ).forward( httpRequest, httpResponse );
+            }
             chain.doFilter(httpRequest, httpResponse);
         }
     }

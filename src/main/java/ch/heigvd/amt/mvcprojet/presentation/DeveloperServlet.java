@@ -1,6 +1,7 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
 import ch.heigvd.amt.mvcprojet.database.ApplicationDAO;
+import ch.heigvd.amt.mvcprojet.database.ApplicationDAOLocal;
 import ch.heigvd.amt.mvcprojet.model.Application;
 import ch.heigvd.amt.mvcprojet.model.User;
 
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 public class DeveloperServlet extends HttpServlet {
 
     @EJB
-    private ApplicationDAO applicationDAO;
+    private ApplicationDAOLocal applicationDAO;
 
     private static final Logger LOGGER = Logger.getLogger(AdminServlet.class.getName());
 

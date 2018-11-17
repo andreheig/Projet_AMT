@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
-public class UserDAO {
+public class UserDAO implements UserDAOLocal{
 
     @EJB
     private DevelopperDAO developperDAO;
@@ -23,6 +23,7 @@ public class UserDAO {
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
 
+    @Override
     public List<User> findAllUser() {
         List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
@@ -47,6 +48,7 @@ public class UserDAO {
         return new User(user_id, prenom, nom, email, "", type_compte);
     }
 
+    @Override
     public boolean userExist(User user) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ?;")) {
@@ -61,6 +63,7 @@ public class UserDAO {
         return false;
     }
 
+    @Override
     public User loadUser(String userEmail) {
         User user = null;
         try (Connection connection = dataSource.getConnection();
@@ -75,6 +78,7 @@ public class UserDAO {
         return user;
     }
 
+    @Override
     public User loadUser(int id) {
         User user = null;
         try (Connection connection = dataSource.getConnection();
@@ -89,6 +93,7 @@ public class UserDAO {
         return user;
     }
 
+    @Override
     public boolean insertUser(User user) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement("INSERT INTO User (firstName, lastName, email, " +
@@ -119,6 +124,7 @@ public class UserDAO {
             return false;
     }
 
+    @Override
     public boolean loginMatch(User user, String password) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ? AND User.password = ?;")) {
@@ -134,6 +140,7 @@ public class UserDAO {
         return false;
     }
 
+    @Override
     public User setUserSession(User user) {
         User ret = null;
         try (Connection connection = dataSource.getConnection();
@@ -154,6 +161,7 @@ public class UserDAO {
         return ret;
     }
 
+    @Override
     public void updatePassword(User user) {
         try (Connection connection = dataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement("UPDATE User SET password = ? WHERE User.userId = ?;")) {

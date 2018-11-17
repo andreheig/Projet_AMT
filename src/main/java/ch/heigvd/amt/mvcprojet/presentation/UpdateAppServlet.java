@@ -1,8 +1,6 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.database.ApplicationDAO;
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
-import ch.heigvd.amt.mvcprojet.database.UserDAO;
+import ch.heigvd.amt.mvcprojet.database.*;
 import ch.heigvd.amt.mvcprojet.model.Application;
 import ch.heigvd.amt.mvcprojet.model.User;
 
@@ -17,13 +15,13 @@ import java.util.Enumeration;
 public class UpdateAppServlet extends HttpServlet {
 
     @EJB
-    private ApplicationDAO appliDAO;
+    private ApplicationDAOLocal appliDAO;
 
     @EJB
-    private UserDAO userDAO;
+    private UserDAOLocal userDAO;
 
     @EJB
-    private DevelopperDAO devDAO;
+    private DevelopperDAOLocal devDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

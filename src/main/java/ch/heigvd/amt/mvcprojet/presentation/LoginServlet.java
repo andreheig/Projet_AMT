@@ -1,7 +1,9 @@
             package ch.heigvd.amt.mvcprojet.presentation;
 
             import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
+            import ch.heigvd.amt.mvcprojet.database.DevelopperDAOLocal;
             import ch.heigvd.amt.mvcprojet.database.UserDAO;
+            import ch.heigvd.amt.mvcprojet.database.UserDAOLocal;
             import ch.heigvd.amt.mvcprojet.model.User;
 
             import javax.ejb.EJB;
@@ -11,6 +13,7 @@
             import javax.servlet.http.HttpServletRequest;
             import javax.servlet.http.HttpServletResponse;
             import javax.servlet.http.HttpSession;
+            import javax.validation.constraints.Null;
             import java.io.IOException;
             import java.util.logging.Level;
             import java.util.logging.Logger;
@@ -19,10 +22,10 @@
 
 
                 @EJB
-                private UserDAO userDAO;
+                private UserDAOLocal userDAO;
 
                 @EJB
-                private DevelopperDAO devDAO;
+                private DevelopperDAOLocal devDAO;
 
                 @Override
                 public void init(ServletConfig config) throws ServletException {
@@ -68,7 +71,8 @@
 
 
                         //verifie si le user existe
-                        if (userDAO.userExist(user)){
+                        //if (userDAO.userExist(user)){
+                        if(userDAO.loadUser(email) != null){
 
                             //verifie si le password est correct
                             if (userDAO.loginMatch(user, password)) {
@@ -110,6 +114,8 @@
                         }else {
 
                             request.setAttribute("EmailNotExist", "Votre email n'est pas existante ! veuilez vous enregistrer.");
+                            response.sendRedirect("/Projet_AMT/register");
+                            return;
                         }
 
 

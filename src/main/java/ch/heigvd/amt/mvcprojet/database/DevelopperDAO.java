@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
-public class DevelopperDAO implements IPaginatedDAO {
+public class DevelopperDAO implements IPaginatedDAO, DevelopperDAOLocal {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
@@ -80,8 +80,8 @@ public class DevelopperDAO implements IPaginatedDAO {
                 developers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
                         applicationsIds, isAccountSuspended, hasToResetPassword));
 
-                pstmt.close();
             }
+            pstmt.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(DevelopperDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,6 +90,73 @@ public class DevelopperDAO implements IPaginatedDAO {
         return developers;
     }
 
+    @Override
+    public int getNumberOfDevelopper(){
+        int number = 0;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT COUNT(*) AS dev FROM Developper;")) {
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            number = rs.getInt("dev");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return number;
+    }
+
+    @Override
+    public List<Developper> findDevelopper(int page) {
+        List<Developper> developpers = new ArrayList<>();
+        try (
+                Connection connection = dataSource.getConnection()) {
+            PreparedStatement pstmt = connection.prepareStatement(
+            "SELECT * FROM User WHERE User.accountType = 'dev' ORDER BY userId LIMIT ?, 10;");
+            pstmt.setInt(1, ((page -1) * 10));
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int user_id = rs.getInt("userId");
+                String prenom = rs.getString("firstName");
+                String nom = rs.getString("lastName");
+                String email = rs.getString("email");
+                String type_compte = rs.getString("accountType");
+
+                // Load dev info
+                PreparedStatement loadDevStmt = connection.prepareStatement(
+                        "SELECT * FROM Developper WHERE userId = ?;");
+                loadDevStmt.setInt(1, user_id);
+                ResultSet devRS = loadDevStmt.executeQuery();
+                devRS.next();
+                boolean isAccountSuspended = devRS.getBoolean("suspended");
+                boolean hasToResetPassword = devRS.getBoolean("hasToResetPassword");
+                loadDevStmt.close();
+
+                PreparedStatement loadAppsStmt = connection.prepareStatement(
+                        "SELECT * FROM DevApp " +
+                                "INNER JOIN Application on Application.appId = DevApp.appId " +
+                                "WHERE userId = ?;");
+                loadAppsStmt.setInt(1, user_id);
+                ResultSet appsRS = loadAppsStmt.executeQuery();
+                List<Integer> applicationsIds = new LinkedList<>();
+                while (appsRS.next()) {
+                    applicationsIds.add(appsRS.getInt("appId"));
+                }
+                loadAppsStmt.close();
+
+                developpers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
+                        applicationsIds, isAccountSuspended, hasToResetPassword));
+
+                pstmt.close();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return developpers;
+    }
+
+    @Override
     public boolean isDeveloperSuspended(int id) {
         boolean isSuspended = false;
         try (Connection connection = dataSource.getConnection();
@@ -107,6 +174,7 @@ public class DevelopperDAO implements IPaginatedDAO {
         return isSuspended;
     }
 
+    @Override
     public void suspendDeveloper(int id) {
         if (isDeveloperSuspended(id)) {
             throw new IllegalArgumentException("Developer id = " + id + " is already suspended.");
@@ -123,6 +191,7 @@ public class DevelopperDAO implements IPaginatedDAO {
         }
     }
 
+    @Override
     public void reactivateDeveloper(int id) {
         if (!isDeveloperSuspended(id)) {
             throw new IllegalArgumentException("Developer id = " + id + " is not currently suspended.");
@@ -139,6 +208,7 @@ public class DevelopperDAO implements IPaginatedDAO {
         }
     }
 
+    @Override
     public void resetPassword(int devId, String newPassword) {
         try (Connection connection = dataSource.getConnection()) {
 
@@ -161,6 +231,7 @@ public class DevelopperDAO implements IPaginatedDAO {
         }
     }
 
+    @Override
     public void passwordWasResetted(int devId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
@@ -172,6 +243,7 @@ public class DevelopperDAO implements IPaginatedDAO {
         }
     }
 
+    @Override
     public boolean hasToResetPassword(User user) {
         boolean res = false;
         try (Connection connection = dataSource.getConnection();
@@ -188,6 +260,7 @@ public class DevelopperDAO implements IPaginatedDAO {
         return res;
     }
 
+    @Override
     public void addDevToApp(int devId, int appId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(
