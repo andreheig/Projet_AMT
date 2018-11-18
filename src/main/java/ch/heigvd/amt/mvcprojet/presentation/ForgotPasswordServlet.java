@@ -1,9 +1,7 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAOLocal;
-import ch.heigvd.amt.mvcprojet.database.UserDAO;
-import ch.heigvd.amt.mvcprojet.database.UserDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IDevelopperDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IUserDAOLocal;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -16,10 +14,10 @@ import java.io.IOException;
 public class ForgotPasswordServlet extends HttpServlet {
 
     @EJB
-    private UserDAOLocal userDAO;
+    private IUserDAOLocal userDAO;
 
     @EJB
-    private DevelopperDAOLocal devDAO;
+    private IDevelopperDAOLocal devDAO;
 
     @EJB
     MailSender mailSender;

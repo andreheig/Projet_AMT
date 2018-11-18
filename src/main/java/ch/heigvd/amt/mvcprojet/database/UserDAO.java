@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class UserDAO implements UserDAOLocal{
+public class UserDAO implements IUserDAOLocal {
 
     @EJB
     private DevelopperDAO developperDAO;

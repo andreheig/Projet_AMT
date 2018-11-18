@@ -1,9 +1,7 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAOLocal;
-import ch.heigvd.amt.mvcprojet.database.UserDAO;
-import ch.heigvd.amt.mvcprojet.database.UserDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IDevelopperDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IUserDAOLocal;
 import ch.heigvd.amt.mvcprojet.model.Developper;
 import ch.heigvd.amt.mvcprojet.model.User;
 
@@ -16,16 +14,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
 
 
 public class AdminServlet extends HttpServlet {
 
     @EJB
-    private UserDAOLocal userDAO;
+    private IUserDAOLocal userDAO;
 
     @EJB
-    private DevelopperDAOLocal developperDAO;
+    private IDevelopperDAOLocal developperDAO;
 
     @EJB
     private MailSender mailSender;
@@ -33,26 +30,9 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
         PaginationHelper.addPaginationAttributesToRequest(request, developperDAO, null,"developpers");
         request.getRequestDispatcher("/WEB-INF/pages/admin.jsp").forward(request, response);
-        */
-
-            HttpSession session = request.getSession();
-            // Permet la pagination
-            int page = 1;
-            int recordPerPage = 10;
-            if(request.getParameter("page") != null)
-                page = Integer.parseInt(request.getParameter("page"));
-            int nbDev = developperDAO.getNumberOfDevelopper();
-            int nbPage = (int) Math.ceil(nbDev * 1.0 / recordPerPage);
-        request.setAttribute("nbPage", nbPage);
-        request.setAttribute("page", page);
-        List<Developper> list = developperDAO.findDevelopper(page);
-        //LOGGER.log(Level.INFO, "list", session.getAttributeNames());
-        request.setAttribute("developpers", list);
-        request.getRequestDispatcher("/WEB-INF/pages/admin.jsp").forward(request, response);
-        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -15,13 +15,13 @@ import java.util.Enumeration;
 public class UpdateAppServlet extends HttpServlet {
 
     @EJB
-    private ApplicationDAOLocal appliDAO;
+    private IApplicationDAOLocal appliDAO;
 
     @EJB
-    private UserDAOLocal userDAO;
+    private IUserDAOLocal userDAO;
 
     @EJB
-    private DevelopperDAOLocal devDAO;
+    private IDevelopperDAOLocal devDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

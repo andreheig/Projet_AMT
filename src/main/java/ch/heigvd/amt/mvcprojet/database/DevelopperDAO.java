@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 @Stateless
 @LocalBean
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class DevelopperDAO implements IPaginatedDAO, DevelopperDAOLocal {
+public class DevelopperDAO implements IDevelopperDAOLocal {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;
@@ -91,72 +91,6 @@ public class DevelopperDAO implements IPaginatedDAO, DevelopperDAOLocal {
         }
 
         return developers;
-    }
-
-    @Override
-    public int getNumberOfDevelopper(){
-        int number = 0;
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(
-                     "SELECT COUNT(*) AS dev FROM Developper;")) {
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            number = rs.getInt("dev");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return number;
-    }
-
-    @Override
-    public List<Developper> findDevelopper(int page) {
-        List<Developper> developpers = new ArrayList<>();
-        try (
-                Connection connection = dataSource.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(
-            "SELECT * FROM User WHERE User.accountType = 'dev' ORDER BY userId LIMIT ?, 10;");
-            pstmt.setInt(1, ((page -1) * 10));
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                int user_id = rs.getInt("userId");
-                String prenom = rs.getString("firstName");
-                String nom = rs.getString("lastName");
-                String email = rs.getString("email");
-                String type_compte = rs.getString("accountType");
-
-                // Load dev info
-                PreparedStatement loadDevStmt = connection.prepareStatement(
-                        "SELECT * FROM Developper WHERE userId = ?;");
-                loadDevStmt.setInt(1, user_id);
-                ResultSet devRS = loadDevStmt.executeQuery();
-                devRS.next();
-                boolean isAccountSuspended = devRS.getBoolean("suspended");
-                boolean hasToResetPassword = devRS.getBoolean("hasToResetPassword");
-                loadDevStmt.close();
-
-                PreparedStatement loadAppsStmt = connection.prepareStatement(
-                        "SELECT * FROM DevApp " +
-                                "INNER JOIN Application on Application.appId = DevApp.appId " +
-                                "WHERE userId = ?;");
-                loadAppsStmt.setInt(1, user_id);
-                ResultSet appsRS = loadAppsStmt.executeQuery();
-                List<Integer> applicationsIds = new LinkedList<>();
-                while (appsRS.next()) {
-                    applicationsIds.add(appsRS.getInt("appId"));
-                }
-                loadAppsStmt.close();
-
-                developpers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
-                        applicationsIds, isAccountSuspended, hasToResetPassword));
-
-            }
-            pstmt.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return developpers;
     }
 
     @Override

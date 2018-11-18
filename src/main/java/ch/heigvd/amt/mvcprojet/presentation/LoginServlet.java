@@ -1,9 +1,7 @@
             package ch.heigvd.amt.mvcprojet.presentation;
 
-            import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
-            import ch.heigvd.amt.mvcprojet.database.DevelopperDAOLocal;
-            import ch.heigvd.amt.mvcprojet.database.UserDAO;
-            import ch.heigvd.amt.mvcprojet.database.UserDAOLocal;
+            import ch.heigvd.amt.mvcprojet.database.IDevelopperDAOLocal;
+            import ch.heigvd.amt.mvcprojet.database.IUserDAOLocal;
             import ch.heigvd.amt.mvcprojet.model.User;
 
             import javax.ejb.EJB;
@@ -13,19 +11,16 @@
             import javax.servlet.http.HttpServletRequest;
             import javax.servlet.http.HttpServletResponse;
             import javax.servlet.http.HttpSession;
-            import javax.validation.constraints.Null;
             import java.io.IOException;
-            import java.util.logging.Level;
-            import java.util.logging.Logger;
 
             public class LoginServlet extends javax.servlet.http.HttpServlet {
 
 
                 @EJB
-                private UserDAOLocal userDAO;
+                private IUserDAOLocal userDAO;
 
                 @EJB
-                private DevelopperDAOLocal devDAO;
+                private IDevelopperDAOLocal devDAO;
 
                 @Override
                 public void init(ServletConfig config) throws ServletException {
