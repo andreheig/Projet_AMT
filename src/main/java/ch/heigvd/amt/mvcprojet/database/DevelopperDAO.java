@@ -146,8 +146,8 @@ public class DevelopperDAO implements IPaginatedDAO, DevelopperDAOLocal {
                 developpers.add(new Developper(user_id, prenom, nom, email, "", type_compte,
                         applicationsIds, isAccountSuspended, hasToResetPassword));
 
-                pstmt.close();
             }
+            pstmt.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
