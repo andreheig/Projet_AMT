@@ -109,7 +109,7 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 `REQUIRED` `REQUIRED` : suppression OK
 
-![suppression ok REQUIRED_NEW](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/suppressionOk.png)
+![suppression ok](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/suppressionOk.png)
 
 ![SQL suppression ok](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLSuppressionOk.png)
 
