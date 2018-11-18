@@ -20,7 +20,6 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain ) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         HttpServletResponse httpResponse = (HttpServletResponse) resp;
-
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         if(path.startsWith("/static")){
             // Permet de savoir que l'on souhaite accéder au feuilles de style
@@ -47,7 +46,6 @@ public class LoginFilter implements Filter {
             else{
                 chain.doFilter(httpRequest, httpResponse);
             }
-            return;
         }
         else{
             if(path.contains("dev") && !path.contains("devApp")){
@@ -56,6 +54,7 @@ public class LoginFilter implements Filter {
             else {
                 chain.doFilter(httpRequest, httpResponse);
             }
+            return;
         }
     }
 
