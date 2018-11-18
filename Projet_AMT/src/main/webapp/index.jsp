@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+<% response.sendRedirect("Projet_AMT/home.jsp"); %>
 </body>
 </html>
