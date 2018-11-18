@@ -1,7 +1,7 @@
 package ch.heigvd.amt.mvcprojet.web;
 
-import ch.heigvd.amt.mvcprojet.database.ApplicationDAOLocal;
-import ch.heigvd.amt.mvcprojet.database.UserDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IApplicationDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IUserDAOLocal;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
@@ -13,10 +13,10 @@ import java.io.IOException;
 public class FrontControllerServlet extends javax.servlet.http.HttpServlet {
 
     @EJB
-    UserDAOLocal userDAOLocal;
+    IUserDAOLocal userDAOLocal;
 
     @EJB
-    ApplicationDAOLocal applicationDAOLocal;
+    IApplicationDAOLocal applicationDAOLocal;
 
     final static int INSERTEXIST = 0;
     final static int DELETENOTWORK = 1;

@@ -49,7 +49,7 @@ public class LoginFilter implements Filter {
             }
         }
         else{
-            if(path.contains("dev")){
+            if(path.contains("dev") && !path.contains("devApp")){
                 httpRequest.getRequestDispatcher( "/admin" ).forward( httpRequest, httpResponse );
             }
             chain.doFilter(httpRequest, httpResponse);

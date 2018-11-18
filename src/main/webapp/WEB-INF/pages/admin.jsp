@@ -62,29 +62,7 @@
         </c:forEach>
             </table>
 
-<%--<jsp:include page="pagination.jsp" />--%>
-<%--For displaying Previous link except for the 1st page --%>
-<c:if test="${page != 1}">
-    <td><a id="Previous" href="admin?page=${page - 1}">Previous</a></td>
-</c:if>
-<%--For displaying Page numbers.
-The when condition does not display a link for the current page--%>
-
-        <c:forEach begin="1" end="${nbPage}" var="i">
-            <c:choose>
-                <c:when test="${page eq i}">
-                    <td>${i}</td>
-                </c:when>
-                <c:otherwise>
-                    <td><a id="pagesNumbers" href="admin?page=${i}">${i}</a></td>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-
-<%--For displaying Next link --%>
-<c:if test="${page lt nbPage}">
-    <td><a id="Next" href="admin?page=${page + 1}">Next</a></td>
-</c:if>
+<jsp:include page="pagination.jsp" />
 
 </body>
 </html>

@@ -1,7 +1,6 @@
 package ch.heigvd.amt.mvcprojet.database;
 
 import ch.heigvd.amt.mvcprojet.model.Application;
-import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
@@ -19,7 +18,7 @@ import java.util.logging.Logger;
 @Stateless
 @LocalBean
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class ApplicationDAO implements IPaginatedDAO, ApplicationDAOLocal {
+public class ApplicationDAO implements IApplicationDAOLocal {
 
     @Resource(lookup = "jdbc/Projet_AMT")
     private DataSource dataSource;

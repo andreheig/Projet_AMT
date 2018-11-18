@@ -1,13 +1,10 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAO;
-import ch.heigvd.amt.mvcprojet.database.DevelopperDAOLocal;
-import ch.heigvd.amt.mvcprojet.database.UserDAO;
-import ch.heigvd.amt.mvcprojet.database.UserDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IDevelopperDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IUserDAOLocal;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +15,10 @@ import java.io.IOException;
 public class ChangePasswordServlet extends HttpServlet {
 
     @EJB
-    private UserDAOLocal userDAO;
+    private IUserDAOLocal userDAO;
 
     @EJB
-    private DevelopperDAOLocal developperDAO;
+    private IDevelopperDAOLocal developperDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {

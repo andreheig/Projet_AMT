@@ -1,12 +1,10 @@
 package ch.heigvd.amt.mvcprojet.presentation;
 
-import ch.heigvd.amt.mvcprojet.database.ApplicationDAO;
-import ch.heigvd.amt.mvcprojet.database.ApplicationDAOLocal;
+import ch.heigvd.amt.mvcprojet.database.IApplicationDAOLocal;
 import ch.heigvd.amt.mvcprojet.model.Application;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,7 @@ import java.util.UUID;
 public class NewAppServlet extends HttpServlet {
 
     @EJB
-    private ApplicationDAOLocal appliDAO;
+    private IApplicationDAOLocal appliDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
