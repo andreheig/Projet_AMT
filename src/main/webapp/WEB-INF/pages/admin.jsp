@@ -69,8 +69,7 @@
 </c:if>
 <%--For displaying Page numbers.
 The when condition does not display a link for the current page--%>
-<table border="1" cellpadding="5" cellspacing="5">
-    <tr>
+
         <c:forEach begin="1" end="${nbPage}" var="i">
             <c:choose>
                 <c:when test="${page eq i}">
@@ -81,8 +80,7 @@ The when condition does not display a link for the current page--%>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
-    </tr>
-</table>
+
 <%--For displaying Next link --%>
 <c:if test="${page lt nbPage}">
     <td><a id="Next" href="admin?page=${page + 1}">Next</a></td>
