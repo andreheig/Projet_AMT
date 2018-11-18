@@ -47,12 +47,15 @@ public class LoginFilter implements Filter {
             else{
                 chain.doFilter(httpRequest, httpResponse);
             }
+            return;
         }
         else{
             if(path.contains("dev") && !path.contains("devApp")){
                 httpRequest.getRequestDispatcher( "/admin" ).forward( httpRequest, httpResponse );
             }
-            chain.doFilter(httpRequest, httpResponse);
+            else {
+                chain.doFilter(httpRequest, httpResponse);
+            }
         }
     }
 

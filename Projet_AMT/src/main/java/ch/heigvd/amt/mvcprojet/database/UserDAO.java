@@ -77,8 +77,9 @@ public class UserDAO implements IUserDAOLocal {
              PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.email = ?;")) {
             pstmt.setString(1, userEmail);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            user = getUserFromResultSet(rs);
+            if(rs.next()){
+                user = getUserFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,8 +93,9 @@ public class UserDAO implements IUserDAOLocal {
              PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM User WHERE User.userId = ?;")) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            user = getUserFromResultSet(rs);
+            if(rs.next()){
+                user = getUserFromResultSet(rs);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
