@@ -1,0 +1,13 @@
+Gamify Ultimate
+gamify.ultimate@gmail.com
+Password123@
+01.01.2000
+Non précisé
+
+Petit tuto JavaMail session:
+https://medium.com/@swhp/sending-email-with-payara-and-gmail-56b0b5d56882
+
+issue
+
+
+ajouter le .jar dans payara5/glassfish/bin
