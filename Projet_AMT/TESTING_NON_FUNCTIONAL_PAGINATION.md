@@ -94,7 +94,7 @@ Une fois le test fini, on peut voir sur le graphique
 
 > Response Times Over Time 
 
-![Responses Times Over Time admin](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/ResponsesTimesOverTimedev.png)
+![Responses Times Over Time admin](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/ResponsesTimesOverTimeDev.png)
 
 On peut voir que nos réponses se situent entre 0 et  58 ms (valeurs obtenues du graphique). Grâce à la représentation en fonction du pourcentage, on peut voir que ces requêtes mettent un temps restreint pour arriver.
 
