@@ -118,4 +118,13 @@
         <url-pattern>/forgotPassword</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>FrontControllerServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.web.FrontControllerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontControllerServlet</servlet-name>
+        <url-pattern>/front</url-pattern>
+    </servlet-mapping>
+
 </web-app>
