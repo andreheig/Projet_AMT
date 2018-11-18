@@ -1,0 +1,130 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+  <display-name>Archetype Created Web Application</display-name>
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
+
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>ch.heigvd.amt.mvcprojet.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>DeconnexionServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.DeconnexionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeconnexionServlet</servlet-name>
+        <url-pattern>/deconnexion</url-pattern>
+    </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.RegisterServlet</servlet-class>
+  </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.HomeServlet</servlet-class>
+  </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>ch.heigvd.amt.mvcprojet.presentation.LoginServlet</servlet-class>
+  </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePass</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeveloperServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.DeveloperServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeveloperServlet</servlet-name>
+        <url-pattern>/dev</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateAppServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.UpdateAppServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateAppServlet</servlet-name>
+        <url-pattern>/dev/updateApp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NewAppServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.NewAppServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewAppServlet</servlet-name>
+        <url-pattern>/dev/newApp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DevAppsForAdminServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.DevAppsForAdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DevAppsForAdminServlet</servlet-name>
+        <url-pattern>/admin/devApps</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.presentation.ForgotPasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordServlet</servlet-name>
+        <url-pattern>/forgotPassword</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FrontControllerServlet</servlet-name>
+        <servlet-class>ch.heigvd.amt.mvcprojet.web.FrontControllerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontControllerServlet</servlet-name>
+        <url-pattern>/front</url-pattern>
+    </servlet-mapping>
+
+</web-app>
