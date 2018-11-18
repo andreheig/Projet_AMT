@@ -1,10 +1,13 @@
 package ch.heigvd.amt.mvcprojet.database;
 
 import ch.heigvd.amt.mvcprojet.model.Application;
+import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class ApplicationDAO implements IPaginatedDAO, ApplicationDAOLocal {
 
     @Resource(lookup = "jdbc/Projet_AMT")
@@ -174,5 +178,24 @@ public class ApplicationDAO implements IPaginatedDAO, ApplicationDAOLocal {
         } catch (SQLException ex) {
             Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public int countApplications() {
+        int appDevsNumbers = -1;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(
+                     "SELECT COUNT(*) AS AppDevsNumbers FROM Application ORDER BY Application.appId ;")) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                appDevsNumbers = rs.getInt("AppDevsNumbers");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return appDevsNumbers;
+
     }
 }

@@ -33,5 +33,7 @@ public interface UserDAOLocal {
 
     public void updatePassword(User user);
 
-    //private int getLastInseredID();
+    public void deleteUser(User user, boolean throwExeption);
+
+    public int countUsers();
 }

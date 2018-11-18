@@ -6,6 +6,8 @@ import ch.heigvd.amt.mvcprojet.model.User;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class DevelopperDAO implements IPaginatedDAO, DevelopperDAOLocal {
 
     @Resource(lookup = "jdbc/Projet_AMT")

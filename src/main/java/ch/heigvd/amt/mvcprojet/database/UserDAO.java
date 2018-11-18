@@ -1,10 +1,13 @@
 package ch.heigvd.amt.mvcprojet.database;
 
+import ch.heigvd.amt.mvcprojet.model.Application;
 import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,10 +16,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Stateless
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class UserDAO implements UserDAOLocal{
 
     @EJB
     private DevelopperDAO developperDAO;
+
+    @EJB
+    private ApplicationDAO applicationDAO;
 
     //@Stateless
     //protected static Connection con;
@@ -106,9 +113,24 @@ public class UserDAO implements UserDAOLocal{
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException();
         }
-        int userID = getLastInseredID();
-        if(userID != 0){
+        int userID = -1;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement("SELECT userID FROM User WHERE firstName = ? " +
+                             "AND lastName = ? AND email = ?;")) {
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
+            pstmt.setString(3, user.getEmail());
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                userID = rs.getInt("userId");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if(userID != -1){
             try (Connection connection = dataSource.getConnection();
                  PreparedStatement pstmt = connection.prepareStatement("INSERT INTO Developper (userId, suspended, hasToResetPassword)" +
                          " VALUES (?, ?, ?);")) {
@@ -118,6 +140,7 @@ public class UserDAO implements UserDAOLocal{
                 pstmt.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException();
             }
             return true;
         }
@@ -170,22 +193,48 @@ public class UserDAO implements UserDAOLocal{
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException();
         }
         developperDAO.passwordWasResetted(user.getUserId());
     }
 
-    private int getLastInseredID() {
-        int user_id = 0;
+    @Override
+    public void deleteUser(User user, boolean throwExeption) {
+        for (Application app : applicationDAO.findUserApplication(user.getUserId())) {
+            applicationDAO.deleteAppli(app.getId());
+        }
+        if (throwExeption){
+            throw new RuntimeException();
+        }
+        else {
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement deleteDevStmt = connection.prepareStatement(
+                         "DELETE FROM Developper WHERE userId = ?;");
+                 PreparedStatement deleteUserStmt = connection.prepareStatement(
+                         "DELETE FROM User WHERE userId = ?;")) {
+                deleteDevStmt.setInt(1, user.getUserId());
+                deleteDevStmt.executeUpdate();
+                deleteUserStmt.setInt(1, user.getUserId());
+                deleteUserStmt.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(ApplicationDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public int countUsers() {
+        int users = -1;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement("SELECT LAST_INSERT_ID();")) {
+             PreparedStatement pstmt = connection.prepareStatement("SELECT COUNT(*) AS DevNumbers FROM User WHERE User.accountType = 'dev';")) {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                user_id = rs.getInt("LAST_INSERT_ID()");
+                users = rs.getInt("DevNumbers");
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return user_id;
+        return users;
     }
 
 }

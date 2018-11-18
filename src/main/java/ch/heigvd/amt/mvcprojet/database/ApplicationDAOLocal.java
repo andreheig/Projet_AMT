@@ -2,6 +2,7 @@ package ch.heigvd.amt.mvcprojet.database;
 
 
 import ch.heigvd.amt.mvcprojet.model.Application;
+import ch.heigvd.amt.mvcprojet.model.User;
 
 import javax.ejb.Local;
 import java.sql.Connection;
@@ -25,4 +26,6 @@ public interface ApplicationDAOLocal {
     public void updateAppli(Application appli);
 
     public void deleteAppli(int appId);
+
+    public int countApplications();
 }
