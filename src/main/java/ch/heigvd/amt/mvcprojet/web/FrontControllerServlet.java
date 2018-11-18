@@ -22,8 +22,6 @@ public class FrontControllerServlet extends javax.servlet.http.HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        long numberOfUserBefore = -1;
-        long numberOfUserAfter = -1;
 
         int numberOfUserBeforeFakeUserInsert = -1;
         int numberOfUserAfterFakeUserInsert = -1;
@@ -43,12 +41,6 @@ public class FrontControllerServlet extends javax.servlet.http.HttpServlet {
         int numberOfAppsBeforeUserDelete = -1;
         int numberOfAppsAfterUserDelete = -1;
         int numberOfAppsOfUserDelete = -1;
-
-        int numberOfAppsBefore = -1;
-        int numberOfAppsAfter = -1;
-
-
-
 
 
         try {
