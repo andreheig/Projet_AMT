@@ -34,15 +34,15 @@ Pour cela, chaque arborescence de JMeter possède une boucle d'un certain nombre
 
 Pour lancer le test, il est possible de cliquer directement sur `testJMeter.jmx` ou de lancer JMeter, et d'ouvrir le fichier de test. Une fois le test ouvert, vous aurez donc une arborescence comme celle-ci:
 
-![présentation arborescence](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/presentation arborescence.png)
+![présentation arborescence](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/presentationArborescence.png)
 
 Vous pouvez ensuite lancer le test en cliquant sur la flèche verte:
 
-![flèche lancement](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/fleche lancement.png)
+![flèche lancement](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/flecheLancement.png)
 
 Ou en allant dans le menu lancer, puis lancer:
 
-![menu de lancement](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/menu de lancement.png)
+![menu de lancement](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/menuDeLancement.png)
 
 Une fois le test lancé, vous pouvez vous balader dans les différents rapports (ou autre chose) afin de voir les différents résultats. Ce mode n'est pas conseillé lords de réels tests de charge.
 
@@ -54,11 +54,11 @@ Pour cela, il faut ouvrir un terminal de commande, puis tapper:
 
 `<pathToJMeterBin>jmeter -n -t <testPlan.jmx> -l logfile.jtl -e -o <folderOutputForResult>`  
 
-![CLI lancement](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/CLI lancement.png)
+![CLI lancement](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/CLILancement.png)
 
 Ensuite, il suffit d'attendre, et les résultats seront disponibles dans un dossier créer grâce à l'option -e -o.
 
-![folder output](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/folder output.png)
+![folder output](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/folderOutput.png)
 
 
 
@@ -72,13 +72,13 @@ Une fois le test fini, on peut voir sur le graphique
 
 > Response Times Over Time 
 
-![Responses Times Over Time admin](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/Responses Times Over Time admin.png)
+![Responses Times Over Time admin](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/ResponsesTimesOverTimeAdmin.png)
 
 On peut voir que nos réponses se situent entre 0 et  237 ms (valeurs obtenues du graphique). Grâce à la représentation en fonction du pourcentage, on peut voir que ces requêtes mettent un certain temps pour arriver:
 
 > Response Time Percentiles
 
-![Response Time Percentiles admin](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/Response Time Percentiles admin.png)
+![Response Time Percentiles admin](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/ResponseTimePercentilesAdmin.png)
 
 Après un zoom autour des 80 - 100%, on peut voir que le temps de réponse est supérieur à 127 ms (temps au minimum d'une des requêtes à 90%).
 
@@ -94,13 +94,13 @@ Une fois le test fini, on peut voir sur le graphique
 
 > Response Times Over Time 
 
-![Responses Times Over Time admin](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/Responses Times Over Time dev.png)
+![Responses Times Over Time admin](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/ResponsesTimesOverTimedev.png)
 
 On peut voir que nos réponses se situent entre 0 et  58 ms (valeurs obtenues du graphique). Grâce à la représentation en fonction du pourcentage, on peut voir que ces requêtes mettent un temps restreint pour arriver.
 
 > Response Time Percentiles
 
-![Response Time Percentiles admin](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels pagination/Response Time Percentiles dev.png)
+![Response Time Percentiles admin](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsPagination/ResponseTimePercentilesDev.png)
 
 Après un zoom autour des 80 - 100%, on peut voir que le temps de réponse est supérieur à 55ms (temps au minimum d'une des requêtes à 90%).
 

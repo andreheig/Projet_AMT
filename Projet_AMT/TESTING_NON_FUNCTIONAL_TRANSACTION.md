@@ -45,27 +45,27 @@ Voici la présentations de ces variables, permettant d'obtenir plusieurs cas pos
 
 Voici l'utilisateur que l'on tente d'insérer à double:
 
-![SQL avant insertion user](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL avant insertion user.png)
+![SQL avant insertion user](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLAvantInsertionUser.png)
 
 La modification des attributs de transaction dans la classe `UserDAO` comme suit permet:
 
 `REQUIRED` : pas de modifications, lève une exception récupérable
 
-![insertion échoué](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/insertion echoue.png)
+![insertion échoué](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/insertionEchoue.png)
 
 `REQUIRES_NEW` : idem
 
 `MANDATORY` : lève une exception non récupérable, rien n'est ajouté
 
-![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/erreur_irrecuperable.png)
+![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
 `NOT_SUPPORTED` : l'utilisateur est inséré! Lève une exception récupérable (inséré uniquement dans la table `User`, pas présent dans `Developper`)
 
-![insertion échoué partiellement](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/insertion echoue partiellement.png)
+![insertion échoué partiellement](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/insertionEchouePartiellement.png)
 
 
 
-![SQL après insertion user](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL apres insertion user.png)
+![SQL après insertion user](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLApresInsertionUser.png)
 
 `SUPPORTS` : idem
 
@@ -75,7 +75,7 @@ La modification des attributs de transaction dans la classe `UserDAO` comme suit
 
 Voici ce que contient les tables pour tester cette partie:
 
-![SQL user 6 (suppression partielle)](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL user 6 (suppression partielle).png)
+![SQL user 6 (suppression partielle)](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLUser6(suppressionPartielle).png)
 
 La modification des attributs de transaction dans la classe `UserDAO` et `ApplicationDAO` comme suit permet:
 
@@ -83,17 +83,17 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 `REQUIRES_NEW` `REQUIRES_NEW` : Suppressions des applications (tout est supprimé dans la table `DevApp`, mais la table `Developper` ne se trouve pas touché malgré l'exception placé après)! Lève une exception récupérable
 
-![SQL suppression partielle 6 REQUIRES_NEW](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL suppression partielle 6 REQUIRES_NEW.png)
+![SQL suppression partielle 6 REQUIRES_NEW](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLSuppressionPartielle6REQUIRES_NEW.png)
 
-![suppression_partielle](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/suppression_partielle.png)
+![suppression_partielle](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/suppressionPartielle.png)
 
 `MANDATORY` `MANDATORY` : lève une exception non récupérable, rien n'est supprimé
 
-![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/erreur_irrecuperable.png)
+![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
 `NOT_SUPPORTED` `NOT_SUPPORTED` : Suppressions des applications de l'utilisateur, et partiellement de l'utilisateur (tout est supprimé dans la table `DevApp`et `Developper`, uniquement la table `User` ne se trouve pas touché)
 
-![SQL suppression partielle 6](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL suppression partielle 6.png)
+![SQL suppression partielle 6](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLSuppressionPartielle6.png)
 
 `SUPPORTS` `SUPPORTS` : idem
 
@@ -103,21 +103,21 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 Voici ce que contient une partie de la table pour ce test:
 
-![SQL user 4 (suppression ok)](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL user 4 (suppression ok).png)
+![SQL user 4 (suppression ok)](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLUser4(suppressionOk).png)
 
 La modification des attributs de transaction dans la classe `UserDAO` et `ApplicationDAO` comme suit permet (malgré que beaucoup de cas se révèlent sans intérêt étant donnée que l'on souhaite que la transaction soit correctement effectué) :
 
 `REQUIRED` `REQUIRED` : suppression OK
 
-![suppression ok REQUIRED_NEW](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/suppression ok REQUIRED_NEW.png)
+![suppression ok REQUIRED_NEW](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/suppressionOk.png)
 
-![SQL suppression ok](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/SQL suppression ok.png)
+![SQL suppression ok](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/SQLSuppressionOk.png)
 
 `REQUIRES_NEW` `REQUIRES_NEW` : idem
 
 `MANDATORY` `MANDATORY` : lève une exception non récupérable, rien n'est supprimé
 
-![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/erreur_irrecuperable.png)
+![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
 `NOT_SUPPORTED` `NOT_SUPPORTED` : suppression OK
 
@@ -132,7 +132,7 @@ Les différents test on permis de voir que :
 - l'option `MANDATORY` ne permet pas d'avoir des transaction d'EJB imbriqué, mais permet de protéger les transaction en ne modifiant aucune table dans le cas d'une erreur.
 - les options `NOT_SUPPORTED`, `SUPPORTS` et `NEVER`, permettent de prendre en compte les changements, jusqu'à l'arrivé de l'erreur, i.e. pas de roll-back. Cette option implique l'incrémentation des id malgré une erreur (dans le cas d'insertions pour les test effectué).
 
-![grignotage des id lors d'erreur d'insertions](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/test non fonctionnels transaction/grignotage_id.png)
+![grignotage des id lors d'erreur d'insertions](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/grignotageId.png)
 
 - l'option `REQUIRES_NEW` permet d'annuler une transaction s'il y a une erreur au milieu, i.e. faire un roll-back (les transaction d'un EJB sont indépendantes les unes des autres).
 - l'option `REQUIRED` permet d'annuler entièrement une transaction si une erreur survient, i.e. fait un roll-back

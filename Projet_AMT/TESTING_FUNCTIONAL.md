@@ -35,15 +35,15 @@ Voici donc les tests disponibles dans le programme:
 
 Afin de pouvoir exécuter le pannel de tests il est primordiale d'avoir Java installé, ainsi qu'un IDE pour plus de convivialité (ici IntelliJ a été utilisé). Bien entendu, le projet `Projet_AMT` doit tourner quelque part pendant ces tests. Une fois le projet `Test_Projet` ouvert, il suffit de cliquer avec le bouton droit et faire `Run 'Test'` sur le fichier `test.java` situé sous `Test_Projet\src\test\java\selenium\test,java` 
 
-![Lancement des tests](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/testFonctionnels/captureLancement test.png)
+![Lancement des tests](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testFonctionnels/captureLancementTest.png)
 
 Puis les test vont commencer à se lancer, ainsi que le navigateur (dans le cas des tests, ce sera chrome):
 
-![progression des tests](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/testFonctionnels/captureProgressionTest1.png)
+![progression des tests](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testFonctionnels/captureProgressionTest1.png)
 
 Au final, vous devriez avoir une fenêtre comme ceci:
 
-![fin de test OK](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/testFonctionnels/captureFinTestOk.png)
+![fin de test OK](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testFonctionnels/captureFinTestOk.png)
 
 
 
@@ -51,7 +51,7 @@ Au final, vous devriez avoir une fenêtre comme ceci:
 
 Afin de permettre une flexibilité dans les test (de le relancer plusieurs fois d'affilé), certaines variables ont été introduites:
 
-![constantes](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/testFonctionnels/Const.png)
+![constantes](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testFonctionnels/Const.png)
 
 - `BASEURL` : permet de spécifier l'URL de base de l'application a tester
 - `MINAPPLICATION` : permet de fixer le nombre minimum d'applications qui sera créer par la boucle dans le test `createAppCheckPaginationLogoutAndTryURL` 
@@ -64,6 +64,6 @@ Afin de permettre une flexibilité dans les test (de le relancer plusieurs fois 
 
 Ces variables sont utiles si le projet est déployé ailleur que sur localhost (`BASEURL`), si le code source vient à être modifié, ou simplement si le nombre de développeur augmente (ce qui est le cas avec le test `register` ou `createAppCheckPaginationLogoutAndTryURL`). Ces modifications peuvent alors engendrer des test qui ne passent plus, et qui amenraient des changements similaires à ceux-ci:
 
-![erreur test](https://github.com/andreheig/Projet_AMT/Projet_AMT/.md/testFonctionnels/captureErreurPagination.png)
+![erreur test](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testFonctionnels/captureErreurPagination.png)
 
 Vous pouvez les ajuster en vous connectant à l'application et en regardant le nombre actuel.
