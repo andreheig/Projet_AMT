@@ -17,8 +17,9 @@ RUN ${PAYARA_PATH}/bin/asadmin start-domain domain1 && \
     --transprotocolclass=com.sun.mail.smtp.SMTPTransport \
     --password Password123@ \
     --auth true \
-    --property mail.smtp.auth=true:mail.smtp.user=gamify.ultimate@gmail.com:mail.smtp.password=gamify.ultimate:mail.smtp.port=465:mail.smtp.socketFactory.port=465:mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory java/mail/AMTProject && \
+    --property mail.smtp.auth=true:mail.smtp.user=gamify.ultimate@gmail.com:mail.smtp.password=Password123@:mail.smtp.port=465:mail.smtp.socketFactory.port=465:mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory java/mail/AMTProject && \
   ${PAYARA_PATH}/bin/asadmin --user=admin --passwordfile=/opt/pwdfile restart-domains domain1
 
 COPY Projet_AMT.war ${AUTODEPLOY_DIR}
 COPY Driver /opt/payara5/glassfish/domains/domain1/lib
+COPY MailDriver /opt/payara5/glassfish/lib
