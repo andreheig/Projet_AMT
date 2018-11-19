@@ -22,7 +22,7 @@
     </tr>
 </td>
 <td>
-    <form method="POST" action="deconnexion">
+    <form method="POST" action="${pageContext.request.contextPath}/deconnexion">
         <input type="submit" name ="deco-${user.userId}" value="Log out">
     </form>
 </td>
