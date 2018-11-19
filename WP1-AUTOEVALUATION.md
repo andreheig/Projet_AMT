@@ -8,8 +8,8 @@
 | As an **administrator**, I can see a list of registered application developers, with their details. The user interface is designed to work well even if the application developer has created 1'000 applications (pagination). | FR                          | 0.5  | Done | |
 | As an **administrator**, I can suspend an account. When the developer tries to login, he is blocked and sees an informative error message. | FR                          | 0.5  | Done | |
 | As an **administrator**, I can reset a user password. The password is automatically generated and sent by e-mail to the application developer. When the developer logs in, he is obliged to change his password immediately. | FR |0.5 | Done | |
-| As an user (administrator or developer) i can reset my password (forget password fonctionnality) | FR |0.5 | Done | |
-| As an application developer i can add other developer to my application project | FR |0.5 | | |
+| As an user (**administrator** or **developer**) i can reset my password (forget password fonctionnality) | FR |0.5 | Done | |
+| As an **application developer** i can add other developer to my application project | FR |0.5 | Done | |
 | | **Total** | **4.0** |||
 | As a **user**, I have a good UI/UX experience (nice design, clear navigation, informative error messages, etc.) | NFR-usability |0.5 | Half-Done | |
 | As a **spiritual guide**, I can clone the repo, move to a documented repository and type `docker-compose up` to start the system. I can then access it with my browser. | NFR-maintainability         | 0.5  | Done | Maybe version of docker-compose can make problem, 3.7 works on windows. docker version 3.5 & Payara 5.183 works on linux |
