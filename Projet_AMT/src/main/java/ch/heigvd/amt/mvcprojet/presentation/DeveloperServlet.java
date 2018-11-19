@@ -21,38 +21,16 @@ public class DeveloperServlet extends HttpServlet {
     @EJB
     private IApplicationDAOLocal applicationDAO;
 
-    private static final Logger LOGGER = Logger.getLogger(AdminServlet.class.getName());
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        List<Application> list = applicationDAO.findUserApplication(user.getUserId());
-        // Permet la pagination
-        int page = 1;
-        int recordPerPage = 10;
-        if(request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page"));
-        int nbApp = list.size();
-        int nbPage = (int) Math.ceil(nbApp * 1.0 / recordPerPage);
-
-        if(page*recordPerPage >= nbApp){
-            list = list.subList(((page -1) *recordPerPage), nbApp);
-        }
-        else{
-            list = list.subList(((page -1) *recordPerPage), page * recordPerPage);
-        }
-        request.setAttribute("nbPage", nbPage);
-        request.setAttribute("page", page);
-
+        int devId = ((User) session.getAttribute("user")).getUserId();
         response.setContentType("text/html;charset=UTF-8");
-        LOGGER.log(Level.INFO, "list", session.getAttributeNames());
-        request.setAttribute("applications", list);
+        PaginationHelper.addPaginationAttributesToRequest(request, applicationDAO, devId, "apps");
         request.getRequestDispatcher("/WEB-INF/pages/dev.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Enumeration<String> parameterNames = request.getParameterNames();
         while(parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();

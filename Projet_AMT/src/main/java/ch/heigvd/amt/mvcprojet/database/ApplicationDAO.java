@@ -45,9 +45,10 @@ public class ApplicationDAO implements IApplicationDAOLocal {
         List<Application> apps = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pstmt = connection.prepareStatement(
-                    "SELECT * FROM DevApp WHERE userId = ? ORDER BY appId LIMIT ?, " + nbMaxElementsPerPage + ";");
+                    "SELECT * FROM DevApp WHERE userId = ? ORDER BY appId LIMIT ?, ?;");
             pstmt.setInt(1, developerId);
-            pstmt.setInt(2, ((page -1) * nbMaxElementsPerPage));
+            pstmt.setInt(2, ((page - 1) * nbMaxElementsPerPage));
+            pstmt.setInt(3, nbMaxElementsPerPage);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int appId = rs.getInt("appId");
