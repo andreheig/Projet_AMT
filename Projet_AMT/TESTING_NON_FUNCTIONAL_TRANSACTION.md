@@ -47,7 +47,7 @@ La modification des attributs de transaction dans la classe `UserDAO` comme suit
 
 `REQUIRES_NEW` : idem
 
-`MANDATORY` : lève une exception non récupérable, rien n'est ajouté
+`MANDATORY` : lève une exception récupérable, rien n'est ajouté
 
 ![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
@@ -79,7 +79,7 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 ![suppression_partielle](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/suppressionPartielle.png)
 
-`MANDATORY` `MANDATORY` : lève une exception non récupérable, rien n'est supprimé
+`MANDATORY` `MANDATORY` : lève une exception récupérable, rien n'est supprimé
 
 ![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
@@ -107,7 +107,7 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 `REQUIRES_NEW` `REQUIRES_NEW` : idem
 
-`MANDATORY` `MANDATORY` : lève une exception non récupérable, rien n'est supprimé
+`MANDATORY` `MANDATORY` : lève une exception récupérable, rien n'est supprimé
 
 ![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
