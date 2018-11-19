@@ -23,19 +23,11 @@ Plusieurs test sont disponible, mais afin de les faire fonctionner, il est néce
 
 ## Variables d'attribut de transaction:
 
-Voici la présentations de ces variables, permettant d'obtenir plusieurs cas possibles lors des transactions:
+La description des variables d'attribut de transactions sont disponible ici:
 
-`REQUIRES_NEW` permet de supprimer une partie (app delete mais user encore la)
+[attribut de transaction](https://docs.oracle.com/javaee/6/tutorial/doc/bncij.html)
 
-`REQUIRED` permet de supprimer en cascade s'il n'y a pas d'erreur.
-
-`MANDATORY` ne permet pas la suppression en cascade (un ejb fait une transaction, puis en appelle un autre qui lance une erreur)
-
-`NOT_SUPPORTED` permet de supprimer quoi qu'il arrive
-
-`SUPPORTS` permet de supprimer
-
-`NEVER` permet de supprimer
+Le choix de ces attributs n'ont pas de bonnes pratiques afin de pallier tous les problèmes, chaque application aura un choix possible entre plusieurs modes, selon la politique qu'ils souhaitent appliquer (une application avec 100 champs à remplir à stocker dans une DB, aura plus de bénéfice à faire un enregistrement partiel dans la DB, qu'une application de 10 champs).
 
 
 
@@ -55,7 +47,7 @@ La modification des attributs de transaction dans la classe `UserDAO` comme suit
 
 `REQUIRES_NEW` : idem
 
-`MANDATORY` : lève une exception non récupérable, rien n'est ajouté
+`MANDATORY` : lève une exception récupérable, rien n'est ajouté
 
 ![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
@@ -87,7 +79,7 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 ![suppression_partielle](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/suppressionPartielle.png)
 
-`MANDATORY` `MANDATORY` : lève une exception non récupérable, rien n'est supprimé
+`MANDATORY` `MANDATORY` : lève une exception récupérable, rien n'est supprimé
 
 ![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
@@ -115,7 +107,7 @@ La modification des attributs de transaction dans la classe `UserDAO` et `Applic
 
 `REQUIRES_NEW` `REQUIRES_NEW` : idem
 
-`MANDATORY` `MANDATORY` : lève une exception non récupérable, rien n'est supprimé
+`MANDATORY` `MANDATORY` : lève une exception récupérable, rien n'est supprimé
 
 ![erreur_irrécupérable](https://github.com/andreheig/Projet_AMT/blob/master/Projet_AMT/.md/testNonFonctionnelsTransaction/erreurIrrecuperable.png)
 
