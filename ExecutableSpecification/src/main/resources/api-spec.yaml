@@ -7,13 +7,13 @@ info:
 host: localhost:8090
 basePath: /api
 schemes:
-- http
-- https
+  - http
+  - https
 paths:
   /registrations:
     get:
       produces:
-      - application/json
+        - application/json
       responses:
         200:
           description:  List all registered applications
@@ -24,14 +24,14 @@ paths:
               $ref: '#/definitions/RegistrationSummary'
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - name: body
-        in: body
-        description: The info required to register an application
-        schema:
-          $ref: '#/definitions/Registration'
-        required: true
+        - name: body
+          in: body
+          description: The info required to register an application
+          schema:
+            $ref: '#/definitions/Registration'
+          required: true
       responses:
         201:
           description: Register a new application
@@ -39,16 +39,16 @@ paths:
     post:
       operationId: authenticateApplicationAndGetToken
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: body
-        in: body
-        description: The info required to authenticate an application
-        schema:
-          $ref: '#/definitions/Credentials'
-        required: true
+        - name: body
+          in: body
+          description: The info required to authenticate an application
+          schema:
+            $ref: '#/definitions/Credentials'
+          required: true
       responses:
         200:
           description: Authentication sucessful
@@ -61,14 +61,14 @@ paths:
       description:  Retrieve one user by id
       operationId: findUserById
       parameters:
-      - $ref: '#/parameters/TokenHeader'
-      - name: id
-        in: path
-        description: id of the user to fetch
-        required: true
-        type: string
+        - $ref: '#/parameters/TokenHeader'
+        - name: id
+          in: path
+          description: id of the user to fetch
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         200:
           description:
@@ -80,15 +80,15 @@ paths:
       description:  Report that a new event has happened in the gamified application
       operationId: reportEvent
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/TokenHeader'
-      - name: event
-        in: body
-        description: The event that occured in the realm of the gamified application
-        schema:
-          $ref: '#/definitions/Event'
-        required: true
+        - $ref: '#/parameters/TokenHeader'
+        - name: event
+          in: body
+          description: The event that occured in the realm of the gamified application
+          schema:
+            $ref: '#/definitions/Event'
+          required: true
       responses:
         202:
           description:
@@ -100,14 +100,13 @@ paths:
       description:  Retrieve one application by uuid
       operationId: findApplicationBadgesByUuid
       parameters:
-      - $ref: '#/parameters/Uuid'
-      - name: uuid
-        in: path
-        description: uuid of the application to fetch
-        required: true
-        type: string
+        - name: uuid
+          in: path
+          description: uuid de l'application à trouver
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         200:
           description:  List all badges applications
@@ -120,20 +119,19 @@ paths:
       description: add new badges
       operationId: postBadge
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/Uuid'
-      - name: uuid
-        in: path
-        description: uuid of the application to fetch
-        required: true
-        type: string
-      - name: body
-        in: body
-        description: The info required to register an application's badges
-        schema:
-          $ref: '#/definitions/RegistrationBadges'
-        required: true
+        - name: uuid
+          in: path
+          description: uuid of the application to fetch
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: The info required to register an application's badges
+          schema:
+            $ref: '#/definitions/RegistrationBadges'
+          required: true
       responses:
         201:
           description: Register a new badges
@@ -142,20 +140,20 @@ paths:
       description: add new rule
       operationId: postRule
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/Uuid'
-      - name: uuid
-        in: path
-        description: uuid of the application to add rule
-        required: true
-        type: string
-      - name: body
-        in: body
-        description: The rule for an application's badges
-        schema:
-          $ref: '#/definitions/RegistrationRule'
-        required: true
+        - $ref: '#/parameters/Uuid'
+        - name: uuid
+          in: path
+          description: uuid of the application to add rule
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: The rule for an application's badges
+          schema:
+            $ref: '#/definitions/RegistrationRule'
+          required: true
       responses:
         201:
           description: Register a new rule
@@ -165,12 +163,16 @@ definitions:
     properties:
       applicationName:
         type: string
+      applicationKey:
+        type: string
   Registration:
     type: object
     properties:
       applicationName:
         type: string
-      password:
+      applicationKeyUUID:
+        type: string
+      applicationSecretUUID:
         type: string
   Credentials:
     type: object
@@ -208,9 +210,9 @@ definitions:
     properties:
       badgeName:
         type: string
-      username:
+      applicationKey:
         type: string
-      password:
+      applicationSecret:
         type: string
   ApplicationsBadgesSummary:
     type: object
@@ -235,7 +237,7 @@ parameters:
     type: string
   Uuid:
     description: uuid identifiant l'application
-    name: id-Application
+    name: uuid
     in: header
     required: true
     type: string
