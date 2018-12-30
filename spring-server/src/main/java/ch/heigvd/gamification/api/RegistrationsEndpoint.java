@@ -31,6 +31,7 @@ public class RegistrationsEndpoint implements RegistrationsApi {
     for (Application application : applicationsRepository.findAll()) {
       RegistrationSummary rs = new RegistrationSummary();
       rs.setApplicationName(application.getName());
+      rs.setApplicationKey(application.getKeyUUID());
       result.add(rs);
     }
     return ResponseEntity.ok(result);
@@ -42,8 +43,10 @@ public class RegistrationsEndpoint implements RegistrationsApi {
   public ResponseEntity<Void> registrationsPost(@RequestBody Registration registration) {
     Application newApplication = new Application();
     newApplication.setName(registration.getApplicationName());
-    String passwordHash = registration.getPassword(); // LOL
-    newApplication.setPasswordHash(passwordHash);
+    String keyUUID = registration.getApplicationKeyUUID();
+    newApplication.setKeyUUID(keyUUID);
+    String secretUUID = registration.getApplicationSecretUUID();
+    newApplication.setSecretUUID(secretUUID);
     try {
       applicationsRepository.save(newApplication);
       return ResponseEntity.status(HttpStatus.CREATED).build();
