@@ -12,18 +12,26 @@ public class Badge implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int badgeId;
 
-    @Column(unique = true)
+    //@JoinColumn(name = "appId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Application application;
+
     private String name;
-    private String passwordHash;
 
-    public long getId() {
-        return id;
+    public Badge(){}
+
+    public Badge(String name){
+        this.name = name;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public int getBadgeId() {
+        return badgeId;
+    }
+
+    public void setBadgeId(int badgeId) {
+        this.badgeId = badgeId;
     }
 
     public String getName() {
@@ -34,12 +42,13 @@ public class Badge implements Serializable {
         this.name = name;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+
+    public Application getApplication() {
+        return application;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
 }

@@ -98,7 +98,7 @@ paths:
   /badges/{uuid}:
     get:
       description:  Retrieve one application by uuid
-      operationId: findApplicationBadgesByUuid
+      operationId: findApplicationBadges
       parameters:
         - name: uuid
           in: path

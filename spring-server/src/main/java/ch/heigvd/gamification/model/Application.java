@@ -1,6 +1,11 @@
 package ch.heigvd.gamification.model;
 
+import org.aspectj.lang.annotation.DeclareAnnotation;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.sql.DataSourceDefinitions;
 import javax.persistence.*;
 
 /**
@@ -8,22 +13,25 @@ import javax.persistence.*;
  * @author Olivier Liechti
  */
 @Entity
-@Table(name = "Application")
 public class Application implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
     private long appId;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String keyUUID;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String secretUUID;
+
+
+    //@JoinColumn(name = "badgeId")
+    @OneToMany
+    private List<Badge> badge = new ArrayList<>();
 
     public Application(){}
 
@@ -32,6 +40,10 @@ public class Application implements Serializable {
         this.name = name;
         this.keyUUID = keyUUID;
         this.secretUUID = secretUUID;
+    }
+
+    public Application getApplication(){
+        return this;
     }
 
     public long getAppId() {
@@ -64,6 +76,22 @@ public class Application implements Serializable {
 
     public void setSecretUUID(String keyUUID) {
         this.secretUUID = keyUUID;
+    }
+
+    public List<Badge> getBadges() {
+        return badge;
+    }
+
+    public void setBadges(List<Badge> badges) {
+        this.badge = badges;
+    }
+
+    public void addBadge(Badge badge){
+        this.badge.add(badge);
+    }
+
+    public void updateBadge(Badge badge){
+
     }
 
 }
