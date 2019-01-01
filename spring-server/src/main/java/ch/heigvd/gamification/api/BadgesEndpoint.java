@@ -1,7 +1,7 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.ApplicationsBadgesSummary;
-import ch.heigvd.gamification.api.dto.RegistrationBadges;
+import ch.heigvd.gamification.api.dto.RegistrationBadge;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.BadgeRepository;
 import ch.heigvd.gamification.dao.EndUserRepository;
@@ -33,26 +33,28 @@ public class BadgesEndpoint implements BadgesApi {
   public ResponseEntity<List<ApplicationsBadgesSummary>> findApplicationBadges(String uuid) {
     List<ApplicationsBadgesSummary> result = new ArrayList<>();
     Application app = applicationRepository.findByKeyUUID(uuid);
+    // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
     if(app.equals(null)){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+    // TODO: test à implémenter pour savoir si on a un badge (sinon renvoi code http correspondant)
     for (Badge badge : app.getBadges()){
-      //System.out.println(applicationRepository.findByKeyUUID(uuid).getName());
       ApplicationsBadgesSummary rs = new ApplicationsBadgesSummary();
       rs.setBadgesName(badge.getName());
-      //System.out.println(badge.getName());
       result.add(rs);
     }
     return ResponseEntity.ok(result);
   }
 
   @Override
-  public ResponseEntity<Void> postBadge(String uuid, @RequestBody RegistrationBadges body) {
+  public ResponseEntity<Void> postBadge(String uuid, @RequestBody RegistrationBadge body) {
     Badge newBadge = new Badge();
+    // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant)
     newBadge.setName(body.getBadgeName());
     Application applicationNewBadge = applicationRepository.findByKeyUUID(uuid);
     try {
-      //applicationNewBadge.setBadge(newBadge);
+      // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
+      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant)
       applicationNewBadge.getBadges().add(newBadge);
       badgeRepository.save(newBadge);
       applicationRepository.save(applicationNewBadge);

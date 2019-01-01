@@ -14,7 +14,7 @@ public class Badge implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int badgeId;
 
-    //@JoinColumn(name = "appId")
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Application application;
 
