@@ -39,6 +39,10 @@ paths:
       responses:
         201:
           description: Register a new application
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
   /auth:
     post:
       operationId: authenticateApplicationAndGetToken
@@ -79,6 +83,10 @@ paths:
             Returns the specified user state
           schema:
             $ref: '#/definitions/User'
+        404:
+          description: "UserId not found"
+        405:
+          description: "Invalid input"
   /events:
     post:
       description:  Report that a new event has happened in the gamified application
@@ -99,6 +107,8 @@ paths:
             The platform has accepted the event and will process it (asynchronously)
           schema:
             $ref: '#/definitions/Event'
+        405:
+          description: "Invalid input"
   /scales/{uuid}:
     get:
       description: Retrieve scale by application uuid
@@ -119,6 +129,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/ApplicationsScalesSummary'
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
     post:
       description: add new scale
       operationId: postScale
@@ -139,6 +153,8 @@ paths:
       responses:
         201:
           description: Register a new scale
+        405:
+          description: "Invalid input"
 
   /badges/{uuid}:
     get:
@@ -160,6 +176,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/ApplicationsBadgesSummary'
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
     post:
       description: add new badge
       operationId: postBadge
@@ -180,14 +200,36 @@ paths:
       responses:
         201:
           description: Register a new badge
+        405:
+          description: "Invalid input"
   /rules/{uuid}:
+    get:
+      description: Retrieve rules by application uuid
+      operationId: findApplicationRules
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid de l'application à trouver
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description:  List all rules applications
+          schema:
+            title: Application Rules summary
+            type: array
+            items:
+              $ref: '#/definitions/ApplicationsRulesSummary'
+        404:
+          description: "Application not found"
     post:
       description: add new rule
       operationId: postRule
       consumes:
         - application/json
       parameters:
-        - $ref: '#/parameters/Uuid'
         - name: uuid
           in: path
           description: uuid of the application to add rule
@@ -202,6 +244,8 @@ paths:
       responses:
         201:
           description: Register a new rule
+        405:
+          description: "Invalid input"
 definitions:
   ApplicationSummary:
     type: object
@@ -262,14 +306,17 @@ definitions:
     properties:
       badgesName:
         type: string
+  ApplicationsRulesSummary:
+    type: object
+    properties:
+      rulesName:
+        type: string
   RegistrationRule:
     type: object
     properties:
       ruleName:
         type: string
-      appId:
-        type: string
-      password:
+      applicationSecret:
         type: string
   ApplicationsScalesSummary:
     type: object
