@@ -322,6 +322,8 @@ definitions:
     properties:
       ruleName:
         type: string
+      ruleType:
+        type: string
       applicationSecret:
         type: string
   ApplicationsScalesSummary:

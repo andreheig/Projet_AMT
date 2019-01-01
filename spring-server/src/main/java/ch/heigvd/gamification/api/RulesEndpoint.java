@@ -36,12 +36,13 @@ public class RulesEndpoint implements RulesApi {
   @Override
   public ResponseEntity<List<ApplicationsRulesSummary>> findApplicationRules(String uuid){
     List<ApplicationsRulesSummary> result = new ArrayList<>();
+    // TODO: test pour savoir si le uuid est correct?
     Application app = applicationsRepository.findByKeyUUID(uuid);
     // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
-    if(app.equals(null)){
+    if(app == null){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-    // TODO: test à implémenter pour savoir si on a une règle (sinon renvoi code http correspondant)
+    // TODO: test à implémenter pour savoir si on a une règle ?
     for (Rule rule : app.getRules()){
       ApplicationsRulesSummary rs = new ApplicationsRulesSummary();
       rs.setRulesName(rule.getName());
@@ -53,15 +54,27 @@ public class RulesEndpoint implements RulesApi {
   @Override
   public ResponseEntity<Void> postRule(String uuid, @RequestBody RegistrationRule body) {
     Rule newRule = new Rule();
-    // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant)
+    // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant) => André OK
+    if(body.getRuleName().isEmpty() || body.getRuleType().isEmpty() || uuid.isEmpty()){
+      return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+    }
     newRule.setName(body.getRuleName());
+    newRule.setType(body.getRuleType());
     Application applicationNewRule = applicationsRepository.findByKeyUUID(uuid);
     try {
-      // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
-      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant)
+      // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
+      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
+      if(applicationNewRule == null){
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+      }
+      if(!applicationNewRule.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      }
       applicationNewRule.getRules().add(newRule);
+      System.out.println("ajout règle à l'appli");
       ruleRepository.save(newRule);
-      applicationsRepository.save(applicationNewRule);
+      System.out.println("sauvegarde de la règle");
+      //applicationsRepository.save(applicationNewRule);
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataIntegrityViolationException e) {
       System.out.println(e.getMessage());

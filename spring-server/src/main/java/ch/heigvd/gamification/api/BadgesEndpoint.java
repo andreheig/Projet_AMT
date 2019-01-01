@@ -33,11 +33,11 @@ public class BadgesEndpoint implements BadgesApi {
   public ResponseEntity<List<ApplicationsBadgesSummary>> findApplicationBadges(String uuid) {
     List<ApplicationsBadgesSummary> result = new ArrayList<>();
     Application app = applicationRepository.findByKeyUUID(uuid);
-    // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
-    if(app.equals(null)){
+    // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
+    if(app == null){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-    // TODO: test à implémenter pour savoir si on a un badge (sinon renvoi code http correspondant)
+    // TODO: test à implémenter pour savoir si on a un badge (sinon renvoi code http correspondant)?
     for (Badge badge : app.getBadges()){
       ApplicationsBadgesSummary rs = new ApplicationsBadgesSummary();
       rs.setBadgesName(badge.getName());
@@ -49,12 +49,21 @@ public class BadgesEndpoint implements BadgesApi {
   @Override
   public ResponseEntity<Void> postBadge(String uuid, @RequestBody RegistrationBadge body) {
     Badge newBadge = new Badge();
-    // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant)
+    // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant) => André OK
+    if(body.getBadgeName().isEmpty()){
+      return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+    }
     newBadge.setName(body.getBadgeName());
     Application applicationNewBadge = applicationRepository.findByKeyUUID(uuid);
     try {
-      // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
-      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant)
+      // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
+      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
+      if(applicationNewBadge == null){
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+      }
+      if(!applicationNewBadge.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      }
       applicationNewBadge.getBadges().add(newBadge);
       badgeRepository.save(newBadge);
       applicationRepository.save(applicationNewBadge);
