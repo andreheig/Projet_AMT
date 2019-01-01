@@ -21,7 +21,6 @@ public class Badge implements Serializable {
     private String name;
 
     public Badge(){}
-
     public Badge(String name){
         this.name = name;
     }
@@ -29,7 +28,6 @@ public class Badge implements Serializable {
     public int getBadgeId() {
         return badgeId;
     }
-
     public void setBadgeId(int badgeId) {
         this.badgeId = badgeId;
     }
@@ -37,7 +35,6 @@ public class Badge implements Serializable {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -46,7 +43,6 @@ public class Badge implements Serializable {
     public Application getApplication() {
         return application;
     }
-
     public void setApplication(Application application) {
         this.application = application;
     }

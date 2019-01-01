@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface EndUserRepository extends CrudRepository<EndUser, Long>{
 
-  public EndUser findByApplicationNameAndIdInGamifiedApplication(String targetApplicationName, String targetEndUserId);
+  public EndUser findByIdInGamifiedApplication(String targetEndUserId);
   
 }

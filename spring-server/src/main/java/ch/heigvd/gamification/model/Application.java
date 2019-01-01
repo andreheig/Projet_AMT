@@ -38,6 +38,9 @@ public class Application implements Serializable {
     @OneToMany
     private List<Rule> rules = new ArrayList<>();
 
+    @ManyToMany
+    private List<EndUser> users = new ArrayList<>();
+
     public Application(){}
 
     public Application(int id, String name, String keyUUID, String secretUUID){
@@ -124,6 +127,20 @@ public class Application implements Serializable {
     public void addRule(Rule rule){ this.rules.add(rule); }
 
     public void updateRule(Rule rule){
+
+    }
+
+    public List<EndUser> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<EndUser> users) {
+        this.users = users;
+    }
+
+    public void addUser(EndUser users){ this.users.add(users); }
+
+    public void updateUser(EndUser users){
 
     }
 }

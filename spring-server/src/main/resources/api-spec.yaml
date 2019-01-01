@@ -69,7 +69,6 @@ paths:
       description:  Retrieve one user by id
       operationId: findUserById
       parameters:
-        - $ref: '#/parameters/TokenHeader'
         - name: id
           in: path
           description: id of the user to fetch
@@ -94,7 +93,6 @@ paths:
       consumes:
         - application/json
       parameters:
-        - $ref: '#/parameters/TokenHeader'
         - name: event
           in: body
           description: The event that occured in the realm of the gamified application
@@ -278,6 +276,8 @@ definitions:
   Event:
     type: object
     properties:
+      applicationName:
+        type: string
       type:
         type: string
       userId:
@@ -292,8 +292,14 @@ definitions:
     properties:
       userId:
         type: string
+      name:
+        type: string
       numberOfEvents:
         type: integer
+      applications:
+        type: array
+        items:
+          type: string
   RegistrationBadge:
     type: object
     properties:

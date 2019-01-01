@@ -23,7 +23,6 @@ public class Rule implements Serializable {
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -31,7 +30,6 @@ public class Rule implements Serializable {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -39,7 +37,6 @@ public class Rule implements Serializable {
     public Application getApplication() {
         return application;
     }
-
     public void setApplication(Application application) {
         this.application = application;
     }

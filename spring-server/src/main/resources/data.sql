@@ -21,7 +21,14 @@ INSERT INTO Application_badges (Application_appId, badges_badgeId) VALUES (3, 6)
 INSERT INTO Scale (scaleId, application_appId, max, name) VALUES (1, 1, 100, '?');
 -- Permet de lier les échelles à une application:
 INSERT INTO Application_scales (Application_appId, scales_scaleId) VALUES (1, 1);
--- Permet de rentrer des règles
+-- Permet de rentrer des règles:
 INSERT INTO Rule (id, application_appId, name) VALUES (1, 1, 'test');
--- Permet de lier une règle à une application
+-- Permet de lier une règle à une application:
 INSERT INTO Application_rules (Application_appId, rules_id) VALUES (1, 1);
+-- Permet de rentrer des utilisateurs:
+INSERT INTO EndUser (id, idInGamifiedApplication, name, numberOfEvents) VALUES (1, '90011445-4354-4aff-8863-d55598867884', 'Aladin', 0);
+-- Permet de lier un utilisateur a des applications:
+INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 1);
+INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 2);
+INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 3);
+INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 4);

@@ -1,11 +1,9 @@
 package ch.heigvd.gamification.model;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  *
@@ -17,34 +15,49 @@ public class EndUser implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-  
-  @ManyToOne
-  private Application application;
+
+  @OneToMany
+  private List<Application> applications = new ArrayList<>();
   
   private String idInGamifiedApplication;
   
   private int numberOfEvents;
 
+  private String name;
+
   public long getId() {
     return id;
   }
-
   public void setId(long id) {
     this.id = id;
   }
 
-  public Application getApplication() {
-    return application;
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public void setApplication(Application application) {
-    this.application = application;
+  public List<Application> getApplications() {
+    return applications;
+  }
+  public void setApplications(List<Application> applications) {
+    this.applications = applications;
+  }
+  public void addApplication (Application application){ this.applications.add(application); }
+  public Application getApplicationName(String name){
+    for (Application app : applications) {
+      if (app.getName().equalsIgnoreCase(name)){
+        return app;
+      }
+    }
+    return null;
   }
 
   public String getIdInGamifiedApplication() {
     return idInGamifiedApplication;
   }
-
   public void setIdInGamifiedApplication(String idInGamifiedApplication) {
     this.idInGamifiedApplication = idInGamifiedApplication;
   }
@@ -52,7 +65,6 @@ public class EndUser implements Serializable {
   public int getNumberOfEvents() {
     return numberOfEvents;
   }
-
   public void setNumberOfEvents(int numberOfEvents) {
     this.numberOfEvents = numberOfEvents;
   }

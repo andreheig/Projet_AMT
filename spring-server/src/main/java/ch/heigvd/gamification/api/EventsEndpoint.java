@@ -28,10 +28,9 @@ public class EventsEndpoint implements EventsApi {
   }
 
   @Override
-  public ResponseEntity reportEvent(@RequestHeader(value="X-Gamification-Token") String xGamificationToken, @RequestBody Event event) {
-    String targetApplicationName = xGamificationToken;
+  public ResponseEntity reportEvent(@RequestBody Event event) {
     String targetEndUserId = event.getUserId();
-    Application targetApplication = applicationsRepository.findByName(targetApplicationName);
+    Application targetApplication = applicationsRepository.findByName(event.getApplicationName());
     if (targetApplication == null || targetEndUserId == null) {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }

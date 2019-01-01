@@ -24,10 +24,10 @@ public class EventProcessor {
   @Async
   @Transactional
   public void processEvent(Application application, Event event) {
-    EndUser targetEndUser = endUsersRepository.findByApplicationNameAndIdInGamifiedApplication(application.getName(), event.getUserId());
+    EndUser targetEndUser = endUsersRepository.findByIdInGamifiedApplication(event.getUserId());
     if (targetEndUser == null) {
       targetEndUser = new EndUser();
-      targetEndUser.setApplication(application);
+      targetEndUser.addApplication(application);
       targetEndUser.setIdInGamifiedApplication(event.getUserId());
       targetEndUser.setNumberOfEvents(1);
       endUsersRepository.save(targetEndUser);

@@ -22,7 +22,6 @@ public class Scale implements Serializable {
     private long max;
 
     public Scale(){}
-
     public Scale(String name){
         this.name = name;
     }
@@ -30,7 +29,6 @@ public class Scale implements Serializable {
     public int getScaleId() {
         return scaleId;
     }
-
     public void setBadgeId(int scaleId) {
         this.scaleId = scaleId;
     }
@@ -38,7 +36,6 @@ public class Scale implements Serializable {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -46,7 +43,6 @@ public class Scale implements Serializable {
     public long getMax() {
         return max;
     }
-
     public void setMax(long max) {
         this.max = max;
     }
@@ -54,7 +50,6 @@ public class Scale implements Serializable {
     public Application getApplication() {
         return application;
     }
-
     public void setApplication(Application application) {
         this.application = application;
     }
