@@ -29,9 +29,11 @@ public class Application implements Serializable {
     private String secretUUID;
 
 
-    //@JoinColumn(name = "badgeId")
     @OneToMany
-    private List<Badge> badge = new ArrayList<>();
+    private List<Badge> badges = new ArrayList<>();
+
+    @OneToMany
+    private List<Scale> scales = new ArrayList<>();
 
     public Application(){}
 
@@ -79,19 +81,32 @@ public class Application implements Serializable {
     }
 
     public List<Badge> getBadges() {
-        return badge;
+        return badges;
     }
 
     public void setBadges(List<Badge> badges) {
-        this.badge = badges;
+        this.badges = badges;
     }
 
     public void addBadge(Badge badge){
-        this.badge.add(badge);
+        this.badges.add(badge);
     }
 
     public void updateBadge(Badge badge){
 
     }
 
+    public List<Scale> getScales() {
+        return scales;
+    }
+
+    public void setScales(List<Scale> scales) {
+        this.scales = scales;
+    }
+
+    public void addScale(Scale scale){ this.scales.add(scale); }
+
+    public void updateScale(Scale scale){
+
+    }
 }

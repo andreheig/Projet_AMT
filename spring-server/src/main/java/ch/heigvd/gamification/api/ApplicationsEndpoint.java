@@ -1,7 +1,7 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.api.dto.Registration;
-import ch.heigvd.gamification.api.dto.RegistrationSummary;
+import ch.heigvd.gamification.api.dto.ApplicationRegistration;
+import ch.heigvd.gamification.api.dto.ApplicationSummary;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.model.Application;
 import java.util.ArrayList;
@@ -17,19 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Olivier Liechti
  */
 @RestController
-public class RegistrationsEndpoint implements RegistrationsApi {
+public class ApplicationsEndpoint implements ApplicationsApi {
 
   private ApplicationRepository applicationsRepository;
 
-  public RegistrationsEndpoint(ApplicationRepository applicationsRepository) {
+  public ApplicationsEndpoint(ApplicationRepository applicationsRepository) {
     this.applicationsRepository = applicationsRepository;
   }
 
-  @Override
-  public ResponseEntity<List<RegistrationSummary>> registrationsGet() {
-    List<RegistrationSummary> result = new ArrayList<>();
+  public ResponseEntity<List<ApplicationSummary>> getAllApplications() {
+    List<ApplicationSummary> result = new ArrayList<>();
     for (Application application : applicationsRepository.findAll()) {
-      RegistrationSummary rs = new RegistrationSummary();
+      ApplicationSummary rs = new ApplicationSummary();
       rs.setApplicationName(application.getName());
       rs.setApplicationKey(application.getKeyUUID());
       result.add(rs);
@@ -39,9 +38,9 @@ public class RegistrationsEndpoint implements RegistrationsApi {
 
   ;
 
-  @Override
-  public ResponseEntity<Void> registrationsPost(@RequestBody Registration registration) {
+  public ResponseEntity<Void> postApplication(@RequestBody ApplicationRegistration registration) {
     Application newApplication = new Application();
+    // TODO: test à implémenter pour savoir si on a les champs correct (sinon renvoi code http correspondant)
     newApplication.setName(registration.getApplicationName());
     String keyUUID = registration.getApplicationKeyUUID();
     newApplication.setKeyUUID(keyUUID);

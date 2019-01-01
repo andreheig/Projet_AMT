@@ -16,6 +16,5 @@ public interface ApplicationRepository extends CrudRepository<Application, Long>
 
   public Application findByKeyUUID(String uuid);
 
-  //public List<Badge> findBadgesByKeyUUID(String uuid);
 
 }
