@@ -10,19 +10,23 @@ schemes:
   - http
   - https
 paths:
-  /registrations:
+  /applications:
     get:
+      description: retrieve all applications
+      operationId: getAllApplications
       produces:
         - application/json
       responses:
         200:
           description:  List all registered applications
           schema:
-            title: Registration summary
+            title: Application summary
             type: array
             items:
-              $ref: '#/definitions/RegistrationSummary'
+              $ref: '#/definitions/ApplicationSummary'
     post:
+      description: register a new application
+      operationId: postApplication
       consumes:
         - application/json
       parameters:
@@ -30,7 +34,7 @@ paths:
           in: body
           description: The info required to register an application
           schema:
-            $ref: '#/definitions/Registration'
+            $ref: '#/definitions/ApplicationRegistration'
           required: true
       responses:
         201:
@@ -95,9 +99,50 @@ paths:
             The platform has accepted the event and will process it (asynchronously)
           schema:
             $ref: '#/definitions/Event'
+  /scales/{uuid}:
+    get:
+      description: Retrieve scale by application uuid
+      operationId: findApplicationScales
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid de l'application à trouver
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description:  List all scales applications
+          schema:
+            title: Application Scales summary
+            type: array
+            items:
+              $ref: '#/definitions/ApplicationsScalesSummary'
+    post:
+      description: add new scale
+      operationId: postScale
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid of the application to fetch
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: The info required to register an application's badges
+          schema:
+            $ref: '#/definitions/RegistrationScale'
+          required: true
+      responses:
+        201:
+          description: Register a new scale
+
   /badges/{uuid}:
     get:
-      description:  Retrieve one application by uuid
+      description: Retrieve badges by application uuid
       operationId: findApplicationBadges
       parameters:
         - name: uuid
@@ -116,7 +161,7 @@ paths:
             items:
               $ref: '#/definitions/ApplicationsBadgesSummary'
     post:
-      description: add new badges
+      description: add new badge
       operationId: postBadge
       consumes:
         - application/json
@@ -128,13 +173,13 @@ paths:
           type: string
         - name: body
           in: body
-          description: The info required to register an application's badges
+          description: The info required to register an application's badge
           schema:
-            $ref: '#/definitions/RegistrationBadges'
+            $ref: '#/definitions/RegistrationBadge'
           required: true
       responses:
         201:
-          description: Register a new badges
+          description: Register a new badge
   /rules/{uuid}:
     post:
       description: add new rule
@@ -158,14 +203,14 @@ paths:
         201:
           description: Register a new rule
 definitions:
-  RegistrationSummary:
+  ApplicationSummary:
     type: object
     properties:
       applicationName:
         type: string
       applicationKey:
         type: string
-  Registration:
+  ApplicationRegistration:
     type: object
     properties:
       applicationName:
@@ -205,12 +250,10 @@ definitions:
         type: string
       numberOfEvents:
         type: integer
-  RegistrationBadges:
+  RegistrationBadge:
     type: object
     properties:
       badgeName:
-        type: string
-      applicationKey:
         type: string
       applicationSecret:
         type: string
@@ -227,6 +270,22 @@ definitions:
       appId:
         type: string
       password:
+        type: string
+  ApplicationsScalesSummary:
+    type: object
+    properties:
+      scaleName:
+        type: string
+      scaleMax:
+        type: integer
+  RegistrationScale:
+    type: object
+    properties:
+      scaleName:
+        type: string
+      scaleMax:
+        type: integer
+      applicationSecret:
         type: string
 parameters:
   TokenHeader:
