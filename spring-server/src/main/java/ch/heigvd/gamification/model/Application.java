@@ -35,6 +35,9 @@ public class Application implements Serializable {
     @OneToMany
     private List<Scale> scales = new ArrayList<>();
 
+    @OneToMany
+    private List<Rule> rules = new ArrayList<>();
+
     public Application(){}
 
     public Application(int id, String name, String keyUUID, String secretUUID){
@@ -107,6 +110,20 @@ public class Application implements Serializable {
     public void addScale(Scale scale){ this.scales.add(scale); }
 
     public void updateScale(Scale scale){
+
+    }
+
+    public List<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
+    }
+
+    public void addRule(Rule rule){ this.rules.add(rule); }
+
+    public void updateRule(Rule rule){
 
     }
 }
