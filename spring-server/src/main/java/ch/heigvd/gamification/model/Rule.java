@@ -14,10 +14,11 @@ public class Rule implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Application application;
+
     @Column(unique = true)
     private String name;
-
-    private String passwordHash;
 
     public long getId() {
         return id;
@@ -35,12 +36,12 @@ public class Rule implements Serializable {
         this.name = name;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public Application getApplication() {
+        return application;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
 }
