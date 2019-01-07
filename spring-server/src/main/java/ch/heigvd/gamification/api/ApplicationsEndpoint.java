@@ -2,6 +2,7 @@ package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.ApplicationRegistration;
 import ch.heigvd.gamification.api.dto.ApplicationSummary;
+import ch.heigvd.gamification.api.dto.ApplicationUpdate;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.model.Application;
 import java.util.ArrayList;
@@ -54,6 +55,14 @@ public class ApplicationsEndpoint implements ApplicationsApi {
       System.out.println(e.getClass());
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
+  }
+
+  public ResponseEntity<Void> updateApplication(@RequestBody ApplicationUpdate update) {
+    // TODO: valider champs
+    Application updatedApplication = applicationsRepository.findByKeyUUID(update.getApplicationKey());
+    updatedApplication.setName(update.getApplicationNewName());
+    applicationsRepository.save(updatedApplication);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
 }
