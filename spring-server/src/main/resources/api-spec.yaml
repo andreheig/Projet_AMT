@@ -69,13 +69,14 @@ paths:
       description:  Retrieve one user by id
       operationId: findUserById
       parameters:
-        - name: id
-          in: path
-          description: id of the user to fetch
-          required: true
-          type: string
+      - $ref: '#/parameters/TokenHeader'
+      - name: id
+        in: path
+        description: id of the user to fetch
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         200:
           description:
