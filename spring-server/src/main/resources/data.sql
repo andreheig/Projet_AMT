@@ -32,7 +32,7 @@ INSERT INTO Application_rules (Application_appId, rules_id) VALUES (3, 2);
 -- Permet de rentrer des utilisateurs:
 INSERT INTO EndUser (id, idInGamifiedApplication, name, numberOfEvents) VALUES (1, '90011445-4354-4aff-8863-d55598867884', 'Aladin', 0);
 -- Permet de lier un utilisateur a des applications:
-INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 1);
-INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 2);
-INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 3);
-INSERT INTO EndUser_Applications (EndUser_id, Applications_appId) VALUES (1, 4);
+INSERT INTO Application_Users (Users_id, Application_appId) VALUES (1, 1);
+INSERT INTO Application_Users (Users_id, Application_appId) VALUES (1, 2);
+INSERT INTO Application_Users (Users_id, Application_appId) VALUES (1, 3);
+INSERT INTO Application_Users (Users_id, Application_appId) VALUES (1, 4);
