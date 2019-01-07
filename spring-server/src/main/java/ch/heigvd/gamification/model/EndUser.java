@@ -16,8 +16,8 @@ public class EndUser implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @OneToMany
-  private List<Application> applications = new ArrayList<>();
+  @ManyToOne
+  private Application application;
   
   private String idInGamifiedApplication;
   
@@ -32,27 +32,14 @@ public class EndUser implements Serializable {
     this.id = id;
   }
 
+  public Application getApplication(){ return this.application; }
+  public void setApplication(Application application){ this.application = application; }
+
   public String getName() {
     return name;
   }
   public void setName(String name) {
     this.name = name;
-  }
-
-  public List<Application> getApplications() {
-    return applications;
-  }
-  public void setApplications(List<Application> applications) {
-    this.applications = applications;
-  }
-  public void addApplication (Application application){ this.applications.add(application); }
-  public Application getApplicationName(String name){
-    for (Application app : applications) {
-      if (app.getName().equalsIgnoreCase(name)){
-        return app;
-      }
-    }
-    return null;
   }
 
   public String getIdInGamifiedApplication() {

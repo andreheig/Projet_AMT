@@ -4,6 +4,9 @@ import ch.heigvd.gamification.api.dto.Event;
 import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.EndUser;
+import ch.heigvd.gamification.model.Rule;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +27,10 @@ public class EventProcessor {
   @Async
   @Transactional
   public void processEvent(Application application, Event event) {
-    EndUser targetEndUser = endUsersRepository.findByIdInGamifiedApplication(event.getUserId());
+    EndUser targetEndUser = endUsersRepository.findByApplicationNameAndIdInGamifiedApplication(application.getName(), event.getUserId());
     if (targetEndUser == null) {
       targetEndUser = new EndUser();
-      targetEndUser.addApplication(application);
+      targetEndUser.setApplication(application);
       targetEndUser.setIdInGamifiedApplication(event.getUserId());
       targetEndUser.setNumberOfEvents(1);
       endUsersRepository.save(targetEndUser);

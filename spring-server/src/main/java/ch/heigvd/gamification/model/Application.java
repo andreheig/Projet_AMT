@@ -54,6 +54,7 @@ public class Application implements Serializable {
         return this;
     }
 
+
     public long getAppId() {
         return appId;
     }

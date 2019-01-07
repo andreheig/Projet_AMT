@@ -27,18 +27,16 @@ public class UsersEndpoint implements UsersApi {
   }
 
   @Override
-  public ResponseEntity findUserById(@PathVariable("id") String userId) {
-    if (userId == null) {
+  public ResponseEntity findUserById(@RequestHeader(value="X-Gamification-Token") String xGamificationToken, @PathVariable("id") String userId) {
+    String targetApplicationName = xGamificationToken;
+    Application targetApplication = applicationRepository.findByName(targetApplicationName);
+    if (targetApplication == null || userId == null) {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
-    EndUser endUser = endUserRepository.findByIdInGamifiedApplication(userId);
+    EndUser endUser = endUserRepository.findByApplicationNameAndIdInGamifiedApplication(targetApplicationName, userId);
     User user = new User();
     user.setUserId(endUser.getIdInGamifiedApplication());
-    user.setName(endUser.getName());
     user.setNumberOfEvents(endUser.getNumberOfEvents());
-    for (Application app: endUser.getApplications()) {
-      user.addApplicationsItem(app.getName());
-    }
     return ResponseEntity.ok(user);
   }
 
