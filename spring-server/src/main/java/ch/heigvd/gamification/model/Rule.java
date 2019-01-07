@@ -25,6 +25,9 @@ public class Rule implements Serializable {
 
     private int numberOfPoint;
 
+    @Version
+    private Integer version;
+
 
     public long getId() {
         return id;

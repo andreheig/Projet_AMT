@@ -41,6 +41,9 @@ public class Application implements Serializable {
     @ManyToMany
     private List<EndUser> users = new ArrayList<>();
 
+    @Version
+    private Integer version;
+
     public Application(){}
 
     public Application(int id, String name, String keyUUID, String secretUUID){

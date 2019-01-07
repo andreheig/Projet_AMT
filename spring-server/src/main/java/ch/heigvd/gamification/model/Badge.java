@@ -20,6 +20,9 @@ public class Badge implements Serializable {
 
     private String name;
 
+    @Version
+    private Integer version;
+
     public Badge(){}
     public Badge(String name){
         this.name = name;

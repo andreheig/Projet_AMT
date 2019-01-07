@@ -21,6 +21,9 @@ public class Scale implements Serializable {
 
     private long max;
 
+    @Version
+    private Integer version;
+
     public Scale(){}
     public Scale(String name){
         this.name = name;

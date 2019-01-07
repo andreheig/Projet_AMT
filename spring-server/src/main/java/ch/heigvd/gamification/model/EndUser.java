@@ -25,6 +25,9 @@ public class EndUser implements Serializable {
 
   private String name;
 
+  @Version
+  private Integer version;
+
   public long getId() {
     return id;
   }
