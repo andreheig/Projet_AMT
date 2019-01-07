@@ -21,6 +21,11 @@ public class Rule implements Serializable {
 
     private String type;
 
+    private Scale scale;
+
+    private int numberOfPoint;
+
+
     public long getId() {
         return id;
     }
@@ -49,4 +54,13 @@ public class Rule implements Serializable {
         this.application = application;
     }
 
+    public Scale getScale() { return scale; }
+    public void setScale(Scale scale) { this.scale = scale; }
+
+    public int getNumberOfPoint() {
+        return this.numberOfPoint;
+    }
+    public void setNumberOfPoint(int numberOfPoint) {
+        this.numberOfPoint = numberOfPoint;
+    }
 }

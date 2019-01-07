@@ -14,6 +14,8 @@ public interface RuleRepository extends CrudRepository<Rule, Long> {
   
   public Application findByApplication(Application application);
 
+  public Rule findByNameAndApplication(String Name, Application application);
+
   public List<Rule> findAll();
 
 }

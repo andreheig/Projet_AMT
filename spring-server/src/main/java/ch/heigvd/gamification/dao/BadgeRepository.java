@@ -14,6 +14,8 @@ public interface BadgeRepository extends CrudRepository<Badge, Long> {
   
   public Application findByApplication(Application application);
 
+  public Badge findByNameAndApplication(String name, Application application);
+
   public List<Badge> findAll();
 
 }

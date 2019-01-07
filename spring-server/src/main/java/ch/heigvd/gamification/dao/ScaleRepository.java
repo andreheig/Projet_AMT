@@ -14,6 +14,8 @@ public interface ScaleRepository extends CrudRepository<Scale, Long> {
   
   public Application findByApplication(Application application);
 
+  public Scale findByNameAndApplication(String Name, Application application);
+
   public List<Scale> findAll();
 
 }

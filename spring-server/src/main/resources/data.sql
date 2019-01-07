@@ -24,8 +24,8 @@ INSERT INTO Scale (scaleId, application_appId, max, name) VALUES (2, 3, 10000, '
 INSERT INTO Application_scales (Application_appId, scales_scaleId) VALUES (1, 1);
 INSERT INTO Application_scales (Application_appId, scales_scaleId) VALUES (3, 2);
 -- Permet de rentrer des règles:
-INSERT INTO Rule (id, application_appId, name, type) VALUES (1, 1, 'test', 'ajouter un kilomètre');
-INSERT INTO Rule (id, application_appId, name, type) VALUES (2, 3, 'visionnage d un film', 'ajouter un film');
+INSERT INTO Rule (id, application_appId, name, type, numberOfPoint) VALUES (1, 1, 'test', 'ajouter un kilomètre', 1);
+INSERT INTO Rule (id, application_appId, name, type, numberOfPoint) VALUES (2, 3, 'visionnage d un film', 'ajouter un film', 1);
 -- Permet de lier une règle à une application:
 INSERT INTO Application_rules (Application_appId, rules_id) VALUES (1, 1);
 INSERT INTO Application_rules (Application_appId, rules_id) VALUES (3, 2);

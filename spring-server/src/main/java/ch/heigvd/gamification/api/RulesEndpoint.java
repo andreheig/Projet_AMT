@@ -1,9 +1,6 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.api.dto.ApplicationsBadgesSummary;
-import ch.heigvd.gamification.api.dto.ApplicationsRulesSummary;
-import ch.heigvd.gamification.api.dto.RegistrationBadge;
-import ch.heigvd.gamification.api.dto.RegistrationRule;
+import ch.heigvd.gamification.api.dto.*;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.dao.RuleRepository;
@@ -46,6 +43,8 @@ public class RulesEndpoint implements RulesApi {
     for (Rule rule : app.getRules()){
       ApplicationsRulesSummary rs = new ApplicationsRulesSummary();
       rs.setRulesName(rule.getName());
+      rs.setRuleType(rule.getType());
+      rs.setNumberOfPoint(Integer.toString(rule.getNumberOfPoint()));
       result.add(rs);
     }
     return ResponseEntity.ok(result);
@@ -60,6 +59,7 @@ public class RulesEndpoint implements RulesApi {
     }
     newRule.setName(body.getRuleName());
     newRule.setType(body.getRuleType());
+    newRule.setNumberOfPoint(body.getNumberOfPoint());
     Application applicationNewRule = applicationsRepository.findByKeyUUID(uuid);
     try {
       // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
@@ -71,9 +71,7 @@ public class RulesEndpoint implements RulesApi {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
       }
       applicationNewRule.getRules().add(newRule);
-      System.out.println("ajout règle à l'appli");
       ruleRepository.save(newRule);
-      System.out.println("sauvegarde de la règle");
       //applicationsRepository.save(applicationNewRule);
       return ResponseEntity.status(HttpStatus.CREATED).build();
     } catch (DataIntegrityViolationException e) {
@@ -81,5 +79,16 @@ public class RulesEndpoint implements RulesApi {
       System.out.println(e.getClass());
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
+  }
+
+  @Override
+  public ResponseEntity<Void> updateRule(String uuid, UpdateRule body) {
+    Application app = applicationsRepository.findByKeyUUID(uuid);
+    Rule updateRule = ruleRepository.findByNameAndApplication(body.getOldRuleName(), app);
+    updateRule.setName(body.getRuleName());
+    updateRule.setType(body.getRuleType());
+    updateRule.setNumberOfPoint(body.getNumberOfPoint());
+    ruleRepository.save(updateRule);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }

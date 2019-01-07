@@ -2,6 +2,7 @@ package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.ApplicationsScalesSummary;
 import ch.heigvd.gamification.api.dto.RegistrationScale;
+import ch.heigvd.gamification.api.dto.UpdateScale;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.ScaleRepository;
 import ch.heigvd.gamification.model.Application;
@@ -64,5 +65,16 @@ public class ScalesEndpoint implements ScalesApi {
       System.out.println(e.getClass());
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
+  }
+
+  @Override
+  public ResponseEntity<Void> updateScale(String uuid, UpdateScale body) {
+    Application app = applicationRepository.findByKeyUUID(uuid);
+    Scale updateScale = scaleRepository.findByNameAndApplication(body.getOldScaleName(), app);
+    updateScale.setName(body.getScaleName());
+    updateScale.setMax(body.getScaleMax());
+    updateScale.setMax(body.getScaleMax());
+    scaleRepository.save(updateScale);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }
