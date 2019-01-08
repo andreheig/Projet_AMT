@@ -263,10 +263,11 @@ paths:
           description: "Update a badge"
         405:
           description: "Invalid input"
-  /rules/{uuid}:
+
+  /rules/points/{uuid}:
     get:
-      description: "Retrieve rules by application uuid"
-      operationId: findApplicationRules
+      description: "Retrieve rules that describe how points are awarded according to events, by application uuid"
+      operationId: findPointRules
       parameters:
         - name: uuid
           in: path
@@ -277,17 +278,17 @@ paths:
         - application/json
       responses:
         200:
-          description: "List all rules applications"
+          description: "List all application's point rules"
           schema:
-            title: "Application Rules summary"
+            title: "Application badge point rules"
             type: array
             items:
-              $ref: '#/definitions/ApplicationsRulesSummary'
+              $ref: '#/definitions/PointRuleDto'
         404:
           description: "Application not found"
     post:
-      description: "add new rule"
-      operationId: postRule
+      description: "Add new point rule"
+      operationId: createPointRule
       consumes:
         - application/json
       parameters:
@@ -298,9 +299,9 @@ paths:
           type: string
         - name: body
           in: body
-          description: "The rule for an application's badges"
+          description: "The rule for an application"
           schema:
-            $ref: '#/definitions/RegistrationRule'
+            $ref: '#/definitions/PointRuleDto'
           required: true
       responses:
         201:
@@ -308,8 +309,8 @@ paths:
         405:
           description: "Invalid input"
     put:
-      description: "update a rule"
-      operationId: updateRule
+      description: "Update a point rule"
+      operationId: updatePointRule
       consumes:
         - application/json
       parameters:
@@ -320,15 +321,150 @@ paths:
           type: string
         - name: body
           in: body
-          description: "The rule for an application's badges"
+          description: "The rule for an application"
           schema:
-            $ref: '#/definitions/UpdateRule'
+            $ref: '#/definitions/PointRuleUpdateDto'
           required: true
       responses:
         200:
           description: "Update rule"
         405:
           description: "Invalid input"
+
+  /rules/badgeThreshold/{uuid}:
+    get:
+      description: "Retrieve rules that describe how a badge is won after a threshold is reached in a specifics scale, by application uuid"
+      operationId: findBadgeThresholdRules
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid de l'application à trouver"
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "List all application's badge threshold rules"
+          schema:
+            title: "Application badge threshold rules"
+            type: array
+            items:
+              $ref: '#/definitions/BadgeThresholdRuleDto'
+        404:
+          description: "Application not found"
+    post:
+      description: "Add new badge threshold rule"
+      operationId: createBadgeThresholdRule
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to add rule"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The rule for an application"
+          schema:
+            $ref: '#/definitions/BadgeThresholdRuleDto'
+          required: true
+      responses:
+        201:
+          description: "Register a new rule"
+        405:
+          description: "Invalid input"
+    put:
+      description: "Update a badge threshold rule"
+      operationId: updateBadgeThresholdRule
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to update rule"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The rule for an application"
+          schema:
+            $ref: '#/definitions/BadgeThresholdRuleUpdateDto'
+          required: true
+      responses:
+        200:
+          description: "Update rule"
+        405:
+          description: "Invalid input"
+
+  /rules/badgeTimeRange/{uuid}:
+    get:
+      description: "Retrieve rules that describe how a badge is won when an event ocurrs in a determined time range after first event, by application uuid"
+      operationId: findBadgeTimeRangeRules
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid de l'application à trouver"
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "List all application's badge time range rules"
+          schema:
+            title: "Application badge time range rules"
+            type: array
+            items:
+              $ref: '#/definitions/BadgeTimeRangeRuleDto'
+        404:
+          description: "Application not found"
+    post:
+      description: "Add new badge time range rule"
+      operationId: createBadgeTimeRangeRule
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to add rule"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The rule for an application"
+          schema:
+            $ref: '#/definitions/BadgeTimeRangeRuleDto'
+          required: true
+      responses:
+        201:
+          description: "Register a new rule"
+        405:
+          description: "Invalid input"
+    put:
+      description: "Update a badge time range rule"
+      operationId: updateBadgeTimeRangeRule
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to update rule"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The rule for an application"
+          schema:
+            $ref: '#/definitions/BadgeTimeRangeRuleUpdateDto'
+          required: true
+      responses:
+        200:
+          description: "Update rule"
+        405:
+          description: "Invalid input"
+
 definitions:
   ApplicationSummary:
     type: object
@@ -415,39 +551,115 @@ definitions:
     properties:
       badgesName:
         type: string
-  ApplicationsRulesSummary:
+
+  PointRuleDto:
     type: object
     properties:
-      rulesName:
+      name:
         type: string
-      ruleType:
+      eventType:
         type: string
-      numberOfPoint:
+      scale:
         type: string
-  RegistrationRule:
+      defaultNbPoints:
+        type: integer
+      pointRuleParams:
+        type: array
+        items:
+          $ref: '#/definitions/PointRuleParamDto'
+      applicationSecret:
+        type: string
+  PointRuleUpdateDto:
     type: object
     properties:
-      ruleName:
+      oldName:
         type: string
-      ruleType:
+      newName:
+        type: string
+      newEventType:
+        type: string
+      newScale:
+        type: string
+      newDefaultNbPoints:
+        type: integer
+      newPointRuleParams:
+        type: array
+        items:
+          $ref: '#/definitions/PointRuleParamDto'
+      applicationSecret:
+        type: string
+  PointRuleParamDto:
+    type: object
+    properties:
+      paramName:
+        type: string
+      paramValue:
+        type: string
+      nbPoints:
+        type: integer
+
+  BadgeThresholdRuleDto:
+    type: object
+    properties:
+      name:
+        type: string
+      badge:
+        type: string
+      scale:
+        type: string
+      threshold:
+        type: integer
+      applicationSecret:
+        type: string
+  BadgeThresholdRuleUpdateDto:
+    type: object
+    properties:
+      oldName:
+        type: string
+      newName:
+        type: string
+      newBadge:
+        type: string
+      newScale:
+        type: string
+      newThreshold:
+        type: integer
+      applicationSecret:
+        type: string
+
+  BadgeTimeRangeRuleDto:
+    type: object
+    properties:
+      name:
+        type: string
+      firstEventType:
+        type: string
+      secondEventType:
+        type: string
+      rangeInSeconds:
+        type: integer
+      badge:
         type: string
       applicationSecret:
         type: string
-      numberOfPoint:
-        type: integer
-  UpdateRule:
+  BadgeTimeRangeRuleUpdateDto:
     type: object
     properties:
-      oldRuleName:
+      oldname:
         type: string
-      ruleName:
+      newname:
         type: string
-      ruleType:
+      newFirstEventType:
+        type: string
+      newSecondEventType:
+        type: string
+      newRangeInSeconds:
+        type: integer
+      newBadge:
         type: string
       applicationSecret:
         type: string
-      numberOfPoint:
-        type: integer
+
   ApplicationsScalesSummary:
     type: object
     properties:
@@ -475,6 +687,7 @@ definitions:
         type: integer
       applicationSecret:
         type: string
+
 parameters:
   TokenHeader:
     description: "token that identifies the application sending the request"

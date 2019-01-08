@@ -36,7 +36,7 @@ public class Application implements Serializable {
     private List<Scale> scales = new ArrayList<>();
 
     @OneToMany
-    private List<Rule> rules = new ArrayList<>();
+    private List<PointRule> rules = new ArrayList<>();
 
     @ManyToMany
     private List<EndUser> users = new ArrayList<>();
@@ -120,17 +120,17 @@ public class Application implements Serializable {
 
     }
 
-    public List<Rule> getRules() {
+    public List<PointRule> getPointRules() {
         return rules;
     }
 
-    public void setRules(List<Rule> rules) {
+    public void setPointRules(List<PointRule> rules) {
         this.rules = rules;
     }
 
-    public void addRule(Rule rule){ this.rules.add(rule); }
+    public void addPointRule(PointRule rule){ this.rules.add(rule); }
 
-    public void updateRule(Rule rule){
+    public void updatePointRule(PointRule rule){
 
     }
 
