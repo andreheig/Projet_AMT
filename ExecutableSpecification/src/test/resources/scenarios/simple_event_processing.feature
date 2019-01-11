@@ -1,3 +1,4 @@
+@Event
 Feature: Simple event processing
 
 Background:

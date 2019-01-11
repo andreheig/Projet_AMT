@@ -1,4 +1,22 @@
 -------------------------------------------------------------------------------
 Test set: ch.heigvd.amt.gamification.spec.SpecificationTest
 -------------------------------------------------------------------------------
-Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.419 sec
+Tests run: 16, Failures: 2, Errors: 0, Skipped: 8, Time elapsed: 3.079 sec <<< FAILURE!
+Then I receive a 201 status code(Scenario: Register a new badge)  Time elapsed: 0.003 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<201> but was:<405>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ch.heigvd.amt.gamification.spec.steps.SharedSteps.i_receive_a_status_code(SharedSteps.java:19)
+	at ✽.Then I receive a 201 status code(badge.feature:7)
+
+Scenario: Register a new badge  Time elapsed: 0.003 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<201> but was:<405>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ch.heigvd.amt.gamification.spec.steps.SharedSteps.i_receive_a_status_code(SharedSteps.java:19)
+	at ✽.Then I receive a 201 status code(badge.feature:7)
+

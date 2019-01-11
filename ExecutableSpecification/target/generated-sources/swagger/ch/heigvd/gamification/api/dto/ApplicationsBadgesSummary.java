@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * ApplicationsBadgesSummary
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-12-18T12:11:48.776+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2019-01-08T22:51:29.069+01:00")
 public class ApplicationsBadgesSummary   {
   @SerializedName("badgesName")
   private String badgesName = null;

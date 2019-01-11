@@ -12,14 +12,16 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * RegistrationRule
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2018-12-18T12:20:18.370+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2019-01-11T23:16:27.537+01:00")
 
 public class RegistrationRule   {
   private String ruleName = null;
 
-  private String appId = null;
+  private String ruleType = null;
 
-  private String password = null;
+  private String applicationSecret = null;
+
+  private Integer numberOfPoint = null;
 
   public RegistrationRule ruleName(String ruleName) {
     this.ruleName = ruleName;
@@ -39,40 +41,58 @@ public class RegistrationRule   {
     this.ruleName = ruleName;
   }
 
-  public RegistrationRule appId(String appId) {
-    this.appId = appId;
+  public RegistrationRule ruleType(String ruleType) {
+    this.ruleType = ruleType;
     return this;
   }
 
    /**
-   * Get appId
-   * @return appId
+   * Get ruleType
+   * @return ruleType
   **/
   @ApiModelProperty(value = "")
-  public String getAppId() {
-    return appId;
+  public String getRuleType() {
+    return ruleType;
   }
 
-  public void setAppId(String appId) {
-    this.appId = appId;
+  public void setRuleType(String ruleType) {
+    this.ruleType = ruleType;
   }
 
-  public RegistrationRule password(String password) {
-    this.password = password;
+  public RegistrationRule applicationSecret(String applicationSecret) {
+    this.applicationSecret = applicationSecret;
     return this;
   }
 
    /**
-   * Get password
-   * @return password
+   * Get applicationSecret
+   * @return applicationSecret
   **/
   @ApiModelProperty(value = "")
-  public String getPassword() {
-    return password;
+  public String getApplicationSecret() {
+    return applicationSecret;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setApplicationSecret(String applicationSecret) {
+    this.applicationSecret = applicationSecret;
+  }
+
+  public RegistrationRule numberOfPoint(Integer numberOfPoint) {
+    this.numberOfPoint = numberOfPoint;
+    return this;
+  }
+
+   /**
+   * Get numberOfPoint
+   * @return numberOfPoint
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getNumberOfPoint() {
+    return numberOfPoint;
+  }
+
+  public void setNumberOfPoint(Integer numberOfPoint) {
+    this.numberOfPoint = numberOfPoint;
   }
 
 
@@ -86,13 +106,14 @@ public class RegistrationRule   {
     }
     RegistrationRule registrationRule = (RegistrationRule) o;
     return Objects.equals(this.ruleName, registrationRule.ruleName) &&
-        Objects.equals(this.appId, registrationRule.appId) &&
-        Objects.equals(this.password, registrationRule.password);
+        Objects.equals(this.ruleType, registrationRule.ruleType) &&
+        Objects.equals(this.applicationSecret, registrationRule.applicationSecret) &&
+        Objects.equals(this.numberOfPoint, registrationRule.numberOfPoint);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ruleName, appId, password);
+    return Objects.hash(ruleName, ruleType, applicationSecret, numberOfPoint);
   }
 
   @Override
@@ -101,8 +122,9 @@ public class RegistrationRule   {
     sb.append("class RegistrationRule {\n");
     
     sb.append("    ruleName: ").append(toIndentedString(ruleName)).append("\n");
-    sb.append("    appId: ").append(toIndentedString(appId)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    ruleType: ").append(toIndentedString(ruleType)).append("\n");
+    sb.append("    applicationSecret: ").append(toIndentedString(applicationSecret)).append("\n");
+    sb.append("    numberOfPoint: ").append(toIndentedString(numberOfPoint)).append("\n");
     sb.append("}");
     return sb.toString();
   }

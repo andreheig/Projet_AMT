@@ -91,25 +91,39 @@ All URIs are relative to *http://localhost:8090/api*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DefaultApi* | [**authenticateApplicationAndGetToken**](docs/DefaultApi.md#authenticateApplicationAndGetToken) | **POST** /auth | 
-*DefaultApi* | [**findApplicationBadgesByUuid**](docs/DefaultApi.md#findApplicationBadgesByUuid) | **GET** /badges/{uuid} | 
+*DefaultApi* | [**findApplicationBadges**](docs/DefaultApi.md#findApplicationBadges) | **GET** /badges/{uuid} | 
+*DefaultApi* | [**findApplicationRules**](docs/DefaultApi.md#findApplicationRules) | **GET** /rules/{uuid} | 
+*DefaultApi* | [**findApplicationScales**](docs/DefaultApi.md#findApplicationScales) | **GET** /scales/{uuid} | 
 *DefaultApi* | [**findUserById**](docs/DefaultApi.md#findUserById) | **GET** /users/{id} | 
+*DefaultApi* | [**getAllApplications**](docs/DefaultApi.md#getAllApplications) | **GET** /applications | 
+*DefaultApi* | [**postApplication**](docs/DefaultApi.md#postApplication) | **POST** /applications | 
 *DefaultApi* | [**postBadge**](docs/DefaultApi.md#postBadge) | **POST** /badges/{uuid} | 
 *DefaultApi* | [**postRule**](docs/DefaultApi.md#postRule) | **POST** /rules/{uuid} | 
-*DefaultApi* | [**registrationsGet**](docs/DefaultApi.md#registrationsGet) | **GET** /registrations | 
-*DefaultApi* | [**registrationsPost**](docs/DefaultApi.md#registrationsPost) | **POST** /registrations | 
+*DefaultApi* | [**postScale**](docs/DefaultApi.md#postScale) | **POST** /scales/{uuid} | 
 *DefaultApi* | [**reportEvent**](docs/DefaultApi.md#reportEvent) | **POST** /events | 
+*DefaultApi* | [**updateApplication**](docs/DefaultApi.md#updateApplication) | **PUT** /applications | 
+*DefaultApi* | [**updateBadge**](docs/DefaultApi.md#updateBadge) | **PUT** /badges/{uuid} | 
+*DefaultApi* | [**updateRule**](docs/DefaultApi.md#updateRule) | **PUT** /rules/{uuid} | 
+*DefaultApi* | [**updateScale**](docs/DefaultApi.md#updateScale) | **PUT** /scales/{uuid} | 
 
 
 ## Documentation for Models
 
+ - [ApplicationRegistration](docs/ApplicationRegistration.md)
+ - [ApplicationSummary](docs/ApplicationSummary.md)
+ - [ApplicationUpdate](docs/ApplicationUpdate.md)
  - [ApplicationsBadgesSummary](docs/ApplicationsBadgesSummary.md)
+ - [ApplicationsRulesSummary](docs/ApplicationsRulesSummary.md)
+ - [ApplicationsScalesSummary](docs/ApplicationsScalesSummary.md)
  - [Credentials](docs/Credentials.md)
  - [Event](docs/Event.md)
- - [Registration](docs/Registration.md)
- - [RegistrationBadges](docs/RegistrationBadges.md)
+ - [RegistrationBadge](docs/RegistrationBadge.md)
  - [RegistrationRule](docs/RegistrationRule.md)
- - [RegistrationSummary](docs/RegistrationSummary.md)
+ - [RegistrationScale](docs/RegistrationScale.md)
  - [Token](docs/Token.md)
+ - [UpdateBadge](docs/UpdateBadge.md)
+ - [UpdateRule](docs/UpdateRule.md)
+ - [UpdateScale](docs/UpdateScale.md)
  - [User](docs/User.md)
 
 

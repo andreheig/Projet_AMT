@@ -5,6 +5,7 @@ import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.EndUser;
+import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,13 +28,15 @@ public class UsersEndpoint implements UsersApi {
   }
 
   @Override
-  public ResponseEntity findUserById(@RequestHeader(value="X-Gamification-Token") String xGamificationToken, @PathVariable("id") String userId) {
+  public ResponseEntity findUserById(@ApiParam(value = "token that identifies the application sending the request" ,required=true )
+                                       @RequestHeader(value="X-Gamification-Token", required=true) String xGamificationToken,
+                                       @ApiParam(value = "id of the user to fetch",required=true ) @PathVariable("id") String id) {
     String targetApplicationName = xGamificationToken;
     Application targetApplication = applicationRepository.findByName(targetApplicationName);
-    if (targetApplication == null || userId == null) {
+    if (targetApplication == null || id == null) {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
-    EndUser endUser = endUserRepository.findByApplicationNameAndIdInGamifiedApplication(targetApplicationName, userId);
+    EndUser endUser = endUserRepository.findByApplicationNameAndIdInGamifiedApplication(targetApplicationName, id);
     User user = new User();
     user.setUserId(endUser.getIdInGamifiedApplication());
     user.setNumberOfEvents(endUser.getNumberOfEvents());

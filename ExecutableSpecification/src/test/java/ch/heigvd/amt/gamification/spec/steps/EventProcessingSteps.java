@@ -2,11 +2,7 @@ package ch.heigvd.amt.gamification.spec.steps;
 
 import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.api.DefaultApi;
-import ch.heigvd.gamification.api.dto.Credentials;
-import ch.heigvd.gamification.api.dto.Registration;
-import ch.heigvd.gamification.api.dto.User;
-import ch.heigvd.gamification.api.dto.Event;
-import ch.heigvd.gamification.api.dto.Token;
+import ch.heigvd.gamification.api.dto.*;
 import ch.heigvd.gamification.ApiResponse;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -15,6 +11,8 @@ import cucumber.api.java.en.When;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import javafx.application.Application;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 import org.joda.time.DateTime;
@@ -49,7 +47,7 @@ public class EventProcessingSteps {
   /*
   * Keep track of the applications created during the scenarios execution
    */
-  private final Map<String, Registration> applications = new HashMap<>();
+  private final Map<String, ApplicationRegistration> applications = new HashMap<>();
 
   /*
   * Keep track of the users created for each of the applications
@@ -64,10 +62,12 @@ public class EventProcessingSteps {
   @Given("^a token for a new gamified application (.*)$")
   public void a_token_for_a_new_gamified_application(String applicationReference) throws Throwable {
     String randomApplicationName = "app-name-" + (applicationsCounter++) + '-' + System.currentTimeMillis();
-    Registration applicationRegistration = new Registration();
+
+    ApplicationRegistration applicationRegistration = new ApplicationRegistration();
     applicationRegistration.setApplicationName(randomApplicationName);
-    applicationRegistration.setPassword(DUMMY_PASSWORD);
-    api.registrationsPost(applicationRegistration); // register the application
+    applicationRegistration.setApplicationSecretUUID(DUMMY_PASSWORD);
+    applicationRegistration.setApplicationKeyUUID("");
+    api.postApplication(applicationRegistration); // register the application
 
     Credentials credentials = new Credentials();
     credentials.setApplicationName(randomApplicationName);
@@ -97,7 +97,9 @@ public class EventProcessingSteps {
       event.setType("USER_ACTION");
       event.setUserId(applicationsUsers.get(applicationReference).get(userReference).getUserId());
       try {
-        api.reportEvent(applicationsTokens.get(applicationReference).getApplicationName(), event);      
+        // 1 er param header 2nd payload
+        //api.reportEvent(applicationsTokens.get(applicationReference).getApplicationName(), event);
+        api.reportEvent(event);
       } catch (ApiException e) {
         e.printStackTrace();
       }

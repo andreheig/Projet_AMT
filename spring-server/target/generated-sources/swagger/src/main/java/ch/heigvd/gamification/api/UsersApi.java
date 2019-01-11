@@ -15,14 +15,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2018-12-18T12:20:18.370+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2019-01-11T23:16:27.537+01:00")
 
 @Api(value = "users", description = "the users API")
 public interface UsersApi {
 
     @ApiOperation(value = "", notes = "Retrieve one user by id", response = User.class, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Returns the specified user state", response = User.class) })
+        @ApiResponse(code = 200, message = "Returns the specified user state", response = User.class),
+        @ApiResponse(code = 404, message = "UserId not found", response = User.class),
+        @ApiResponse(code = 405, message = "Invalid input", response = User.class) })
     @RequestMapping(value = "/users/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)

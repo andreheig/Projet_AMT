@@ -7,9 +7,11 @@ import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.ScaleRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.Scale;
+import io.swagger.annotations.ApiParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +31,7 @@ public class ScalesEndpoint implements ScalesApi {
 
 
   @Override
-  public ResponseEntity<List<ApplicationsScalesSummary>> findApplicationScales(String uuid) {
+  public ResponseEntity<List<ApplicationsScalesSummary>> findApplicationScales(@ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid) {
     List<ApplicationsScalesSummary> result = new ArrayList<>();
     Application app = applicationRepository.findByKeyUUID(uuid);
     // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
@@ -47,7 +49,8 @@ public class ScalesEndpoint implements ScalesApi {
   }
 
   @Override
-  public ResponseEntity<Void> postScale(String uuid, @RequestBody RegistrationScale body) {
+  public ResponseEntity<Void> postScale(@ApiParam(value = "uuid of the application to fetch",required=true ) @PathVariable("uuid") String uuid,
+                                         @ApiParam(value = "The info required to register an application's badges" ,required=true ) @RequestBody RegistrationScale body) {
     Scale newScale = new Scale();
     // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant)
     newScale.setName(body.getScaleName());
@@ -68,7 +71,8 @@ public class ScalesEndpoint implements ScalesApi {
   }
 
   @Override
-  public ResponseEntity<Void> updateScale(String uuid, UpdateScale body) {
+  public ResponseEntity<Void> updateScale(@ApiParam(value = "uuid of the application to fetch",required=true ) @PathVariable("uuid") String uuid,
+                                          @ApiParam(value = "The info required to update an application's badges" ,required=true ) @RequestBody UpdateScale body) {
     Application app = applicationRepository.findByKeyUUID(uuid);
     Scale updateScale = scaleRepository.findByNameAndApplication(body.getOldScaleName(), app);
     updateScale.setName(body.getScaleName());

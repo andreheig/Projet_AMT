@@ -7,170 +7,353 @@ info:
 host: localhost:8090
 basePath: /api
 schemes:
-- http
-- https
+  - http
+  - https
 paths:
-  /registrations:
+  /applications:
     get:
+      description: "retrieve all applications"
+      operationId: getAllApplications
       produces:
-      - application/json
+        - application/json
       responses:
         200:
-          description:  List all registered applications
+          description:  "List all registered applications"
           schema:
-            title: Registration summary
+            title: "Application summary"
             type: array
             items:
-              $ref: '#/definitions/RegistrationSummary'
+              $ref: '#/definitions/ApplicationSummary'
     post:
+      description: "register a new application"
+      operationId: postApplication
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - name: body
-        in: body
-        description: The info required to register an application
-        schema:
-          $ref: '#/definitions/Registration'
-        required: true
+        - name: body
+          in: body
+          description: "The info required to register an application"
+          schema:
+            $ref: '#/definitions/ApplicationRegistration'
+          required: true
       responses:
         201:
-          description: Register a new application
+          description: "Register a new application"
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
+    put:
+      description: "update an existing application"
+      operationId: updateApplication
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: "The info required to update an application"
+          schema:
+            $ref: '#/definitions/ApplicationUpdate'
+          required: true
+      responses:
+        201:
+          description: "Update an existing application"
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
   /auth:
     post:
       operationId: authenticateApplicationAndGetToken
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: body
-        in: body
-        description: The info required to authenticate an application
-        schema:
-          $ref: '#/definitions/Credentials'
-        required: true
+        - name: body
+          in: body
+          description: "The info required to authenticate an application"
+          schema:
+            $ref: '#/definitions/Credentials'
+          required: true
       responses:
         200:
-          description: Authentication sucessful
+          description: "Authentication sucessful"
           schema:
             $ref: '#/definitions/Token'
         401:
-          description: Authentication failed
+          description: "Authentication failed"
   /users/{id}:
     get:
-      description:  Retrieve one user by id
+      description: "Retrieve one user by id"
       operationId: findUserById
       parameters:
-      - $ref: '#/parameters/TokenHeader'
-      - name: id
-        in: path
-        description: id of the user to fetch
-        required: true
-        type: string
+        - $ref: '#/parameters/TokenHeader'
+        - name: id
+          in: path
+          description: "id of the user to fetch"
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         200:
           description:
-            Returns the specified user state
+            "Returns the specified user state"
           schema:
             $ref: '#/definitions/User'
+        404:
+          description: "UserId not found"
+        405:
+          description: "Invalid input"
   /events:
     post:
-      description:  Report that a new event has happened in the gamified application
+      description:  "Report that a new event has happened in the gamified application"
       operationId: reportEvent
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/TokenHeader'
-      - name: event
-        in: body
-        description: The event that occured in the realm of the gamified application
-        schema:
-          $ref: '#/definitions/Event'
-        required: true
+        - name: event
+          in: body
+          description: "The event that occured in the realm of the gamified application"
+          schema:
+            $ref: '#/definitions/Event'
+          required: true
       responses:
         202:
           description:
-            The platform has accepted the event and will process it (asynchronously)
+            "The platform has accepted the event and will process it (asynchronously)"
           schema:
             $ref: '#/definitions/Event'
-  /badges/{uuid}:
+        405:
+          description: "Invalid input"
+  /scales/{uuid}:
     get:
-      description:  Retrieve one application by uuid
-      operationId: findApplicationBadgesByUuid
+      description: "Retrieve scale by application uuid"
+      operationId: findApplicationScales
       parameters:
-      - $ref: '#/parameters/Uuid'
-      - name: uuid
-        in: path
-        description: uuid of the application to fetch
-        required: true
-        type: string
+        - name: uuid
+          in: path
+          description: "uuid de l'application à trouver"
+          required: true
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         200:
-          description:  List all badges applications
+          description: "List all scales applications"
           schema:
-            title: Application Badges summary
+            title: "Application Scales summary"
+            type: array
+            items:
+              $ref: '#/definitions/ApplicationsScalesSummary'
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
+    post:
+      description: "add new scale"
+      operationId: postScale
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to fetch"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The info required to register an application's badges"
+          schema:
+            $ref: '#/definitions/RegistrationScale'
+          required: true
+      responses:
+        201:
+          description: "Register a new scale"
+        405:
+          description: "Invalid input"
+    put:
+      description: "update scale"
+      operationId: updateScale
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to fetch"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The info required to update an application's badges"
+          schema:
+            $ref: '#/definitions/UpdateScale'
+          required: true
+      responses:
+        200:
+          description: "Update a scale"
+        405:
+          description: "Invalid input"
+  /badges/{uuid}:
+    get:
+      description: "Retrieve badges by application uuid"
+      operationId: findApplicationBadges
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid de l'application à trouver"
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "List all badges applications"
+          schema:
+            title: "Application Badges summary"
             type: array
             items:
               $ref: '#/definitions/ApplicationsBadgesSummary'
+        404:
+          description: "Application not found"
+        405:
+          description: "Invalid input"
     post:
-      description: add new badges
+      description: "add new badge"
       operationId: postBadge
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/Uuid'
-      - name: uuid
-        in: path
-        description: uuid of the application to fetch
-        required: true
-        type: string
-      - name: body
-        in: body
-        description: The info required to register an application's badges
-        schema:
-          $ref: '#/definitions/RegistrationBadges'
-        required: true
+        - name: uuid
+          in: path
+          description: "uuid of the application to fetch"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The info required to register an application's badge"
+          schema:
+            $ref: '#/definitions/RegistrationBadge'
+          required: true
       responses:
         201:
-          description: Register a new badges
+          description: "Register a new badge"
+        405:
+          description: "Invalid input"
+    put:
+      description: "update a badge"
+      operationId: updateBadge
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to fetch"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The info required to update an application's badge"
+          schema:
+            $ref: '#/definitions/UpdateBadge'
+          required: true
+      responses:
+        201:
+          description: "Update a badge"
+        405:
+          description: "Invalid input"
   /rules/{uuid}:
+    get:
+      description: "Retrieve rules by application uuid"
+      operationId: findApplicationRules
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid de l'application à trouver"
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "List all rules applications"
+          schema:
+            title: "Application Rules summary"
+            type: array
+            items:
+              $ref: '#/definitions/ApplicationsRulesSummary'
+        404:
+          description: "Application not found"
     post:
-      description: add new rule
+      description: "add new rule"
       operationId: postRule
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/Uuid'
-      - name: uuid
-        in: path
-        description: uuid of the application to add rule
-        required: true
-        type: string
-      - name: body
-        in: body
-        description: The rule for an application's badges
-        schema:
-          $ref: '#/definitions/RegistrationRule'
-        required: true
+        - name: uuid
+          in: path
+          description: "uuid of the application to add rule"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The rule for an application's badges"
+          schema:
+            $ref: '#/definitions/RegistrationRule'
+          required: true
       responses:
         201:
-          description: Register a new rule
+          description: "Register a new rule"
+        405:
+          description: "Invalid input"
+    put:
+      description: "update a rule"
+      operationId: updateRule
+      consumes:
+        - application/json
+      parameters:
+        - name: uuid
+          in: path
+          description: "uuid of the application to update rule"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: "The rule for an application's badges"
+          schema:
+            $ref: '#/definitions/UpdateRule'
+          required: true
+      responses:
+        200:
+          description: "Update rule"
+        405:
+          description: "Invalid input"
 definitions:
-  RegistrationSummary:
+  ApplicationSummary:
     type: object
     properties:
       applicationName:
         type: string
-  Registration:
+      applicationKey:
+        type: string
+  ApplicationRegistration:
     type: object
     properties:
       applicationName:
         type: string
-      password:
+      applicationKeyUUID:
+        type: string
+      applicationSecretUUID:
+        type: string
+  ApplicationUpdate:
+    type: object
+    properties:
+      applicationNewName:
+        type: string
+      applicationKey:
+        type: string
+      applicationSecretUUID:
         type: string
   Credentials:
     type: object
@@ -187,6 +370,8 @@ definitions:
   Event:
     type: object
     properties:
+      applicationName:
+        type: string
       type:
         type: string
       userId:
@@ -201,39 +386,111 @@ definitions:
     properties:
       userId:
         type: string
+      name:
+        type: string
       numberOfEvents:
         type: integer
-  RegistrationBadges:
+      applications:
+        type: array
+        items:
+          type: string
+  RegistrationBadge:
     type: object
     properties:
       badgeName:
         type: string
-      username:
+      applicationSecret:
         type: string
-      password:
+  UpdateBadge:
+    type: object
+    properties:
+      oldBadgeName:
+        type: string
+      badgeName:
+        type: string
+      applicationSecret:
         type: string
   ApplicationsBadgesSummary:
     type: object
     properties:
       badgesName:
         type: string
+  ApplicationsRulesSummary:
+    type: object
+    properties:
+      rulesName:
+        type: string
+      ruleType:
+        type: string
+      numberOfPoint:
+        type: string
   RegistrationRule:
     type: object
     properties:
       ruleName:
         type: string
-      appId:
+      ruleType:
+        type: string
+      applicationSecret:
+        type: string
+      numberOfPoint:
+        type: integer
+  UpdateRule:
+    type: object
+    properties:
+      oldRuleName:
+        type: string
+      ruleName:
+        type: string
+      ruleType:
+        type: string
+      applicationSecret:
+        type: string
+      numberOfPoint:
+        type: integer
+  ApplicationsScalesSummary:
+    type: object
+    properties:
+      scaleName:
+        type: string
+      scaleMax:
+        type: integer
+  RegistrationScale:
+    type: object
+    properties:
+      scaleName:
+        type: string
+      scaleMax:
+        type: integer
+      applicationSecret:
+        type: string
+  UpdateScale:
+    type: object
+    properties:
+      oldScaleName:
+        type: string
+      scaleName:
+        type: string
+      scaleMax:
+        type: integer
+      applicationSecret:
         type: string
 parameters:
   TokenHeader:
-    description: token that identifies the application sending the request
+    description: "token that identifies the application sending the request"
     name: X-Gamification-Token
     in: header
     required: true
     type: string
   Uuid:
-    description: uuid identifiant l'application
-    name: id-Application
+    description: "uuid identifiant l'application"
+    name: uuid
+    in: header
+    required: true
+    type: string
+  Id:
+    description: "id a retrouver"
+    name: id
     in: header
     required: true
     type: string

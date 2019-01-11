@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="28" failures="0" name="ch.heigvd.amt.gamification.spec.SpecificationTest" time="0.007" errors="0" skipped="0">
+<testsuite tests="16" failures="2" name="ch.heigvd.amt.gamification.spec.SpecificationTest" time="0.034" errors="0" skipped="8">
   <properties>
-    <property name="idea.version" value="2018.2.5"/>
+    <property name="idea.version" value="2018.3.2"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_181\jre\bin"/>
     <property name="java.vm.version" value="25.181-b13"/>
@@ -30,7 +30,7 @@
     <property name="os.name" value="Windows 10"/>
     <property name="classworlds.conf" value="C:\Program Files\JetBrains\IntelliJ IDEA 2018.2.4\plugins\maven\lib\maven3\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_181\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Java\jdk1.8.0_181\bin;C:\Program Files\Git\cmd;C:\HashiCorp\Vagrant\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Windows;C:\Users\Andre\AppData\Local\Programs\Python\Python37\Scripts;C:\Users\Andre\AppData\Local\Microsoft\WindowsApps;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_181\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Java\jdk1.8.0_181\bin;C:\Program Files\Git\cmd;C:\HashiCorp\Vagrant\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Windows;C:\Users\Andre\AppData\Local\Programs\Python\Python37\Scripts;C:\Users\Andre\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\Andre\AppData\Local\Programs\Python\Python37\;C:\Users\Andre\AppData\Local\Microsoft\WindowsApps;;C:\Users\Andre\AppData\Local\Programs\Microsoft VS Code\bin;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -45,7 +45,7 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_181\jre"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.2.5 install"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.3.2 install"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="fr"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -62,32 +62,54 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="Scenario: Register a new application" name="Given I have an application payload" time="0.003"/>
-  <testcase classname="Scenario: Register a new application" name="When I POST it to the /registrations endpoint" time="0"/>
-  <testcase classname="Scenario: Register a new application" name="Then I receive a 201 status code" time="0"/>
-  <testcase classname="Scenario: Register a new application" name="Scenario: Register a new application" time="0"/>
-  <testcase classname="Scenario: Check that the application has been registered" name="Given I have an application payload" time="0"/>
-  <testcase classname="Scenario: Check that the application has been registered" name="When I POST it to the /registrations endpoint" time="0"/>
-  <testcase classname="Scenario: Check that the application has been registered" name="And I ask for a list of registered apps with a GET on the /registrations endpoint" time="0.001"/>
-  <testcase classname="Scenario: Check that the application has been registered" name="Then I see my app in the list" time="0"/>
-  <testcase classname="Scenario: Check that the application has been registered" name="Scenario: Check that the application has been registered" time="0"/>
-  <testcase classname="Scenario: Check that it is not possible to create two apps with the same name" name="Given I have an application payload" time="0"/>
-  <testcase classname="Scenario: Check that it is not possible to create two apps with the same name" name="When I POST it to the /registrations endpoint" time="0"/>
-  <testcase classname="Scenario: Check that it is not possible to create two apps with the same name" name="And I POST it to the /registrations endpoint" time="0"/>
-  <testcase classname="Scenario: Check that it is not possible to create two apps with the same name" name="Then I receive a 422 status code" time="0"/>
-  <testcase classname="Scenario: Check that it is not possible to create two apps with the same name" name="Scenario: Check that it is not possible to create two apps with the same name" time="0.001"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="Given a token for a new gamified application A1" time="0"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="Given a user U1 of the gamified application A1" time="0"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="When the application A1 POSTs 1 payload for events associated to user U1 on the /events endpoint" time="0"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="And the application A1 GETs user U1 from the /users/ endpoint" time="0"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="Then it receives a 200 status code" time="0"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="And the payload in the response has a property numberOfEvents with a value of 1" time="0.001"/>
-  <testcase classname="Scenario: send the first event for a user of the gamified application" name="Scenario: send the first event for a user of the gamified application" time="0.001"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="Given a token for a new gamified application A1" time="0"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="Given a user U1 of the gamified application A1" time="0"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="When the application A1 POSTs 2 payloads for events associated to user U1 on the /events endpoint" time="0"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="And the application A1 GETs user U1 from the /users/ endpoint" time="0"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="Then it receives a 200 status code" time="0"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="And the payload in the response has a property numberOfEvents with a value of 2" time="0"/>
-  <testcase classname="Scenario: send the first 2 events for a user of the gamified application" name="Scenario: send the first 2 events for a user of the gamified application" time="0"/>
+  <testcase classname="Scenario: Register a new badge" name="Given I have a badge payload" time="0.003"/>
+  <testcase classname="Scenario: Register a new badge" name="When I POST it to the /badges/{uuid}?=uuid endpoint" time="0"/>
+  <testcase classname="Scenario: Register a new badge" name="Then I receive a 201 status code" time="0.003">
+    <failure message="expected:&lt;201&gt; but was:&lt;405&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;201&gt; but was:&lt;405&gt;
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ch.heigvd.amt.gamification.spec.steps.SharedSteps.i_receive_a_status_code(SharedSteps.java:19)
+	at ✽.Then I receive a 201 status code(badge.feature:7)
+</failure>
+  </testcase>
+  <testcase classname="Scenario: Register a new badge" name="Scenario: Register a new badge" time="0.003">
+    <failure message="expected:&lt;201&gt; but was:&lt;405&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;201&gt; but was:&lt;405&gt;
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ch.heigvd.amt.gamification.spec.steps.SharedSteps.i_receive_a_status_code(SharedSteps.java:19)
+	at ✽.Then I receive a 201 status code(badge.feature:7)
+</failure>
+  </testcase>
+  <testcase classname="Scenario: Check that the badge has been registered" name="Given I have a badge payload" time="0"/>
+  <testcase classname="Scenario: Check that the badge has been registered" name="When I POST it to the /badges/{uuid}?= endpoint" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that the badge has been registered" name="And I ask for a list of registered badge&apos;s apps with a GET on the /badges/{uuid}?= endpoint" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that the badge has been registered" name="Then I see my badge in the list" time="0.003">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that the badge has been registered" name="Scenario: Check that the badge has been registered" time="0.003">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that the badge has been registered" name="Scenario: Check that the badge has been registered" time="0.003"/>
+  <testcase classname="Scenario: Check that it is not possible to create two badges with the same name" name="Given I have a badge payload" time="0"/>
+  <testcase classname="Scenario: Check that it is not possible to create two badges with the same name" name="When I POST it to the /badges/{uuid}?= endpoint" time="0.001">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that it is not possible to create two badges with the same name" name="And I POST it to the /badges/{uuid}?= endpoint" time="0.002">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that it is not possible to create two badges with the same name" name="Then I receive a 422 status code" time="0.003">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that it is not possible to create two badges with the same name" name="Scenario: Check that it is not possible to create two badges with the same name" time="0.004">
+    <skipped/>
+  </testcase>
+  <testcase classname="Scenario: Check that it is not possible to create two badges with the same name" name="Scenario: Check that it is not possible to create two badges with the same name" time="0.004"/>
 </testsuite>

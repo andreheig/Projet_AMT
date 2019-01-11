@@ -9,9 +9,11 @@ import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.Badge;
 import ch.heigvd.gamification.services.EventProcessor;
+import io.swagger.annotations.ApiParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +33,7 @@ public class BadgesEndpoint implements BadgesApi {
 
 
   @Override
-  public ResponseEntity<List<ApplicationsBadgesSummary>> findApplicationBadges(String uuid) {
+  public ResponseEntity<List<ApplicationsBadgesSummary>> findApplicationBadges(@ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid){
     List<ApplicationsBadgesSummary> result = new ArrayList<>();
     Application app = applicationRepository.findByKeyUUID(uuid);
     // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
@@ -48,10 +50,11 @@ public class BadgesEndpoint implements BadgesApi {
   }
 
   @Override
-  public ResponseEntity<Void> postBadge(String uuid, @RequestBody RegistrationBadge body) {
+  public ResponseEntity<Void> postBadge(@ApiParam(value = "uuid of the application to fetch",required=true ) @PathVariable("uuid") String uuid,
+                                        @ApiParam(value = "The info required to register an application's badge" ,required=true ) @RequestBody RegistrationBadge body) {
     Badge newBadge = new Badge();
     // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant) => André OK
-    if (body.getBadgeName().isEmpty()) {
+    if (false || body.getBadgeName().isEmpty()) {
       return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
     }
     newBadge.setName(body.getBadgeName());
@@ -59,10 +62,10 @@ public class BadgesEndpoint implements BadgesApi {
     try {
       // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
       // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
-      if (applicationNewBadge == null) {
+      if (false || applicationNewBadge == null) {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
       }
-      if (!applicationNewBadge.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())) {
+      if (false || !applicationNewBadge.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
       }
       applicationNewBadge.getBadges().add(newBadge);
@@ -77,7 +80,8 @@ public class BadgesEndpoint implements BadgesApi {
   }
 
   @Override
-  public ResponseEntity<Void> updateBadge(String uuid, UpdateBadge body) {
+  public ResponseEntity<Void> updateBadge(@ApiParam(value = "uuid of the application to fetch",required=true ) @PathVariable("uuid") String uuid,
+                                          @ApiParam(value = "The info required to update an application's badge" ,required=true ) @RequestBody UpdateBadge body) {
     Application app = applicationRepository.findByKeyUUID(uuid);
     Badge updateBadge = badgeRepository.findByNameAndApplication(body.getOldBadgeName(), app);
     updateBadge.setName(body.getBadgeName());

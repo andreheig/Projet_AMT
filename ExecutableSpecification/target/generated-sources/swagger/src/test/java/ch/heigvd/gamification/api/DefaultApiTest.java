@@ -29,12 +29,19 @@ import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.api.dto.Token;
 import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.ApplicationsBadgesSummary;
+import ch.heigvd.gamification.api.dto.ApplicationsRulesSummary;
+import ch.heigvd.gamification.api.dto.ApplicationsScalesSummary;
 import ch.heigvd.gamification.api.dto.User;
-import ch.heigvd.gamification.api.dto.RegistrationBadges;
+import ch.heigvd.gamification.api.dto.ApplicationSummary;
+import ch.heigvd.gamification.api.dto.ApplicationRegistration;
+import ch.heigvd.gamification.api.dto.RegistrationBadge;
 import ch.heigvd.gamification.api.dto.RegistrationRule;
-import ch.heigvd.gamification.api.dto.RegistrationSummary;
-import ch.heigvd.gamification.api.dto.Registration;
+import ch.heigvd.gamification.api.dto.RegistrationScale;
 import ch.heigvd.gamification.api.dto.Event;
+import ch.heigvd.gamification.api.dto.ApplicationUpdate;
+import ch.heigvd.gamification.api.dto.UpdateBadge;
+import ch.heigvd.gamification.api.dto.UpdateRule;
+import ch.heigvd.gamification.api.dto.UpdateScale;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -69,16 +76,47 @@ public class DefaultApiTest {
     /**
      * 
      *
-     * Retrieve one application by uuid
+     * Retrieve badges by application uuid
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void findApplicationBadgesByUuidTest() throws ApiException {
-        String idApplication = null;
+    public void findApplicationBadgesTest() throws ApiException {
         String uuid = null;
-        // List<ApplicationsBadgesSummary> response = api.findApplicationBadgesByUuid(idApplication, uuid);
+        // List<ApplicationsBadgesSummary> response = api.findApplicationBadges(uuid);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * Retrieve rules by application uuid
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void findApplicationRulesTest() throws ApiException {
+        String uuid = null;
+        // List<ApplicationsRulesSummary> response = api.findApplicationRules(uuid);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * Retrieve scale by application uuid
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void findApplicationScalesTest() throws ApiException {
+        String uuid = null;
+        // List<ApplicationsScalesSummary> response = api.findApplicationScales(uuid);
 
         // TODO: test validations
     }
@@ -103,17 +141,47 @@ public class DefaultApiTest {
     /**
      * 
      *
-     * add new badges
+     * retrieve all applications
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getAllApplicationsTest() throws ApiException {
+        // List<ApplicationSummary> response = api.getAllApplications();
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * register a new application
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void postApplicationTest() throws ApiException {
+        ApplicationRegistration body = null;
+        // api.postApplication(body);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * add new badge
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void postBadgeTest() throws ApiException {
-        String idApplication = null;
         String uuid = null;
-        RegistrationBadges body = null;
-        // api.postBadge(idApplication, uuid, body);
+        RegistrationBadge body = null;
+        // api.postBadge(uuid, body);
 
         // TODO: test validations
     }
@@ -128,10 +196,9 @@ public class DefaultApiTest {
      */
     @Test
     public void postRuleTest() throws ApiException {
-        String idApplication = null;
         String uuid = null;
         RegistrationRule body = null;
-        // api.postRule(idApplication, uuid, body);
+        // api.postRule(uuid, body);
 
         // TODO: test validations
     }
@@ -139,30 +206,16 @@ public class DefaultApiTest {
     /**
      * 
      *
-     * 
+     * add new scale
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void registrationsGetTest() throws ApiException {
-        // List<RegistrationSummary> response = api.registrationsGet();
-
-        // TODO: test validations
-    }
-    
-    /**
-     * 
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void registrationsPostTest() throws ApiException {
-        Registration body = null;
-        // api.registrationsPost(body);
+    public void postScaleTest() throws ApiException {
+        String uuid = null;
+        RegistrationScale body = null;
+        // api.postScale(uuid, body);
 
         // TODO: test validations
     }
@@ -177,9 +230,75 @@ public class DefaultApiTest {
      */
     @Test
     public void reportEventTest() throws ApiException {
-        String xGamificationToken = null;
         Event event = null;
-        // Event response = api.reportEvent(xGamificationToken, event);
+        // Event response = api.reportEvent(event);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * update an existing application
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void updateApplicationTest() throws ApiException {
+        ApplicationUpdate body = null;
+        // api.updateApplication(body);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * update a badge
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void updateBadgeTest() throws ApiException {
+        String uuid = null;
+        UpdateBadge body = null;
+        // api.updateBadge(uuid, body);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * update a rule
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void updateRuleTest() throws ApiException {
+        String uuid = null;
+        UpdateRule body = null;
+        // api.updateRule(uuid, body);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * update scale
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void updateScaleTest() throws ApiException {
+        String uuid = null;
+        UpdateScale body = null;
+        // api.updateScale(uuid, body);
 
         // TODO: test validations
     }

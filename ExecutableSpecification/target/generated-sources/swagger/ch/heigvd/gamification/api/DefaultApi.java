@@ -41,12 +41,19 @@ import java.io.IOException;
 import ch.heigvd.gamification.api.dto.Token;
 import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.ApplicationsBadgesSummary;
+import ch.heigvd.gamification.api.dto.ApplicationsRulesSummary;
+import ch.heigvd.gamification.api.dto.ApplicationsScalesSummary;
 import ch.heigvd.gamification.api.dto.User;
-import ch.heigvd.gamification.api.dto.RegistrationBadges;
+import ch.heigvd.gamification.api.dto.ApplicationSummary;
+import ch.heigvd.gamification.api.dto.ApplicationRegistration;
+import ch.heigvd.gamification.api.dto.RegistrationBadge;
 import ch.heigvd.gamification.api.dto.RegistrationRule;
-import ch.heigvd.gamification.api.dto.RegistrationSummary;
-import ch.heigvd.gamification.api.dto.Registration;
+import ch.heigvd.gamification.api.dto.RegistrationScale;
 import ch.heigvd.gamification.api.dto.Event;
+import ch.heigvd.gamification.api.dto.ApplicationUpdate;
+import ch.heigvd.gamification.api.dto.UpdateBadge;
+import ch.heigvd.gamification.api.dto.UpdateRule;
+import ch.heigvd.gamification.api.dto.UpdateScale;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -179,18 +186,13 @@ public class DefaultApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    /* Build call for findApplicationBadgesByUuid */
-    private com.squareup.okhttp.Call findApplicationBadgesByUuidCall(String idApplication, String uuid, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    /* Build call for findApplicationBadges */
+    private com.squareup.okhttp.Call findApplicationBadgesCall(String uuid, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
-        
-        // verify the required parameter 'idApplication' is set
-        if (idApplication == null) {
-            throw new ApiException("Missing the required parameter 'idApplication' when calling findApplicationBadgesByUuid(Async)");
-        }
         
         // verify the required parameter 'uuid' is set
         if (uuid == null) {
-            throw new ApiException("Missing the required parameter 'uuid' when calling findApplicationBadgesByUuid(Async)");
+            throw new ApiException("Missing the required parameter 'uuid' when calling findApplicationBadges(Async)");
         }
         
 
@@ -201,8 +203,6 @@ public class DefaultApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (idApplication != null)
-        localVarHeaderParams.put("id-Application", apiClient.parameterToString(idApplication));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -236,41 +236,38 @@ public class DefaultApi {
 
     /**
      * 
-     * Retrieve one application by uuid
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to fetch (required)
+     * Retrieve badges by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
      * @return List&lt;ApplicationsBadgesSummary&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<ApplicationsBadgesSummary> findApplicationBadgesByUuid(String idApplication, String uuid) throws ApiException {
-        ApiResponse<List<ApplicationsBadgesSummary>> resp = findApplicationBadgesByUuidWithHttpInfo(idApplication, uuid);
+    public List<ApplicationsBadgesSummary> findApplicationBadges(String uuid) throws ApiException {
+        ApiResponse<List<ApplicationsBadgesSummary>> resp = findApplicationBadgesWithHttpInfo(uuid);
         return resp.getData();
     }
 
     /**
      * 
-     * Retrieve one application by uuid
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to fetch (required)
+     * Retrieve badges by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
      * @return ApiResponse&lt;List&lt;ApplicationsBadgesSummary&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<ApplicationsBadgesSummary>> findApplicationBadgesByUuidWithHttpInfo(String idApplication, String uuid) throws ApiException {
-        com.squareup.okhttp.Call call = findApplicationBadgesByUuidCall(idApplication, uuid, null, null);
+    public ApiResponse<List<ApplicationsBadgesSummary>> findApplicationBadgesWithHttpInfo(String uuid) throws ApiException {
+        com.squareup.okhttp.Call call = findApplicationBadgesCall(uuid, null, null);
         Type localVarReturnType = new TypeToken<List<ApplicationsBadgesSummary>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
-     * Retrieve one application by uuid
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to fetch (required)
+     * Retrieve badges by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call findApplicationBadgesByUuidAsync(String idApplication, String uuid, final ApiCallback<List<ApplicationsBadgesSummary>> callback) throws ApiException {
+    public com.squareup.okhttp.Call findApplicationBadgesAsync(String uuid, final ApiCallback<List<ApplicationsBadgesSummary>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -291,8 +288,222 @@ public class DefaultApi {
             };
         }
 
-        com.squareup.okhttp.Call call = findApplicationBadgesByUuidCall(idApplication, uuid, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = findApplicationBadgesCall(uuid, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<List<ApplicationsBadgesSummary>>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /* Build call for findApplicationRules */
+    private com.squareup.okhttp.Call findApplicationRulesCall(String uuid, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling findApplicationRules(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/rules/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * Retrieve rules by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
+     * @return List&lt;ApplicationsRulesSummary&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public List<ApplicationsRulesSummary> findApplicationRules(String uuid) throws ApiException {
+        ApiResponse<List<ApplicationsRulesSummary>> resp = findApplicationRulesWithHttpInfo(uuid);
+        return resp.getData();
+    }
+
+    /**
+     * 
+     * Retrieve rules by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
+     * @return ApiResponse&lt;List&lt;ApplicationsRulesSummary&gt;&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<List<ApplicationsRulesSummary>> findApplicationRulesWithHttpInfo(String uuid) throws ApiException {
+        com.squareup.okhttp.Call call = findApplicationRulesCall(uuid, null, null);
+        Type localVarReturnType = new TypeToken<List<ApplicationsRulesSummary>>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     *  (asynchronously)
+     * Retrieve rules by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call findApplicationRulesAsync(String uuid, final ApiCallback<List<ApplicationsRulesSummary>> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = findApplicationRulesCall(uuid, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<List<ApplicationsRulesSummary>>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /* Build call for findApplicationScales */
+    private com.squareup.okhttp.Call findApplicationScalesCall(String uuid, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling findApplicationScales(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/scales/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * Retrieve scale by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
+     * @return List&lt;ApplicationsScalesSummary&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public List<ApplicationsScalesSummary> findApplicationScales(String uuid) throws ApiException {
+        ApiResponse<List<ApplicationsScalesSummary>> resp = findApplicationScalesWithHttpInfo(uuid);
+        return resp.getData();
+    }
+
+    /**
+     * 
+     * Retrieve scale by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
+     * @return ApiResponse&lt;List&lt;ApplicationsScalesSummary&gt;&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<List<ApplicationsScalesSummary>> findApplicationScalesWithHttpInfo(String uuid) throws ApiException {
+        com.squareup.okhttp.Call call = findApplicationScalesCall(uuid, null, null);
+        Type localVarReturnType = new TypeToken<List<ApplicationsScalesSummary>>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     *  (asynchronously)
+     * Retrieve scale by application uuid
+     * @param uuid uuid de l&#39;application à trouver (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call findApplicationScalesAsync(String uuid, final ApiCallback<List<ApplicationsScalesSummary>> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = findApplicationScalesCall(uuid, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<List<ApplicationsScalesSummary>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
@@ -413,255 +624,13 @@ public class DefaultApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    /* Build call for postBadge */
-    private com.squareup.okhttp.Call postBadgeCall(String idApplication, String uuid, RegistrationBadges body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // verify the required parameter 'idApplication' is set
-        if (idApplication == null) {
-            throw new ApiException("Missing the required parameter 'idApplication' when calling postBadge(Async)");
-        }
-        
-        // verify the required parameter 'uuid' is set
-        if (uuid == null) {
-            throw new ApiException("Missing the required parameter 'uuid' when calling postBadge(Async)");
-        }
-        
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling postBadge(Async)");
-        }
-        
-
-        // create path and map variables
-        String localVarPath = "/badges/{uuid}".replaceAll("\\{format\\}","json")
-        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (idApplication != null)
-        localVarHeaderParams.put("id-Application", apiClient.parameterToString(idApplication));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    /**
-     * 
-     * add new badges
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to fetch (required)
-     * @param body The info required to register an application&#39;s badges (required)
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public void postBadge(String idApplication, String uuid, RegistrationBadges body) throws ApiException {
-        postBadgeWithHttpInfo(idApplication, uuid, body);
-    }
-
-    /**
-     * 
-     * add new badges
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to fetch (required)
-     * @param body The info required to register an application&#39;s badges (required)
-     * @return ApiResponse&lt;Void&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Void> postBadgeWithHttpInfo(String idApplication, String uuid, RegistrationBadges body) throws ApiException {
-        com.squareup.okhttp.Call call = postBadgeCall(idApplication, uuid, body, null, null);
-        return apiClient.execute(call);
-    }
-
-    /**
-     *  (asynchronously)
-     * add new badges
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to fetch (required)
-     * @param body The info required to register an application&#39;s badges (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call postBadgeAsync(String idApplication, String uuid, RegistrationBadges body, final ApiCallback<Void> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = postBadgeCall(idApplication, uuid, body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
-    }
-    /* Build call for postRule */
-    private com.squareup.okhttp.Call postRuleCall(String idApplication, String uuid, RegistrationRule body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = body;
-        
-        // verify the required parameter 'idApplication' is set
-        if (idApplication == null) {
-            throw new ApiException("Missing the required parameter 'idApplication' when calling postRule(Async)");
-        }
-        
-        // verify the required parameter 'uuid' is set
-        if (uuid == null) {
-            throw new ApiException("Missing the required parameter 'uuid' when calling postRule(Async)");
-        }
-        
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling postRule(Async)");
-        }
-        
-
-        // create path and map variables
-        String localVarPath = "/rules/{uuid}".replaceAll("\\{format\\}","json")
-        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (idApplication != null)
-        localVarHeaderParams.put("id-Application", apiClient.parameterToString(idApplication));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    /**
-     * 
-     * add new rule
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to add rule (required)
-     * @param body The rule for an application&#39;s badges (required)
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public void postRule(String idApplication, String uuid, RegistrationRule body) throws ApiException {
-        postRuleWithHttpInfo(idApplication, uuid, body);
-    }
-
-    /**
-     * 
-     * add new rule
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to add rule (required)
-     * @param body The rule for an application&#39;s badges (required)
-     * @return ApiResponse&lt;Void&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Void> postRuleWithHttpInfo(String idApplication, String uuid, RegistrationRule body) throws ApiException {
-        com.squareup.okhttp.Call call = postRuleCall(idApplication, uuid, body, null, null);
-        return apiClient.execute(call);
-    }
-
-    /**
-     *  (asynchronously)
-     * add new rule
-     * @param idApplication uuid identifiant l&#39;application (required)
-     * @param uuid uuid of the application to add rule (required)
-     * @param body The rule for an application&#39;s badges (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call postRuleAsync(String idApplication, String uuid, RegistrationRule body, final ApiCallback<Void> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = postRuleCall(idApplication, uuid, body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
-    }
-    /* Build call for registrationsGet */
-    private com.squareup.okhttp.Call registrationsGetCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    /* Build call for getAllApplications */
+    private com.squareup.okhttp.Call getAllApplicationsCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
 
         // create path and map variables
-        String localVarPath = "/registrations".replaceAll("\\{format\\}","json");
+        String localVarPath = "/applications".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -699,35 +668,35 @@ public class DefaultApi {
 
     /**
      * 
-     * 
-     * @return List&lt;RegistrationSummary&gt;
+     * retrieve all applications
+     * @return List&lt;ApplicationSummary&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<RegistrationSummary> registrationsGet() throws ApiException {
-        ApiResponse<List<RegistrationSummary>> resp = registrationsGetWithHttpInfo();
+    public List<ApplicationSummary> getAllApplications() throws ApiException {
+        ApiResponse<List<ApplicationSummary>> resp = getAllApplicationsWithHttpInfo();
         return resp.getData();
     }
 
     /**
      * 
-     * 
-     * @return ApiResponse&lt;List&lt;RegistrationSummary&gt;&gt;
+     * retrieve all applications
+     * @return ApiResponse&lt;List&lt;ApplicationSummary&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<RegistrationSummary>> registrationsGetWithHttpInfo() throws ApiException {
-        com.squareup.okhttp.Call call = registrationsGetCall(null, null);
-        Type localVarReturnType = new TypeToken<List<RegistrationSummary>>(){}.getType();
+    public ApiResponse<List<ApplicationSummary>> getAllApplicationsWithHttpInfo() throws ApiException {
+        com.squareup.okhttp.Call call = getAllApplicationsCall(null, null);
+        Type localVarReturnType = new TypeToken<List<ApplicationSummary>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
-     * 
+     * retrieve all applications
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call registrationsGetAsync(final ApiCallback<List<RegistrationSummary>> callback) throws ApiException {
+    public com.squareup.okhttp.Call getAllApplicationsAsync(final ApiCallback<List<ApplicationSummary>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -748,23 +717,23 @@ public class DefaultApi {
             };
         }
 
-        com.squareup.okhttp.Call call = registrationsGetCall(progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<RegistrationSummary>>(){}.getType();
+        com.squareup.okhttp.Call call = getAllApplicationsCall(progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<List<ApplicationSummary>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
-    /* Build call for registrationsPost */
-    private com.squareup.okhttp.Call registrationsPostCall(Registration body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    /* Build call for postApplication */
+    private com.squareup.okhttp.Call postApplicationCall(ApplicationRegistration body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling registrationsPost(Async)");
+            throw new ApiException("Missing the required parameter 'body' when calling postApplication(Async)");
         }
         
 
         // create path and map variables
-        String localVarPath = "/registrations".replaceAll("\\{format\\}","json");
+        String localVarPath = "/applications".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -802,35 +771,35 @@ public class DefaultApi {
 
     /**
      * 
-     * 
+     * register a new application
      * @param body The info required to register an application (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void registrationsPost(Registration body) throws ApiException {
-        registrationsPostWithHttpInfo(body);
+    public void postApplication(ApplicationRegistration body) throws ApiException {
+        postApplicationWithHttpInfo(body);
     }
 
     /**
      * 
-     * 
+     * register a new application
      * @param body The info required to register an application (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> registrationsPostWithHttpInfo(Registration body) throws ApiException {
-        com.squareup.okhttp.Call call = registrationsPostCall(body, null, null);
+    public ApiResponse<Void> postApplicationWithHttpInfo(ApplicationRegistration body) throws ApiException {
+        com.squareup.okhttp.Call call = postApplicationCall(body, null, null);
         return apiClient.execute(call);
     }
 
     /**
      *  (asynchronously)
-     * 
+     * register a new application
      * @param body The info required to register an application (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call registrationsPostAsync(Registration body, final ApiCallback<Void> callback) throws ApiException {
+    public com.squareup.okhttp.Call postApplicationAsync(ApplicationRegistration body, final ApiCallback<Void> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -851,18 +820,346 @@ public class DefaultApi {
             };
         }
 
-        com.squareup.okhttp.Call call = registrationsPostCall(body, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = postApplicationCall(body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /* Build call for postBadge */
+    private com.squareup.okhttp.Call postBadgeCall(String uuid, RegistrationBadge body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling postBadge(Async)");
+        }
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling postBadge(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/badges/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * add new badge
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to register an application&#39;s badge (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void postBadge(String uuid, RegistrationBadge body) throws ApiException {
+        postBadgeWithHttpInfo(uuid, body);
+    }
+
+    /**
+     * 
+     * add new badge
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to register an application&#39;s badge (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> postBadgeWithHttpInfo(String uuid, RegistrationBadge body) throws ApiException {
+        com.squareup.okhttp.Call call = postBadgeCall(uuid, body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * add new badge
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to register an application&#39;s badge (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call postBadgeAsync(String uuid, RegistrationBadge body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = postBadgeCall(uuid, body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /* Build call for postRule */
+    private com.squareup.okhttp.Call postRuleCall(String uuid, RegistrationRule body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling postRule(Async)");
+        }
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling postRule(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/rules/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * add new rule
+     * @param uuid uuid of the application to add rule (required)
+     * @param body The rule for an application&#39;s badges (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void postRule(String uuid, RegistrationRule body) throws ApiException {
+        postRuleWithHttpInfo(uuid, body);
+    }
+
+    /**
+     * 
+     * add new rule
+     * @param uuid uuid of the application to add rule (required)
+     * @param body The rule for an application&#39;s badges (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> postRuleWithHttpInfo(String uuid, RegistrationRule body) throws ApiException {
+        com.squareup.okhttp.Call call = postRuleCall(uuid, body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * add new rule
+     * @param uuid uuid of the application to add rule (required)
+     * @param body The rule for an application&#39;s badges (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call postRuleAsync(String uuid, RegistrationRule body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = postRuleCall(uuid, body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /* Build call for postScale */
+    private com.squareup.okhttp.Call postScaleCall(String uuid, RegistrationScale body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling postScale(Async)");
+        }
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling postScale(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/scales/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * add new scale
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to register an application&#39;s badges (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void postScale(String uuid, RegistrationScale body) throws ApiException {
+        postScaleWithHttpInfo(uuid, body);
+    }
+
+    /**
+     * 
+     * add new scale
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to register an application&#39;s badges (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> postScaleWithHttpInfo(String uuid, RegistrationScale body) throws ApiException {
+        com.squareup.okhttp.Call call = postScaleCall(uuid, body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * add new scale
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to register an application&#39;s badges (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call postScaleAsync(String uuid, RegistrationScale body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = postScaleCall(uuid, body, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
     /* Build call for reportEvent */
-    private com.squareup.okhttp.Call reportEventCall(String xGamificationToken, Event event, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call reportEventCall(Event event, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = event;
-        
-        // verify the required parameter 'xGamificationToken' is set
-        if (xGamificationToken == null) {
-            throw new ApiException("Missing the required parameter 'xGamificationToken' when calling reportEvent(Async)");
-        }
         
         // verify the required parameter 'event' is set
         if (event == null) {
@@ -876,8 +1173,6 @@ public class DefaultApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xGamificationToken != null)
-        localVarHeaderParams.put("X-Gamification-Token", apiClient.parameterToString(xGamificationToken));
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
@@ -912,26 +1207,24 @@ public class DefaultApi {
     /**
      * 
      * Report that a new event has happened in the gamified application
-     * @param xGamificationToken token that identifies the application sending the request (required)
      * @param event The event that occured in the realm of the gamified application (required)
      * @return Event
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Event reportEvent(String xGamificationToken, Event event) throws ApiException {
-        ApiResponse<Event> resp = reportEventWithHttpInfo(xGamificationToken, event);
+    public Event reportEvent(Event event) throws ApiException {
+        ApiResponse<Event> resp = reportEventWithHttpInfo(event);
         return resp.getData();
     }
 
     /**
      * 
      * Report that a new event has happened in the gamified application
-     * @param xGamificationToken token that identifies the application sending the request (required)
      * @param event The event that occured in the realm of the gamified application (required)
      * @return ApiResponse&lt;Event&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Event> reportEventWithHttpInfo(String xGamificationToken, Event event) throws ApiException {
-        com.squareup.okhttp.Call call = reportEventCall(xGamificationToken, event, null, null);
+    public ApiResponse<Event> reportEventWithHttpInfo(Event event) throws ApiException {
+        com.squareup.okhttp.Call call = reportEventCall(event, null, null);
         Type localVarReturnType = new TypeToken<Event>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -939,13 +1232,12 @@ public class DefaultApi {
     /**
      *  (asynchronously)
      * Report that a new event has happened in the gamified application
-     * @param xGamificationToken token that identifies the application sending the request (required)
      * @param event The event that occured in the realm of the gamified application (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call reportEventAsync(String xGamificationToken, Event event, final ApiCallback<Event> callback) throws ApiException {
+    public com.squareup.okhttp.Call reportEventAsync(Event event, final ApiCallback<Event> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -966,9 +1258,444 @@ public class DefaultApi {
             };
         }
 
-        com.squareup.okhttp.Call call = reportEventCall(xGamificationToken, event, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = reportEventCall(event, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Event>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /* Build call for updateApplication */
+    private com.squareup.okhttp.Call updateApplicationCall(ApplicationUpdate body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling updateApplication(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/applications".replaceAll("\\{format\\}","json");
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * update an existing application
+     * @param body The info required to update an application (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void updateApplication(ApplicationUpdate body) throws ApiException {
+        updateApplicationWithHttpInfo(body);
+    }
+
+    /**
+     * 
+     * update an existing application
+     * @param body The info required to update an application (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> updateApplicationWithHttpInfo(ApplicationUpdate body) throws ApiException {
+        com.squareup.okhttp.Call call = updateApplicationCall(body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * update an existing application
+     * @param body The info required to update an application (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call updateApplicationAsync(ApplicationUpdate body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = updateApplicationCall(body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /* Build call for updateBadge */
+    private com.squareup.okhttp.Call updateBadgeCall(String uuid, UpdateBadge body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling updateBadge(Async)");
+        }
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling updateBadge(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/badges/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * update a badge
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to update an application&#39;s badge (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void updateBadge(String uuid, UpdateBadge body) throws ApiException {
+        updateBadgeWithHttpInfo(uuid, body);
+    }
+
+    /**
+     * 
+     * update a badge
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to update an application&#39;s badge (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> updateBadgeWithHttpInfo(String uuid, UpdateBadge body) throws ApiException {
+        com.squareup.okhttp.Call call = updateBadgeCall(uuid, body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * update a badge
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to update an application&#39;s badge (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call updateBadgeAsync(String uuid, UpdateBadge body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = updateBadgeCall(uuid, body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /* Build call for updateRule */
+    private com.squareup.okhttp.Call updateRuleCall(String uuid, UpdateRule body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling updateRule(Async)");
+        }
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling updateRule(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/rules/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * update a rule
+     * @param uuid uuid of the application to update rule (required)
+     * @param body The rule for an application&#39;s badges (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void updateRule(String uuid, UpdateRule body) throws ApiException {
+        updateRuleWithHttpInfo(uuid, body);
+    }
+
+    /**
+     * 
+     * update a rule
+     * @param uuid uuid of the application to update rule (required)
+     * @param body The rule for an application&#39;s badges (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> updateRuleWithHttpInfo(String uuid, UpdateRule body) throws ApiException {
+        com.squareup.okhttp.Call call = updateRuleCall(uuid, body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * update a rule
+     * @param uuid uuid of the application to update rule (required)
+     * @param body The rule for an application&#39;s badges (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call updateRuleAsync(String uuid, UpdateRule body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = updateRuleCall(uuid, body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /* Build call for updateScale */
+    private com.squareup.okhttp.Call updateScaleCall(String uuid, UpdateScale body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
+        
+        // verify the required parameter 'uuid' is set
+        if (uuid == null) {
+            throw new ApiException("Missing the required parameter 'uuid' when calling updateScale(Async)");
+        }
+        
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling updateScale(Async)");
+        }
+        
+
+        // create path and map variables
+        String localVarPath = "/scales/{uuid}".replaceAll("\\{format\\}","json")
+        .replaceAll("\\{" + "uuid" + "\\}", apiClient.escapeString(uuid.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    /**
+     * 
+     * update scale
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to update an application&#39;s badges (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void updateScale(String uuid, UpdateScale body) throws ApiException {
+        updateScaleWithHttpInfo(uuid, body);
+    }
+
+    /**
+     * 
+     * update scale
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to update an application&#39;s badges (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> updateScaleWithHttpInfo(String uuid, UpdateScale body) throws ApiException {
+        com.squareup.okhttp.Call call = updateScaleCall(uuid, body, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     *  (asynchronously)
+     * update scale
+     * @param uuid uuid of the application to fetch (required)
+     * @param body The info required to update an application&#39;s badges (required)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call updateScaleAsync(String uuid, UpdateScale body, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = updateScaleCall(uuid, body, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
         return call;
     }
 }

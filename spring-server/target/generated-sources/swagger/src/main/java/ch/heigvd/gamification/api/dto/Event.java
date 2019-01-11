@@ -13,9 +13,11 @@ import org.joda.time.DateTime;
 /**
  * Event
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2018-12-18T12:20:18.370+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2019-01-11T23:16:27.537+01:00")
 
 public class Event   {
+  private String applicationName = null;
+
   private String type = null;
 
   private String userId = null;
@@ -23,6 +25,24 @@ public class Event   {
   private DateTime timestamp = null;
 
   private Object properties = null;
+
+  public Event applicationName(String applicationName) {
+    this.applicationName = applicationName;
+    return this;
+  }
+
+   /**
+   * Get applicationName
+   * @return applicationName
+  **/
+  @ApiModelProperty(value = "")
+  public String getApplicationName() {
+    return applicationName;
+  }
+
+  public void setApplicationName(String applicationName) {
+    this.applicationName = applicationName;
+  }
 
   public Event type(String type) {
     this.type = type;
@@ -106,7 +126,8 @@ public class Event   {
       return false;
     }
     Event event = (Event) o;
-    return Objects.equals(this.type, event.type) &&
+    return Objects.equals(this.applicationName, event.applicationName) &&
+        Objects.equals(this.type, event.type) &&
         Objects.equals(this.userId, event.userId) &&
         Objects.equals(this.timestamp, event.timestamp) &&
         Objects.equals(this.properties, event.properties);
@@ -114,7 +135,7 @@ public class Event   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, userId, timestamp, properties);
+    return Objects.hash(applicationName, type, userId, timestamp, properties);
   }
 
   @Override
@@ -122,6 +143,7 @@ public class Event   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Event {\n");
     
+    sb.append("    applicationName: ").append(toIndentedString(applicationName)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
