@@ -56,6 +56,9 @@ public class ScalesEndpoint implements ScalesApi {
     newScale.setName(body.getScaleName());
     newScale.setMax(body.getScaleMax());
     Application applicationNewScale = applicationRepository.findByKeyUUID(uuid);
+    if(checkDuplicate(applicationNewScale, newScale) == HttpStatus.UNPROCESSABLE_ENTITY){
+      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+    }
     try {
       // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
       // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant)
@@ -76,9 +79,24 @@ public class ScalesEndpoint implements ScalesApi {
     Application app = applicationRepository.findByKeyUUID(uuid);
     Scale updateScale = scaleRepository.findByNameAndApplication(body.getOldScaleName(), app);
     updateScale.setName(body.getScaleName());
+    if(checkDuplicate(app, updateScale) == HttpStatus.UNPROCESSABLE_ENTITY){
+      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+    }
     updateScale.setMax(body.getScaleMax());
     updateScale.setMax(body.getScaleMax());
     scaleRepository.save(updateScale);
     return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  private HttpStatus checkDuplicate(Application application, Scale scaleToCheck){
+    // TODO: on check si le badge existe déjà dans l'aplication
+    if(application.getScales().size() != 0) {
+      for (Scale scale : application.getScales()) {
+        if (scale.getName().equalsIgnoreCase(scaleToCheck.getName())) {
+          return HttpStatus.UNPROCESSABLE_ENTITY;
+        }
+      }
+    }
+    return HttpStatus.OK;
   }
 }

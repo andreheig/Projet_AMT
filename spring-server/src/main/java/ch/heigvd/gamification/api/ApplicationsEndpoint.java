@@ -7,6 +7,8 @@ import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.model.Application;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.swagger.annotations.ApiParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,13 +41,13 @@ public class ApplicationsEndpoint implements ApplicationsApi {
 
   ;
 
-  public ResponseEntity<Void> postApplication(@RequestBody ApplicationRegistration registration) {
+  public ResponseEntity<Void> postApplication(@ApiParam(value = "The info required to register an application" ,required=true ) @RequestBody ApplicationRegistration body) {
     Application newApplication = new Application();
     // TODO: test à implémenter pour savoir si on a les champs correct (sinon renvoi code http correspondant)
-    newApplication.setName(registration.getApplicationName());
-    String keyUUID = registration.getApplicationKeyUUID();
+    newApplication.setName(body.getApplicationName());
+    String keyUUID = body.getApplicationKeyUUID();
     newApplication.setKeyUUID(keyUUID);
-    String secretUUID = registration.getApplicationSecretUUID();
+    String secretUUID = body.getApplicationSecretUUID();
     newApplication.setSecretUUID(secretUUID);
     try {
       applicationsRepository.save(newApplication);

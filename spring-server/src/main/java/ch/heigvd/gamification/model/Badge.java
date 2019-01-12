@@ -17,6 +17,7 @@ public class Badge implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Application application;
 
+    @Column(nullable = false)
     private String name;
 
     @Version

@@ -5,10 +5,8 @@ import ch.heigvd.gamification.api.dto.RegistrationBadge;
 import ch.heigvd.gamification.api.dto.UpdateBadge;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.BadgeRepository;
-import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.Badge;
-import ch.heigvd.gamification.services.EventProcessor;
 import io.swagger.annotations.ApiParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class BadgesEndpoint implements BadgesApi {
+public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
 
   private final BadgeRepository badgeRepository;
   private final ApplicationRepository applicationRepository;
@@ -57,16 +55,24 @@ public class BadgesEndpoint implements BadgesApi {
     if (false || body.getBadgeName().isEmpty()) {
       return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
     }
+
     newBadge.setName(body.getBadgeName());
     Application applicationNewBadge = applicationRepository.findByKeyUUID(uuid);
     try {
+
       // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
-      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
       if (false || applicationNewBadge == null) {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
       }
+
+      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
       if (false || !applicationNewBadge.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      }
+
+      // TODO: on check si le badge existe déjà dans l'aplication
+      if(checkDuplicate(applicationNewBadge, newBadge) == HttpStatus.UNPROCESSABLE_ENTITY){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
       }
       applicationNewBadge.getBadges().add(newBadge);
       badgeRepository.save(newBadge);
@@ -85,7 +91,22 @@ public class BadgesEndpoint implements BadgesApi {
     Application app = applicationRepository.findByKeyUUID(uuid);
     Badge updateBadge = badgeRepository.findByNameAndApplication(body.getOldBadgeName(), app);
     updateBadge.setName(body.getBadgeName());
+    if(checkDuplicate(app, updateBadge) == HttpStatus.UNPROCESSABLE_ENTITY){
+      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+    }
     badgeRepository.save(updateBadge);
     return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  private HttpStatus checkDuplicate(Application application, Badge badgeToCheck){
+    // TODO: on check si le badge existe déjà dans l'aplication
+    if(application.getBadges().size() != 0) {
+      for (Badge badge : application.getBadges()) {
+        if (badge.getName().equalsIgnoreCase(badgeToCheck.getName())) {
+          return HttpStatus.UNPROCESSABLE_ENTITY;
+        }
+      }
+    }
+    return HttpStatus.OK;
   }
 }

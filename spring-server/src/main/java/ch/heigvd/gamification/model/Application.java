@@ -19,7 +19,7 @@ public class Application implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long appId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false, unique = true)
