@@ -27,13 +27,13 @@ public class PointScaleSteps {
 
   private final DefaultApi api = new DefaultApi();
 
-  private int applicationsCounter = 1;
-
-  private int statusCode;
+  private SharedData data;
   private RegistrationScale scale;
   private List<ApplicationsScalesSummary> scales;
   private final String KEYUUID = "06068b82-d91a-8888-5b39-cd4adb07ae27";
   private final String SECRETUUID = "b7197d93-e3ab-f2ac-e4ac-6e3362289fdc";
+
+  public PointScaleSteps(SharedData data){ this.data = data; }
 
   @Given("^I have a scale payload$")
   public void i_have_a_scale_payload() throws Throwable {
@@ -48,9 +48,9 @@ public class PointScaleSteps {
   public void i_POST_it_to_the_scales_endpoint() throws Throwable {
     try {
       ApiResponse response = api.postScaleWithHttpInfo(KEYUUID, scale);
-      statusCode = response.getStatusCode();
+      data.setStatusCode(response.getStatusCode());
     } catch (ApiException e) {
-      statusCode = e.getCode();
+      data.setStatusCode(e.getCode());
     }
   }
 

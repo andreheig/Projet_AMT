@@ -40,7 +40,7 @@ public class BadgeSteps {
     badge.setApplicationSecret(SECRETUUID);
   }
 
-  @When("^I POST it to the /badges/\\{uuid\\}\\?=uuid endpoint$")
+  @When("^I POST it to the /badges/\\{uuid\\} endpoint$")
   public void i_POST_it_to_the_badges_uuid_endpoint() throws Throwable {
     try {
       System.out.println(KEYUUID);
