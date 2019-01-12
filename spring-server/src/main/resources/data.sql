@@ -4,12 +4,12 @@ INSERT INTO Application (appId, name, keyUUID, secretUUID, version) VALUES (2,'s
 INSERT INTO Application (appId, name, keyUUID, secretUUID, version) VALUES (3,'filmovore', 'e55e4dca-461e-c80f-8a88-a994ec1c381c', '2b19184e-aca3-acf6-f6f2-0c23b37a49ba', 0);
 INSERT INTO Application (appId, name, keyUUID, secretUUID, version) VALUES (4,'eleifend vitae, erat.', '601262e1-7d3d-84fd-6e82-aa243252ae81', 'be722e5f-b7a5-ced3-d8ee-b489d6b5bdaa', 0);
 -- Permet de rentrer des badges:
-INSERT INTO Badge (badgeId, application_appId, name, version) VALUES (1, 1, 'beginner', 0);
-INSERT INTO Badge (badgeId, application_appId, name, version) VALUES (2, 1, 'medium', 0);
-INSERT INTO Badge (badgeId, application_appId, name, version) VALUES (3, 1, 'expert', 0);
-INSERT INTO Badge (badgeId, application_appId, name, version) VALUES (4, 3, 'beginner', 0);
-INSERT INTO Badge (badgeId, application_appId, name, version) VALUES (5, 3, 'medium', 0);
-INSERT INTO Badge (badgeId, application_appId, name, version) VALUES (6, 3, 'expert', 0);
+INSERT INTO Badge (badgeId, name, version) VALUES (1, 'beginner', 0);
+INSERT INTO Badge (badgeId, name, version) VALUES (2, 'medium', 0);
+INSERT INTO Badge (badgeId, name, version) VALUES (3, 'expert', 0);
+INSERT INTO Badge (badgeId, name, version) VALUES (4, 'beginner', 0);
+INSERT INTO Badge (badgeId, name, version) VALUES (5, 'medium', 0);
+INSERT INTO Badge (badgeId, name, version) VALUES (6, 'expert', 0);
 -- Permet de lier les Badges à une application:
 INSERT INTO Application_badges (Application_appId, badges_badgeId) VALUES (1, 1);
 INSERT INTO Application_badges (Application_appId, badges_badgeId) VALUES (1, 2);
@@ -18,8 +18,8 @@ INSERT INTO Application_badges (Application_appId, badges_badgeId) VALUES (3, 4)
 INSERT INTO Application_badges (Application_appId, badges_badgeId) VALUES (3, 5);
 INSERT INTO Application_badges (Application_appId, badges_badgeId) VALUES (3, 6);
 -- Permet de rentrer des échelles:
-INSERT INTO Scale (scaleId, application_appId, max, name, version) VALUES (1, 1, 10000, 'Kilomètres', 0);
-INSERT INTO Scale (scaleId, application_appId, max, name, version) VALUES (2, 3, 10000, 'Films', 0);
+INSERT INTO Scale (scaleId, max, name, version) VALUES (1, 10000, 'Kilomètres', 0);
+INSERT INTO Scale (scaleId, max, name, version) VALUES (2, 10000, 'Films', 0);
 -- Permet de lier les échelles à une application:
 INSERT INTO Application_scales (Application_appId, scales_scaleId) VALUES (1, 1);
 INSERT INTO Application_scales (Application_appId, scales_scaleId) VALUES (3, 2);
@@ -27,8 +27,8 @@ INSERT INTO Application_scales (Application_appId, scales_scaleId) VALUES (3, 2)
 INSERT INTO Rule (id, application_appId, name, type, numberOfPoint, version) VALUES (1, 1, 'test', 'ajouter un kilomètre', 1, 0);
 INSERT INTO Rule (id, application_appId, name, type, numberOfPoint, version) VALUES (2, 3, 'visionnage d un film', 'ajouter un film', 1, 0);
 -- Permet de lier une règle à une application:
-INSERT INTO Application_rules (Application_appId, rules_id) VALUES (1, 1);
-INSERT INTO Application_rules (Application_appId, rules_id) VALUES (3, 2);
+-- INSERT INTO Application_rules (Application_appId, rules_id) VALUES (1, 1);
+-- INSERT INTO Application_rules (Application_appId, rules_id) VALUES (3, 2);
 -- Permet de rentrer des utilisateurs:
 INSERT INTO EndUser (id, idInGamifiedApplication, name, numberOfEvents) VALUES (1, '90011445-4354-4aff-8863-d55598867884', 'Aladin', 0);
 -- Permet de lier un utilisateur a des applications:
