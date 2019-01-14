@@ -36,7 +36,7 @@ public class UsersEndpoint implements UsersApi {
     if (targetApplication == null || id == null) {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
-    EndUser endUser = endUserRepository.findByApplicationNameAndIdInGamifiedApplication(targetApplicationName, id);
+    EndUser endUser = endUserRepository.findByAppNameAndIdInGamifiedApplication(targetApplicationName, id);
     User user = new User();
     user.setUserId(endUser.getIdInGamifiedApplication());
     user.setNumberOfEvents(endUser.getNumberOfEvents());

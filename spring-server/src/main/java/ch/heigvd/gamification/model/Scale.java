@@ -12,13 +12,14 @@ public class Scale implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int scaleId;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Application application;
+    private Application app;
 
     private String name;
 
+    // TODO: à enlever?
     private long max;
 
     @Version
@@ -29,11 +30,11 @@ public class Scale implements Serializable {
         this.name = name;
     }
 
-    public int getScaleId() {
-        return scaleId;
+    public int getId() {
+        return id;
     }
     public void setBadgeId(int scaleId) {
-        this.scaleId = scaleId;
+        this.id = scaleId;
     }
 
     public String getName() {
@@ -50,11 +51,11 @@ public class Scale implements Serializable {
         this.max = max;
     }
 
-    public Application getApplication() {
-        return application;
+    public Application getApp() {
+        return app;
     }
-    public void setApplication(Application application) {
-        this.application = application;
+    public void setApp(Application app) {
+        this.app = app;
     }
 
 }

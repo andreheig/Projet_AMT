@@ -89,7 +89,7 @@ public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
   public ResponseEntity<Void> updateBadge(@ApiParam(value = "uuid of the application to fetch",required=true ) @PathVariable("uuid") String uuid,
                                           @ApiParam(value = "The info required to update an application's badge" ,required=true ) @RequestBody UpdateBadge body) {
     Application app = applicationRepository.findByKeyUUID(uuid);
-    Badge updateBadge = badgeRepository.findByNameAndApplication(body.getOldBadgeName(), app);
+    Badge updateBadge = badgeRepository.findByNameAndApp(body.getOldBadgeName(), app);
     updateBadge.setName(body.getBadgeName());
     if(checkDuplicate(app, updateBadge) == HttpStatus.UNPROCESSABLE_ENTITY){
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();

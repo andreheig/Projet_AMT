@@ -4,6 +4,7 @@ import ch.heigvd.gamification.api.dto.*;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.dao.PointRuleRepository;
+import ch.heigvd.gamification.dao.ScaleRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.PointRule;
 import ch.heigvd.gamification.model.PointRuleParam;
@@ -21,11 +22,17 @@ public class RulesEndpoint implements RulesApi {
 
   private final ApplicationRepository applicationsRepository;
   private final PointRuleRepository pointRuleRepository;
+  private final ScaleRepository scaleRepository;
   private final EventProcessor eventProcessor;
 
-  public RulesEndpoint(ApplicationRepository applicationsRepository, PointRuleRepository pointRuleRepository, EndUserRepository endUsersRepository, EventProcessor eventProcessor) {
+  public RulesEndpoint(ApplicationRepository applicationsRepository,
+                       PointRuleRepository pointRuleRepository,
+                       EndUserRepository endUsersRepository,
+                       ScaleRepository scaleRepository,
+                       EventProcessor eventProcessor) {
     this.applicationsRepository = applicationsRepository;
     this.pointRuleRepository = pointRuleRepository;
+    this.scaleRepository = scaleRepository;
     this.eventProcessor = eventProcessor;
   }
 
@@ -47,7 +54,7 @@ public class RulesEndpoint implements RulesApi {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
       }
 
-      PointRule newRule = dtoToModel(body);
+      PointRule newRule = dtoToModel(body, app);
       app.getPointRules().add(newRule);
       pointRuleRepository.save(newRule);
       applicationsRepository.save(app);
@@ -82,7 +89,7 @@ public class RulesEndpoint implements RulesApi {
     PointRule updatedRule = pointRuleRepository.findByNameAndApp(body.getOldName(), app);
     updatedRule.setName(body.getNewName());
     updatedRule.setEventType(body.getNewEventType());
-    updatedRule.setScale(body.getNewScale());
+    updatedRule.setScale(scaleRepository.findByNameAndApp(body.getNewScale(), app));
     updatedRule.setDefaultNbPoints(body.getNewDefaultNbPoints());
     List<PointRuleParam> params = new ArrayList<>();
     for(PointRuleParamDto paramDto: body.getNewPointRuleParams()) {
@@ -124,11 +131,11 @@ public class RulesEndpoint implements RulesApi {
   }
 
   /** Converts a <code>PointRule</code> to a <code>PointRuleDto</code>*/
-  public static PointRuleDto modelToDto(PointRule rule) {
+  public PointRuleDto modelToDto(PointRule rule) {
     PointRuleDto ruleDto = new PointRuleDto();
     ruleDto.setName(rule.getName());
     ruleDto.setEventType(rule.getEventType());
-    ruleDto.setScale(rule.getScale());
+    ruleDto.setScale(rule.getScale().toString());
     ruleDto.setDefaultNbPoints(rule.getDefaultNbPoints());
 
     List<PointRuleParamDto> ruleParamsDto= new ArrayList<>();
@@ -140,7 +147,7 @@ public class RulesEndpoint implements RulesApi {
   }
 
   /** Converts a <code>PointRuleParam</code> to a <code>PointRuleParamDto</code>*/
-  public static PointRuleParamDto modelToDto(PointRuleParam param) {
+  public PointRuleParamDto modelToDto(PointRuleParam param) {
     PointRuleParamDto paramDto = new PointRuleParamDto();
     paramDto.setParamName(param.getParamName());
     paramDto.setParamValue(param.getParamValue());
@@ -149,11 +156,11 @@ public class RulesEndpoint implements RulesApi {
   }
 
   /** Converts a <code>PointRuleDto</code> to a <code>PointRule</code>*/
-  public static PointRule dtoToModel(PointRuleDto ruleDto) {
+  public PointRule dtoToModel(PointRuleDto ruleDto, Application app) {
     PointRule rule = new PointRule();
     rule.setName(ruleDto.getName());
     rule.setEventType(ruleDto.getEventType());
-    rule.setScale(ruleDto.getScale());
+    rule.setScale(scaleRepository.findByNameAndApp(ruleDto.getScale(), app));
     rule.setDefaultNbPoints(ruleDto.getDefaultNbPoints());
 
     List<PointRuleParam> ruleParams= new ArrayList<>();
@@ -166,7 +173,7 @@ public class RulesEndpoint implements RulesApi {
   }
 
   /** Converts a <code>PointRuleParamDto</code> to a <code>PointRuleParam</code>*/
-  public static PointRuleParam dtoToModel(PointRuleParamDto paramDto) {
+  public PointRuleParam dtoToModel(PointRuleParamDto paramDto) {
     PointRuleParam param = new PointRuleParam();
     param.setParamName(paramDto.getParamName());
     param.setParamValue(paramDto.getParamValue());

@@ -77,7 +77,7 @@ public class ScalesEndpoint implements ScalesApi {
   public ResponseEntity<Void> updateScale(@ApiParam(value = "uuid of the application to fetch",required=true ) @PathVariable("uuid") String uuid,
                                           @ApiParam(value = "The info required to update an application's badges" ,required=true ) @RequestBody UpdateScale body) {
     Application app = applicationRepository.findByKeyUUID(uuid);
-    Scale updateScale = scaleRepository.findByNameAndApplication(body.getOldScaleName(), app);
+    Scale updateScale = scaleRepository.findByNameAndApp(body.getOldScaleName(), app);
     updateScale.setName(body.getScaleName());
     if(checkDuplicate(app, updateScale) == HttpStatus.UNPROCESSABLE_ENTITY){
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();

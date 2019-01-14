@@ -16,8 +16,8 @@ public class BadgeThresholdRule {
     private Application app;
 
     private String name;
-    private String badge;
-    private String scale;
+    private Badge badge;
+    private Scale scale;
     private Integer threshold;
 
     @Version
@@ -49,19 +49,19 @@ public class BadgeThresholdRule {
         this.name = name;
     }
 
-    public String getBadge() {
+    public Badge getBadge() {
         return badge;
     }
 
-    public void setBadge(String badge) {
+    public void setBadge(Badge badge) {
         this.badge = badge;
     }
 
-    public String getScale() {
+    public Scale getScale() {
         return scale;
     }
 
-    public void setScale(String scale) {
+    public void setScale(Scale scale) {
         this.scale = scale;
     }
 

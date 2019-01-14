@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface PointRuleRepository extends CrudRepository<PointRule, Long> {
   
-  Application findByApp(Application app);
+  List<PointRule> findByApp(Application app);
 
-  PointRule findByNameAndApp(String Name, Application app);
+  PointRule findByNameAndApp(String name, Application app);
 
   List<PointRule> findAll();
 

@@ -30,6 +30,7 @@ public class EventsEndpoint implements EventsApi {
 
   @Override
   public ResponseEntity reportEvent(@ApiParam(value = "The event that occured in the realm of the gamified application" ,required=true ) @RequestBody Event event) {
+    System.out.println(event);
     String targetEndUserId = event.getUserId();
     Application targetApplication = applicationsRepository.findByName(event.getApplicationName());
     if (targetApplication == null || targetEndUserId == null) {

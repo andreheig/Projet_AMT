@@ -19,7 +19,7 @@ public class BadgeTimeRangeRule {
     private String firstEventType;
     private String secondEventType;
     private Integer rangeInSeconds;
-    private String badge;
+    private Badge badge;
 
     @Version
     private Integer version;
@@ -74,11 +74,11 @@ public class BadgeTimeRangeRule {
         this.rangeInSeconds = rangeInSeconds;
     }
 
-    public String getBadge() {
+    public Badge getBadge() {
         return badge;
     }
 
-    public void setBadge(String badge) {
+    public void setBadge(Badge badge) {
         this.badge = badge;
     }
 }

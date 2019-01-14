@@ -1,7 +1,6 @@
 package ch.heigvd.gamification.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -16,14 +15,20 @@ public class EndUser implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @ManyToOne
-  private Application application;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Application app;
   
   private String idInGamifiedApplication;
   
   private int numberOfEvents;
 
   private String name;
+
+  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "user")
+  private List<UserBadge> badges;
+
+  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "user")
+  private List<UserScale> pointsInScales;
 
   @Version
   private Integer version;
@@ -35,8 +40,8 @@ public class EndUser implements Serializable {
     this.id = id;
   }
 
-  public Application getApplication(){ return this.application; }
-  public void setApplication(Application application){ this.application = application; }
+  public Application getApp(){ return this.app; }
+  public void setApp(Application app){ this.app = app; }
 
   public String getName() {
     return name;
@@ -58,5 +63,20 @@ public class EndUser implements Serializable {
   public void setNumberOfEvents(int numberOfEvents) {
     this.numberOfEvents = numberOfEvents;
   }
-  
+
+  public List<UserBadge> getBadges() {
+    return badges;
+  }
+
+  public void setBadges(List<UserBadge> badges) {
+    this.badges = badges;
+  }
+
+  public List<UserScale> getPointsInScales() {
+    return pointsInScales;
+  }
+
+  public void setPointsInScales(List<UserScale> pointsInScales) {
+    this.pointsInScales = pointsInScales;
+  }
 }

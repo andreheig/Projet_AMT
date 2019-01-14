@@ -12,10 +12,10 @@ public class Badge implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int badgeId;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Application application;
+    private Application app;
 
     @Column(nullable = false)
     private String name;
@@ -28,11 +28,11 @@ public class Badge implements Serializable {
         this.name = name;
     }
 
-    public int getBadgeId() {
-        return badgeId;
+    public int getId() {
+        return id;
     }
-    public void setBadgeId(int badgeId) {
-        this.badgeId = badgeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,11 +43,11 @@ public class Badge implements Serializable {
     }
 
 
-    public Application getApplication() {
-        return application;
+    public Application getApp() {
+        return app;
     }
-    public void setApplication(Application application) {
-        this.application = application;
+    public void setApp(Application app) {
+        this.app = app;
     }
 
 }

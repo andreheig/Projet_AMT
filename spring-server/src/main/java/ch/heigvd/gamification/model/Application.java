@@ -1,23 +1,16 @@
 package ch.heigvd.gamification.model;
 
-import org.aspectj.lang.annotation.DeclareAnnotation;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.sql.DataSourceDefinitions;
 import javax.persistence.*;
 
-/**
- *
- * @author Olivier Liechti
- */
 @Entity
 public class Application implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long appId;
+    private long id;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -29,16 +22,16 @@ public class Application implements Serializable {
     private String secretUUID;
 
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
     private List<Badge> badges = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
     private List<Scale> scales = new ArrayList<>();
 
-    @OneToMany
-    private List<PointRule> rules = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
+    private List<PointRule> pointRules = new ArrayList<>();
 
-    @ManyToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
     private List<EndUser> users = new ArrayList<>();
 
     @Version
@@ -47,7 +40,7 @@ public class Application implements Serializable {
     public Application(){}
 
     public Application(int id, String name, String keyUUID, String secretUUID){
-        this.appId = id;
+        this.id = id;
         this.name = name;
         this.keyUUID = keyUUID;
         this.secretUUID = secretUUID;
@@ -58,12 +51,12 @@ public class Application implements Serializable {
     }
 
 
-    public long getAppId() {
-        return appId;
+    public long getId() {
+        return id;
     }
 
-    public void setAppId(long appId) {
-        this.appId = appId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -121,14 +114,14 @@ public class Application implements Serializable {
     }
 
     public List<PointRule> getPointRules() {
-        return rules;
+        return pointRules;
     }
 
     public void setPointRules(List<PointRule> rules) {
-        this.rules = rules;
+        this.pointRules = rules;
     }
 
-    public void addPointRule(PointRule rule){ this.rules.add(rule); }
+    public void addPointRule(PointRule rule){ this.pointRules.add(rule); }
 
     public void updatePointRule(PointRule rule){
 

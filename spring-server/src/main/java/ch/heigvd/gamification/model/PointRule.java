@@ -19,10 +19,13 @@ public class PointRule {
 
     private String name;
     private String eventType;
-    private String scale;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Scale scale;
+
     private Integer defaultNbPoints;
 
-    @OneToMany(mappedBy = "pointRule", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "pointRule")
     private List<PointRuleParam> pointRuleParams;
 
     @Version
@@ -62,11 +65,11 @@ public class PointRule {
         this.eventType = eventType;
     }
 
-    public String getScale() {
+    public Scale getScale() {
         return scale;
     }
 
-    public void setScale(String scale) {
+    public void setScale(Scale scale) {
         this.scale = scale;
     }
 

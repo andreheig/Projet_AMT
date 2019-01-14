@@ -15,7 +15,7 @@ public class Rule implements Serializable {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Application application;
+    private Application app;
 
     private String name;
 
@@ -50,11 +50,11 @@ public class Rule implements Serializable {
         this.type = type;
     }
 
-    public Application getApplication() {
-        return application;
+    public Application getApp() {
+        return app;
     }
-    public void setApplication(Application application) {
-        this.application = application;
+    public void setApp(Application app) {
+        this.app = app;
     }
 
     public Scale getScale() { return scale; }

@@ -6,16 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- *
- * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
- */
 public interface BadgeRepository extends CrudRepository<Badge, Long> {
   
-  public Application findByApplication(Application application);
+  Application findByApp(Application application);
 
-  public Badge findByNameAndApplication(String name, Application application);
+  Badge findByNameAndApp(String name, Application application);
 
-  public List<Badge> findAll();
+  List<Badge> findAll();
 
 }

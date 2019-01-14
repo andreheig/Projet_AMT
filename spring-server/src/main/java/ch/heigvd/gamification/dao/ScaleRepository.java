@@ -6,16 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- *
- * @author Olivier Liechti (olivier.liechti@heig-vd.ch)
- */
 public interface ScaleRepository extends CrudRepository<Scale, Long> {
   
-  public Application findByApplication(Application application);
+  List<Scale> findByApp(Application application);
 
-  public Scale findByNameAndApplication(String Name, Application application);
+  Scale findByNameAndApp(String Name, Application application);
 
-  public List<Scale> findAll();
+  List<Scale> findAll();
 
 }
