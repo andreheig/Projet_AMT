@@ -1,17 +1,15 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.*;
-import ch.heigvd.gamification.dao.ApplicationRepository;
-import ch.heigvd.gamification.dao.EndUserRepository;
-import ch.heigvd.gamification.dao.PointRuleRepository;
-import ch.heigvd.gamification.dao.ScaleRepository;
-import ch.heigvd.gamification.model.Application;
-import ch.heigvd.gamification.model.PointRule;
-import ch.heigvd.gamification.model.PointRuleParam;
+import ch.heigvd.gamification.dao.*;
+import ch.heigvd.gamification.model.*;
 import ch.heigvd.gamification.services.EventProcessor;
+import io.swagger.annotations.ApiParam;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -24,20 +22,28 @@ public class RulesEndpoint implements RulesApi {
   private final PointRuleRepository pointRuleRepository;
   private final ScaleRepository scaleRepository;
   private final EventProcessor eventProcessor;
+  private final BadgeRepository badgeRepository;
+  private final BadgeThresholdRuleRepository badgeThresholdRuleRepository;
 
   public RulesEndpoint(ApplicationRepository applicationsRepository,
                        PointRuleRepository pointRuleRepository,
                        EndUserRepository endUsersRepository,
                        ScaleRepository scaleRepository,
-                       EventProcessor eventProcessor) {
+                       BadgeRepository badgeRepository,
+                       EventProcessor eventProcessor,
+                       BadgeThresholdRuleRepository badgeThresholdRuleRepository) {
     this.applicationsRepository = applicationsRepository;
     this.pointRuleRepository = pointRuleRepository;
     this.scaleRepository = scaleRepository;
     this.eventProcessor = eventProcessor;
+    this.badgeRepository = badgeRepository;
+    this.badgeThresholdRuleRepository = badgeThresholdRuleRepository;
   }
 
   @Override
-  public ResponseEntity<Void> createPointRule(String uuid, PointRuleDto body) {
+  public ResponseEntity<Void> createPointRule(
+          @ApiParam(value = "uuid of the application to add rule",required=true ) @PathVariable("uuid") String uuid,
+          @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody PointRuleDto body ) {
     // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant) => André OK
     if(body.getName().isEmpty() || uuid.isEmpty()){
       return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
@@ -68,7 +74,8 @@ public class RulesEndpoint implements RulesApi {
   }
 
   @Override
-  public ResponseEntity<List<PointRuleDto>> findPointRules(String uuid) {
+  public ResponseEntity<List<PointRuleDto>> findPointRules(
+          @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid ) {
     List<PointRuleDto> result = new ArrayList<>();
     // TODO: test pour savoir si le uuid est correct?
     Application app = applicationsRepository.findByKeyUUID(uuid);
@@ -84,7 +91,9 @@ public class RulesEndpoint implements RulesApi {
   }
 
   @Override
-  public ResponseEntity<Void> updatePointRule(String uuid, PointRuleUpdateDto body) {
+  public ResponseEntity<Void> updatePointRule(
+          @ApiParam(value = "uuid of the application to update rule",required=true ) @PathVariable("uuid") String uuid,
+          @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody PointRuleUpdateDto body) {
     Application app = applicationsRepository.findByKeyUUID(uuid);
     PointRule updatedRule = pointRuleRepository.findByNameAndApp(body.getOldName(), app);
     updatedRule.setName(body.getNewName());
@@ -101,32 +110,68 @@ public class RulesEndpoint implements RulesApi {
   }
 
   @Override
-  public ResponseEntity<Void> createBadgeThresholdRule(String uuid, BadgeThresholdRuleDto body) {
+  public ResponseEntity<Void> createBadgeThresholdRule(
+          @ApiParam(value = "uuid of the application to add rule",required=true ) @PathVariable("uuid") String uuid,
+          @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeThresholdRuleDto body ) {
+    Application app = applicationsRepository.findByKeyUUID(uuid);
+    // on ne trouve pas l'application
+    if(app == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    // On ne trouve pas le badge dans l'application
+    for (Badge badge:app.getBadges()) {
+     if (badge.getName().equalsIgnoreCase(body.getBadge())){
+       // on a le même nom de badge
+       for(Scale scale: app.getScales()){
+         if(scale.getName().equalsIgnoreCase(body.getScale())){
+           // on a un bon nom de scale
+            BadgeThresholdRule newBadgeThresholdRule = new BadgeThresholdRule();
+            newBadgeThresholdRule.setApp(app);
+            newBadgeThresholdRule.setBadge(badge);
+            newBadgeThresholdRule.setName(body.getName());
+            newBadgeThresholdRule.setScale(scale);
+            newBadgeThresholdRule.setThreshold(body.getThreshold());
+            badgeThresholdRuleRepository.save(newBadgeThresholdRule);
+
+           return ResponseEntity.status(HttpStatus.CREATED).build();
+         }
+       }
+     }
+
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+
+  @Override
+  public ResponseEntity<List<BadgeThresholdRuleDto>> findBadgeThresholdRules(
+          @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid ) {
     return null;
   }
 
   @Override
-  public ResponseEntity<List<BadgeThresholdRuleDto>> findBadgeThresholdRules(String uuid) {
+  public ResponseEntity<Void> updateBadgeThresholdRule(
+          @ApiParam(value = "uuid of the application to update rule",required=true ) @PathVariable("uuid") String uuid,
+          @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeThresholdRuleUpdateDto body ) {
     return null;
   }
 
   @Override
-  public ResponseEntity<Void> updateBadgeThresholdRule(String uuid, BadgeThresholdRuleUpdateDto body) {
+  public ResponseEntity<Void> createBadgeTimeRangeRule(
+          @ApiParam(value = "uuid of the application to add rule",required=true ) @PathVariable("uuid") String uuid,
+          @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeTimeRangeRuleDto body ) {
     return null;
   }
 
   @Override
-  public ResponseEntity<Void> createBadgeTimeRangeRule(String uuid, BadgeTimeRangeRuleDto body) {
+  public ResponseEntity<List<BadgeTimeRangeRuleDto>> findBadgeTimeRangeRules(
+          @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid) {
     return null;
   }
 
   @Override
-  public ResponseEntity<List<BadgeTimeRangeRuleDto>> findBadgeTimeRangeRules(String uuid) {
-    return null;
-  }
-
-  @Override
-  public ResponseEntity<Void> updateBadgeTimeRangeRule(String uuid, BadgeTimeRangeRuleUpdateDto body) {
+  public ResponseEntity<Void> updateBadgeTimeRangeRule(
+          @ApiParam(value = "uuid of the application to update rule",required=true ) @PathVariable("uuid") String uuid,
+          @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeTimeRangeRuleUpdateDto body) {
     return null;
   }
 
