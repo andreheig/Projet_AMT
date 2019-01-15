@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Olivier Liechti
- */
 @RestController
 public class UsersEndpoint implements UsersApi {
 

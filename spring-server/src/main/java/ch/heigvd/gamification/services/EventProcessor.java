@@ -52,9 +52,20 @@ public class EventProcessor {
     List<PointRule> pointRules = pointRuleRepository.findByApp(app);
     for(PointRule rule : pointRules) {
       if(rule.getEventType().equals(event.getType())) {
-        /*Scale scale = scaleRepository.findByNameAndApp(rule.getScale(), app);
+        // Find the corresponding scale
+        Scale scale = scaleRepository.findByNameAndApp(rule.getScale().getName(), app);
+
+        // Find user's score in that scale, if non-existent then create
         UserScale userScale = userScaleRepository.findByUserAndScale(targetEndUser, scale);
-        userScale.setNbPoints(userScale.getNbPoints() + rule.getDefaultNbPoints());*/
+        if(userScale == null) {
+          userScale = new UserScale();
+          userScale.setUser(targetEndUser);
+          userScale.setScale(scale);
+          userScale.setNbPoints(0);
+        }
+
+        userScale.setNbPoints(userScale.getNbPoints() + rule.getDefaultNbPoints());
+        userScaleRepository.save(userScale);
       }
     }
 

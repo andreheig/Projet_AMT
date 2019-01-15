@@ -21,7 +21,8 @@ public class UserScale {
     private Integer nbPoints;
 
     @Version
-    private Integer version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version;
 
     public UserScale() {}
 

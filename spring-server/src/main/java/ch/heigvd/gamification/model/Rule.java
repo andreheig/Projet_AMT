@@ -26,7 +26,8 @@ public class Rule implements Serializable {
     private int numberOfPoint;
 
     @Version
-    private Integer version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version;
 
 
     public long getId() {

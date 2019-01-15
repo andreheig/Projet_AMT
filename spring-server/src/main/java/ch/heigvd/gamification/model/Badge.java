@@ -21,7 +21,8 @@ public class Badge implements Serializable {
     private String name;
 
     @Version
-    private Integer version;
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version;
 
     public Badge(){}
     public Badge(String name){
