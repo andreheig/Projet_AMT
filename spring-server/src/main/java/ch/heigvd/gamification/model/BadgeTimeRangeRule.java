@@ -19,6 +19,9 @@ public class BadgeTimeRangeRule {
     private String firstEventType;
     private String secondEventType;
     private Integer rangeInSeconds;
+
+    @OneToOne
+    @JoinColumn(name = "badge_id")
     private Badge badge;
 
     @Version

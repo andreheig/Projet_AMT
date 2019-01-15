@@ -16,8 +16,15 @@ public class BadgeThresholdRule {
     private Application app;
 
     private String name;
+
+    @OneToOne
+    @JoinColumn(name = "badge_id")
     private Badge badge;
+
+    @OneToOne
+    @JoinColumn(name = "scale_id")
     private Scale scale;
+
     private Integer threshold;
 
     @Version
