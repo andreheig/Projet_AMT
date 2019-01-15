@@ -16,7 +16,7 @@ public class UserBadge {
     private EndUser user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scale_id")
+    @JoinColumn(name = "badge_id")
     private Badge badge;
 
     private Date dateAwarded;
