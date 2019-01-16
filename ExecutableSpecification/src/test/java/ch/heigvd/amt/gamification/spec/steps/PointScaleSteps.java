@@ -30,8 +30,6 @@ public class PointScaleSteps {
   private SharedData data;
   private RegistrationScale scale;
   private List<ApplicationsScalesSummary> scales;
-  private final String KEYUUID = "06068b82-d91a-8888-5b39-cd4adb07ae27";
-  private final String SECRETUUID = "b7197d93-e3ab-f2ac-e4ac-6e3362289fdc";
 
   public PointScaleSteps(SharedData data){ this.data = data; }
 
@@ -39,24 +37,34 @@ public class PointScaleSteps {
   public void i_have_a_scale_payload() throws Throwable {
     scale = new RegistrationScale();
     Faker faker = new Faker();
-    scale.setApplicationSecret(SECRETUUID);
+    scale.setApplicationSecret(data.getSECRETUUID());
     scale.setScaleMax(faker.number().numberBetween(100, 10000000));
     scale.setScaleName(faker.chuckNorris().fact());
+    data.setScaleName(scale.getScaleName());
   }
 
-  @When("^I POST it to the /scales endpoint$")
-  public void i_POST_it_to_the_scales_endpoint() throws Throwable {
+  @Given("^I have my scale payload$")
+  public void i_have_my_scale_payload() throws Throwable {
+    scale = new RegistrationScale();
+    scale.setApplicationSecret(data.getSECRETUUID());
+    scale.setScaleMax(data.getFaker().number().numberBetween(100, 10000000));
+    scale.setScaleName(data.getScaleName());
+    data.setScaleName(scale.getScaleName());
+  }
+
+  @When("^I POST it to the /scales/\\{uuid\\} endpoint$")
+  public void i_POST_it_to_the_scales_uuid_endpoint() throws Throwable {
     try {
-      ApiResponse response = api.postScaleWithHttpInfo(KEYUUID, scale);
+      ApiResponse response = api.postScaleWithHttpInfo(data.getKEYUUID(), scale);
       data.setStatusCode(response.getStatusCode());
     } catch (ApiException e) {
       data.setStatusCode(e.getCode());
     }
   }
 
-  @When("^I ask for a list of registered scale's app with a GET on the /scales endpoint$")
-  public void i_ask_for_a_list_of_registered_scale_s_app_with_a_GET_on_the_scales_endpoint() throws Throwable {
-    scales = api.findApplicationScales(KEYUUID);
+  @When("^I ask for a list of registered scale's app with a GET on the /scales/\\{uuid\\} endpoint$")
+  public void i_ask_for_a_list_of_registered_scale_s_app_with_a_GET_on_the_scales_uuid_endpoint() throws Throwable {
+    scales = api.findApplicationScales(data.getKEYUUID());
   }
 
   @Then("^I see my scale in the list$")
