@@ -122,6 +122,9 @@ public class RulesEndpoint implements RulesApi {
     if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+    if(badgeThresholdRuleRepository.findByNameAndApp(body.getName(), app)!= null){
+      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+    }
     // On ne trouve pas le badge dans l'application
     for (Badge badge:app.getBadges()) {
      if (badge.getName().equalsIgnoreCase(body.getBadge())){
