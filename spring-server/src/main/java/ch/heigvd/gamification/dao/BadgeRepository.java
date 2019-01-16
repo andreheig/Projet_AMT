@@ -7,8 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface BadgeRepository extends CrudRepository<Badge, Long> {
-  
-  Application findByApp(Application application);
+
+  List<Badge> findByApp(Application application);
 
   Badge findByNameAndApp(String name, Application application);
 

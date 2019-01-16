@@ -29,7 +29,6 @@ public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
     this.applicationRepository = applicationrepository;
   }
 
-
   @Override
   public ResponseEntity<List<ApplicationsBadgesSummary>> findApplicationBadges(@ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid){
     List<ApplicationsBadgesSummary> result = new ArrayList<>();
@@ -39,7 +38,7 @@ public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     // TODO: test à implémenter pour savoir si on a un badge (sinon renvoi code http correspondant)?
-    for (Badge badge : app.getBadges()) {
+    for (Badge badge : badgeRepository.findByApp(app)) {
       ApplicationsBadgesSummary rs = new ApplicationsBadgesSummary();
       rs.setBadgesName(badge.getName());
       result.add(rs);
@@ -52,7 +51,7 @@ public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
                                         @ApiParam(value = "The info required to register an application's badge" ,required=true ) @RequestBody RegistrationBadge body) {
     Badge newBadge = new Badge();
     // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant) => André OK
-    if (false || body.getBadgeName().isEmpty()) {
+    if (body.getBadgeName().isEmpty()) {
       return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
     }
 
@@ -66,7 +65,7 @@ public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
       }
 
       // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
-      if (false || !applicationNewBadge.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())) {
+      if (!applicationNewBadge.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
       }
 
@@ -74,7 +73,7 @@ public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
       if(checkDuplicate(applicationNewBadge, newBadge) == HttpStatus.UNPROCESSABLE_ENTITY){
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
       }
-      applicationNewBadge.getBadges().add(newBadge);
+      newBadge.setApp(applicationNewBadge);
       badgeRepository.save(newBadge);
       applicationRepository.save(applicationNewBadge);
       return ResponseEntity.status(HttpStatus.CREATED).build();

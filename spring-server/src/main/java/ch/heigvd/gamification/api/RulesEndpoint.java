@@ -118,6 +118,10 @@ public class RulesEndpoint implements RulesApi {
     if(app == null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+    // Le secret n'est pas le même
+    if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
     // On ne trouve pas le badge dans l'application
     for (Badge badge:app.getBadges()) {
      if (badge.getName().equalsIgnoreCase(body.getBadge())){
@@ -132,7 +136,7 @@ public class RulesEndpoint implements RulesApi {
             newBadgeThresholdRule.setScale(scale);
             newBadgeThresholdRule.setThreshold(body.getThreshold());
             badgeThresholdRuleRepository.save(newBadgeThresholdRule);
-
+            applicationsRepository.save(app);
            return ResponseEntity.status(HttpStatus.CREATED).build();
          }
        }
@@ -145,7 +149,21 @@ public class RulesEndpoint implements RulesApi {
   @Override
   public ResponseEntity<List<BadgeThresholdRuleDto>> findBadgeThresholdRules(
           @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid ) {
-    return null;
+    Application app = applicationsRepository.findByKeyUUID(uuid);
+    // on ne trouve pas l'application
+    if(app == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    List<BadgeThresholdRuleDto> result = new ArrayList<>();
+    for(BadgeThresholdRule rule: badgeThresholdRuleRepository.findByApp(app)){
+      BadgeThresholdRuleDto rs = new BadgeThresholdRuleDto();
+      rs.setName(rule.getName());
+      rs.setBadge(rule.getBadge().getName());
+      rs.setScale(rule.getScale().getName());
+      rs.setThreshold(rule.getThreshold());
+      result.add(rs);
+    }
+    return ResponseEntity.ok(result);
   }
 
   @Override

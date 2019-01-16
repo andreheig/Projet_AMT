@@ -39,7 +39,7 @@ public class ScalesEndpoint implements ScalesApi {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     // TODO: test à implémenter pour savoir si on a un badge (sinon renvoi code http correspondant)
-    for (Scale scale : app.getScales()){
+    for (Scale scale : scaleRepository.findByApp(app)){
       ApplicationsScalesSummary rs = new ApplicationsScalesSummary();
       rs.setScaleName(scale.getName());
       rs.setScaleMax((int)scale.getMax());
@@ -62,7 +62,7 @@ public class ScalesEndpoint implements ScalesApi {
     try {
       // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
       // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant)
-      applicationNewScale.getScales().add(newScale);
+      newScale.setApp(applicationNewScale);
       scaleRepository.save(newScale);
       applicationRepository.save(applicationNewScale);
       return ResponseEntity.status(HttpStatus.CREATED).build();
