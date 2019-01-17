@@ -25,12 +25,9 @@ public class RulesEndpoint implements RulesApi {
   private final BadgeRepository badgeRepository;
   private final BadgeThresholdRuleRepository badgeThresholdRuleRepository;
 
-  public RulesEndpoint(ApplicationRepository applicationsRepository,
-                       PointRuleRepository pointRuleRepository,
-                       EndUserRepository endUsersRepository,
-                       ScaleRepository scaleRepository,
-                       BadgeRepository badgeRepository,
-                       EventProcessor eventProcessor,
+  public RulesEndpoint(ApplicationRepository applicationsRepository, PointRuleRepository pointRuleRepository,
+                       EndUserRepository endUsersRepository, ScaleRepository scaleRepository,
+                       BadgeRepository badgeRepository,  EventProcessor eventProcessor,
                        BadgeThresholdRuleRepository badgeThresholdRuleRepository) {
     this.applicationsRepository = applicationsRepository;
     this.pointRuleRepository = pointRuleRepository;
@@ -60,17 +57,27 @@ public class RulesEndpoint implements RulesApi {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
       }
 
-      PointRule newRule = dtoToModel(body, app);
-      app.getPointRules().add(newRule);
-      pointRuleRepository.save(newRule);
-      applicationsRepository.save(app);
-      return ResponseEntity.status(HttpStatus.CREATED).build();
+      for(Scale scale: app.getScales()) {
+        if (scale.getName().equalsIgnoreCase(body.getScale())) {
+          for(PointRule rule : app.getPointRules()){
+            if(rule.getName().equalsIgnoreCase(body.getName())){
+              return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+            }
+          }
+          PointRule newRule = dtoToModel(body, app);
+
+          pointRuleRepository.save(newRule);
+          applicationsRepository.save(app);
+          return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+      }
 
     } catch (DataIntegrityViolationException e) {
       System.out.println(e.getMessage());
       System.out.println(e.getClass());
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
   @Override
@@ -228,6 +235,7 @@ public class RulesEndpoint implements RulesApi {
     rule.setEventType(ruleDto.getEventType());
     rule.setScale(scaleRepository.findByNameAndApp(ruleDto.getScale(), app));
     rule.setDefaultNbPoints(ruleDto.getDefaultNbPoints());
+    rule.setApp(app);
 
     List<PointRuleParam> ruleParams= new ArrayList<>();
     for(PointRuleParamDto paramDto : ruleDto.getPointRuleParams()) {
