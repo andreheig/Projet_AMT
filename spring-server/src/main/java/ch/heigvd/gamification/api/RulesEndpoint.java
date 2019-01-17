@@ -24,32 +24,31 @@ public class RulesEndpoint implements RulesApi {
   private final EventProcessor eventProcessor;
   private final BadgeRepository badgeRepository;
   private final BadgeThresholdRuleRepository badgeThresholdRuleRepository;
+  private final BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository;
 
   public RulesEndpoint(ApplicationRepository applicationsRepository, PointRuleRepository pointRuleRepository,
                        EndUserRepository endUsersRepository, ScaleRepository scaleRepository,
                        BadgeRepository badgeRepository,  EventProcessor eventProcessor,
-                       BadgeThresholdRuleRepository badgeThresholdRuleRepository) {
+                       BadgeThresholdRuleRepository badgeThresholdRuleRepository, BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository) {
     this.applicationsRepository = applicationsRepository;
     this.pointRuleRepository = pointRuleRepository;
     this.scaleRepository = scaleRepository;
     this.eventProcessor = eventProcessor;
     this.badgeRepository = badgeRepository;
     this.badgeThresholdRuleRepository = badgeThresholdRuleRepository;
+    this.badgeTimeRangeRuleRepository = badgeTimeRangeRuleRepository;
   }
 
   @Override
   public ResponseEntity<Void> createPointRule(
           @ApiParam(value = "uuid of the application to add rule",required=true ) @PathVariable("uuid") String uuid,
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody PointRuleDto body ) {
-    // TODO: test à implémenter pour savoir si on a un nom (sinon renvoi code http correspondant) => André OK
     if(body.getName().isEmpty() || uuid.isEmpty()){
       return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
     }
 
     Application app = applicationsRepository.findByKeyUUID(uuid);
     try {
-      // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant) => André OK
-      // TODO: test à implémenter pour savoir si le secret match celui de l'application (sinon renvoi code http correspondant) => André OK
       if(app == null){
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
       }
@@ -84,13 +83,10 @@ public class RulesEndpoint implements RulesApi {
   public ResponseEntity<List<PointRuleDto>> findPointRules(
           @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid ) {
     List<PointRuleDto> result = new ArrayList<>();
-    // TODO: test pour savoir si le uuid est correct?
     Application app = applicationsRepository.findByKeyUUID(uuid);
-    // TODO: test à implémenter pour savoir si on a une application (sinon renvoi code http correspondant)
     if(app == null){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-    // TODO: test à implémenter pour savoir si on a une règle ?
     for (PointRule rule : app.getPointRules()) {
       result.add(modelToDto(rule));
     }
@@ -187,13 +183,55 @@ public class RulesEndpoint implements RulesApi {
   public ResponseEntity<Void> createBadgeTimeRangeRule(
           @ApiParam(value = "uuid of the application to add rule",required=true ) @PathVariable("uuid") String uuid,
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeTimeRangeRuleDto body ) {
-    return null;
+    Application app = applicationsRepository.findByKeyUUID(uuid);
+    // on ne trouve pas l'application
+    if(app == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    // Le secret n'est pas le même
+    if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+    // On check si la règle existe déja
+    if(badgeTimeRangeRuleRepository.findByNameAndApp(body.getName(), app)!= null){
+      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+    }
+    for(Badge badge: badgeRepository.findByApp(app)){
+      if(badge.getName().equalsIgnoreCase(body.getBadge())){
+        // Le badge existe
+        BadgeTimeRangeRule badgeTimeRangeRule = new BadgeTimeRangeRule();
+        badgeTimeRangeRule.setApp(app);
+        badgeTimeRangeRule.setBadge(badge);
+        badgeTimeRangeRule.setFirstEventType(body.getFirstEventType());
+        badgeTimeRangeRule.setSecondEventType(body.getSecondEventType());
+        badgeTimeRangeRule.setName(body.getName());
+        badgeTimeRangeRule.setRangeInSeconds(body.getRangeInSeconds());
+        badgeTimeRangeRuleRepository.save(badgeTimeRangeRule);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+      }
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
   @Override
   public ResponseEntity<List<BadgeTimeRangeRuleDto>> findBadgeTimeRangeRules(
           @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid) {
-    return null;
+    Application app = applicationsRepository.findByKeyUUID(uuid);
+    // on ne trouve pas l'application
+    if(app == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    List<BadgeTimeRangeRuleDto> result = new ArrayList<>();
+    for(BadgeTimeRangeRule badgeTimeRangeRule: badgeTimeRangeRuleRepository.findByApp(app)){
+      BadgeTimeRangeRuleDto rs = new BadgeTimeRangeRuleDto();
+      rs.setBadge(badgeTimeRangeRule.getBadge().getName());
+      rs.setFirstEventType(badgeTimeRangeRule.getFirstEventType());
+      rs.setName(badgeTimeRangeRule.getName());
+      rs.setRangeInSeconds(badgeTimeRangeRule.getRangeInSeconds());
+      rs.setSecondEventType(badgeTimeRangeRule.getSecondEventType());
+      result.add(rs);
+    }
+    return ResponseEntity.ok(result);
   }
 
   @Override
