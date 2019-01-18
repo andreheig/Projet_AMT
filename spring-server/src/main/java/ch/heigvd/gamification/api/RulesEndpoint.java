@@ -98,6 +98,9 @@ public class RulesEndpoint implements RulesApi {
           @ApiParam(value = "uuid of the application to update rule",required=true ) @PathVariable("uuid") String uuid,
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody PointRuleUpdateDto body) {
     Application app = applicationsRepository.findByKeyUUID(uuid);
+    if(app == null){
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+    }
     PointRule updatedRule = pointRuleRepository.findByNameAndApp(body.getOldName(), app);
     updatedRule.setName(body.getNewName());
     updatedRule.setEventType(body.getNewEventType());
@@ -118,13 +121,10 @@ public class RulesEndpoint implements RulesApi {
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeThresholdRuleDto body ) {
     Application app = applicationsRepository.findByKeyUUID(uuid);
     // on ne trouve pas l'application
-    if(app == null){
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    // Le secret n'est pas le même
-    if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+      HttpStatus check = checkAppAndSecret(app, body.getApplicationSecret());
+      if(check != HttpStatus.ACCEPTED){
+          return ResponseEntity.status(check).build();
+      }
     if(badgeThresholdRuleRepository.findByNameAndApp(body.getName(), app)!= null){
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
@@ -178,18 +178,16 @@ public class RulesEndpoint implements RulesApi {
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeThresholdRuleUpdateDto body ) {
       Application app = applicationsRepository.findByKeyUUID(uuid);
       // on ne trouve pas l'application
-      if(app == null){
-          return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      HttpStatus check = checkAppAndSecret(app, body.getApplicationSecret());
+      if(check != HttpStatus.ACCEPTED){
+          return ResponseEntity.status(check).build();
       }
       // On test si la vieille règle existe
       BadgeThresholdRule badgeThresholdRule = badgeThresholdRuleRepository.findByNameAndApp(body.getOldName(), app);
       if(badgeThresholdRule == null){
           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
       }
-      // Le secret n'est pas le même
-      if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
-          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-      }
+
       // On check que le badge existe bien dans l'application
       for (Badge badge:app.getBadges()) {
           if (badge.getName().equalsIgnoreCase(body.getNewBadge())) {
@@ -219,13 +217,10 @@ public class RulesEndpoint implements RulesApi {
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeTimeRangeRuleDto body ) {
     Application app = applicationsRepository.findByKeyUUID(uuid);
     // on ne trouve pas l'application
-    if(app == null){
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    // Le secret n'est pas le même
-    if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+      HttpStatus check = checkAppAndSecret(app, body.getApplicationSecret());
+      if(check != HttpStatus.ACCEPTED){
+          return ResponseEntity.status(check).build();
+      }
     // On check si la règle existe déja
     if(badgeTimeRangeRuleRepository.findByNameAndApp(body.getName(), app)!= null){
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -274,8 +269,9 @@ public class RulesEndpoint implements RulesApi {
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeTimeRangeRuleUpdateDto body) {
       Application app = applicationsRepository.findByKeyUUID(uuid);
       // on ne trouve pas l'application
-      if(app == null){
-          return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      HttpStatus check = checkAppAndSecret(app, body.getApplicationSecret());
+      if(check != HttpStatus.ACCEPTED){
+          return ResponseEntity.status(check).build();
       }
       // On check si la règle existe bien
       BadgeTimeRangeRule badgeTimeRangeRule = badgeTimeRangeRuleRepository.findByNameAndApp(body.getOldname(), app);
@@ -283,9 +279,6 @@ public class RulesEndpoint implements RulesApi {
           return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
       }
       // Le secret n'est pas le même
-      if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
-          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-      }
       for(Badge badge: badgeRepository.findByApp(app)){
           if(badge.getName().equalsIgnoreCase(body.getNewBadge())){
               // Le badge existe
@@ -353,5 +346,16 @@ public class RulesEndpoint implements RulesApi {
     param.setParamValue(paramDto.getParamValue());
     param.setNbPoints(paramDto.getNbPoints());
     return param;
+  }
+
+  private HttpStatus checkAppAndSecret(Application app, String secret){
+      if(app == null){
+          return HttpStatus.NOT_FOUND;
+      }
+      // Le secret n'est pas le même
+      if(!app.getSecretUUID().equalsIgnoreCase(secret)){
+          return HttpStatus.UNAUTHORIZED;
+      }
+      return HttpStatus.ACCEPTED;
   }
 }
