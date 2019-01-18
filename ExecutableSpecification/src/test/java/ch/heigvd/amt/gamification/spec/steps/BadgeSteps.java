@@ -49,9 +49,6 @@ public class BadgeSteps {
   @When("^I POST it to the /badges/\\{uuid\\} endpoint$")
   public void i_POST_it_to_the_badges_uuid_endpoint() throws Throwable {
     try {
-      System.out.println(data.getKEYUUID());
-      System.out.println(badge.getApplicationSecret());
-      System.out.println(badge.getBadgeName());
       ApiResponse response = api.postBadgeWithHttpInfo(data.getKEYUUID(), badge);
       data.setStatusCode(response.getStatusCode());
     } catch (ApiException e) {

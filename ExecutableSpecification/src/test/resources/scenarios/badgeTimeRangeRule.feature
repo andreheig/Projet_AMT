@@ -1,19 +1,19 @@
 @BadgeTimeRange
 Feature: BadgeTimeRange badgeTimeRange
 
-  Scenario: Register a new badgeTimeRange
+  Scenario: Register a new badgeTimeRange with badge
     Given I have a badgeTimeRange payload
     And I have my badge payload
     And I POST it to the /badges/{uuid} endpoint
     When I POST it to the /rules/badgeTimeRange/{uuid} endpoint
     Then I receive a 201 status code
 
-  Scenario: Register a new badgeTimeRange
+  Scenario: Register a new badgeTimeRange without badge
     Given I have a badgeTimeRange payload
     When I POST it to the /rules/badgeTimeRange/{uuid} endpoint
     Then I receive a 404 status code
 
-  Scenario: Check that the badgeTimeRange has been registered
+  Scenario: Check that the badgeTimeRange with badge has been registered
     Given I have a badgeTimeRange payload
     And I have my badge payload
     And I POST it to the /badges/{uuid} endpoint

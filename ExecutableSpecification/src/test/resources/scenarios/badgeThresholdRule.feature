@@ -1,7 +1,7 @@
 @BadgeThreshold
 Feature: BadgeThreshold badgeThreshold
 
-  Scenario: Register a new badgeThreshold
+  Scenario: Register a new badgeThreshold without badge
     Given I have a badgeThreshold payload
     When I POST it to the /rules/badgeThreshold/{uuid} endpoint
     Then I receive a 404 status code

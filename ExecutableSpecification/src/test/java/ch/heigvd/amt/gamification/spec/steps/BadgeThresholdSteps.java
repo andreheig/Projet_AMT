@@ -45,12 +45,6 @@ public class BadgeThresholdSteps {
   @When("^I POST it to the /rules/badgeThreshold/\\{uuid\\} endpoint$")
   public void i_POST_it_to_the_rules_badgeThreshold_uuid_endpoint() throws Throwable {
     try {
-      System.out.println(data.getKEYUUID());
-      System.out.println(badgeThresholdRule.getApplicationSecret());
-      System.out.println(badgeThresholdRule.getName());
-      System.out.println(badgeThresholdRule.getScale());
-      System.out.println(badgeThresholdRule.getBadge());
-      System.out.println(badgeThresholdRule.getThreshold());
       ApiResponse response = api.createBadgeThresholdRuleWithHttpInfo(data.getKEYUUID(), badgeThresholdRule);
       data.setStatusCode(response.getStatusCode());
     } catch (ApiException e) {

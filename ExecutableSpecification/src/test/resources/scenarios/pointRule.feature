@@ -1,19 +1,19 @@
 @PointRule
 Feature: PointRule pointRule
 
-  Scenario: Register a new pointRule without parameter
+  Scenario: Register a new pointRule without parameter and without scale
     Given I have a pointRule without parameter payload
     When I POST it to the /rules/points/{uuid} endpoint
     Then I receive a 404 status code
 
-  Scenario: Register a new pointRule without parameter
+  Scenario: Register a new pointRule without parameter and with scale
     Given I have a pointRule without parameter payload
     And I have my scale payload
     And I POST it to the /scales/{uuid} endpoint
     When I POST it to the /rules/points/{uuid} endpoint
     Then I receive a 201 status code
 
-  Scenario: Check that the pointRule  without parameter has been registered
+  Scenario: Check that the pointRule without parameter and with scale has been registered
     Given I have a pointRule without parameter payload
     And I have my scale payload
     And I POST it to the /scales/{uuid} endpoint
@@ -29,19 +29,19 @@ Feature: PointRule pointRule
     And I POST it to the /rules/points/{uuid} endpoint
     Then I receive a 422 status code
 
-  Scenario: Register a new pointRule with parameter
+  Scenario: Register a new pointRule with parameter and without scale
     Given I have a pointRule with parameter payload
     When I POST it to the /rules/points/{uuid} endpoint
     Then I receive a 404 status code
 
-  Scenario: Register a new pointRule with parameter
+  Scenario: Register a new pointRule with parameter and scale
     Given I have a pointRule with parameter payload
     And I have my scale payload
     And I POST it to the /scales/{uuid} endpoint
     When I POST it to the /rules/points/{uuid} endpoint
     Then I receive a 201 status code
 
-  Scenario: Check that the pointRule with parameter has been registered
+  Scenario: Check that the pointRule with parameter and scale has been registered
     Given I have a pointRule with parameter payload
     And I have my scale payload
     And I POST it to the /scales/{uuid} endpoint
