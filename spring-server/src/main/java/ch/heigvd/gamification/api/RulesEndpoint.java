@@ -176,7 +176,41 @@ public class RulesEndpoint implements RulesApi {
   public ResponseEntity<Void> updateBadgeThresholdRule(
           @ApiParam(value = "uuid of the application to update rule",required=true ) @PathVariable("uuid") String uuid,
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeThresholdRuleUpdateDto body ) {
-    return null;
+      Application app = applicationsRepository.findByKeyUUID(uuid);
+      // on ne trouve pas l'application
+      if(app == null){
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+      // On test si la vieille règle existe
+      BadgeThresholdRule badgeThresholdRule = badgeThresholdRuleRepository.findByNameAndApp(body.getOldName(), app);
+      if(badgeThresholdRule == null){
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+      // Le secret n'est pas le même
+      if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      }
+      // On check que le badge existe bien dans l'application
+      for (Badge badge:app.getBadges()) {
+          if (badge.getName().equalsIgnoreCase(body.getNewBadge())) {
+              // on a le même nom de badge
+              for (Scale scale : app.getScales()) {
+                  if (scale.getName().equalsIgnoreCase(body.getNewScale())) {
+                      // on a un bon nom de scale
+                      badgeThresholdRule = new BadgeThresholdRule();
+                      badgeThresholdRule.setApp(app);
+                      badgeThresholdRule.setBadge(badge);
+                      badgeThresholdRule.setName(body.getNewName());
+                      badgeThresholdRule.setScale(scale);
+                      badgeThresholdRule.setThreshold(body.getNewThreshold());
+                      badgeThresholdRuleRepository.save(badgeThresholdRule);
+                      applicationsRepository.save(app);
+                      return ResponseEntity.status(HttpStatus.OK).build();
+                  }
+              }
+          }
+      }
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
   @Override
@@ -238,7 +272,35 @@ public class RulesEndpoint implements RulesApi {
   public ResponseEntity<Void> updateBadgeTimeRangeRule(
           @ApiParam(value = "uuid of the application to update rule",required=true ) @PathVariable("uuid") String uuid,
           @ApiParam(value = "The rule for an application" ,required=true ) @RequestBody BadgeTimeRangeRuleUpdateDto body) {
-    return null;
+      Application app = applicationsRepository.findByKeyUUID(uuid);
+      // on ne trouve pas l'application
+      if(app == null){
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+      // On check si la règle existe bien
+      BadgeTimeRangeRule badgeTimeRangeRule = badgeTimeRangeRuleRepository.findByNameAndApp(body.getOldname(), app);
+      if(badgeTimeRangeRule == null){
+          return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+      }
+      // Le secret n'est pas le même
+      if(!app.getSecretUUID().equalsIgnoreCase(body.getApplicationSecret())){
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      }
+      for(Badge badge: badgeRepository.findByApp(app)){
+          if(badge.getName().equalsIgnoreCase(body.getNewBadge())){
+              // Le badge existe
+              badgeTimeRangeRule.setApp(app);
+              badgeTimeRangeRule.setBadge(badge);
+              badgeTimeRangeRule.setFirstEventType(body.getNewFirstEventType());
+              badgeTimeRangeRule.setSecondEventType(body.getNewSecondEventType());
+              badgeTimeRangeRule.setName(body.getNewname());
+              badgeTimeRangeRule.setRangeInSeconds(body.getNewRangeInSeconds());
+              badgeTimeRangeRuleRepository.save(badgeTimeRangeRule);
+              return ResponseEntity.status(HttpStatus.OK).build();
+          }
+      }
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
   }
 
   /** Converts a <code>PointRule</code> to a <code>PointRuleDto</code>*/
