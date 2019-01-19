@@ -8,7 +8,9 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -35,14 +37,13 @@ public class EventProcessingSteps {
   /*
    * Variables used to generate test data
    */
-  final static String DUMMY_PASSWORD = "dummyPassword";
+  final static String APPLICATION = "FPS";
+  final static String USER_PASS = "90011445-4354-4aff-8863-d55598867884";
   int applicationsCounter = 1;
   int usersCounter = 1;
-
-  /*
-  * Variables used to share data between steps
-   */
-  private ApiResponse lastApiResponse = null;
+  private SharedData data;
+  private List<Event> events = new ArrayList<>();
+  private User user = new User();
 
   /*
   * Keep track of the applications created during the scenarios execution
@@ -59,70 +60,82 @@ public class EventProcessingSteps {
    */
   private final Map<String, Token> applicationsTokens = new HashMap<>();
 
-  @Given("^a token for a new gamified application (.*)$")
-  public void a_token_for_a_new_gamified_application(String applicationReference) throws Throwable {
-    String randomApplicationName = "app-name-" + (applicationsCounter++) + '-' + System.currentTimeMillis();
+  public EventProcessingSteps(SharedData data){ this.data = data; }
 
-    ApplicationRegistration applicationRegistration = new ApplicationRegistration();
-    applicationRegistration.setApplicationName(randomApplicationName);
-    applicationRegistration.setApplicationSecretUUID(DUMMY_PASSWORD);
-    applicationRegistration.setApplicationKeyUUID("");
-    api.postApplication(applicationRegistration); // register the application
-
-    Credentials credentials = new Credentials();
-    credentials.setApplicationName(randomApplicationName);
-    credentials.setPassword(DUMMY_PASSWORD);
-    Token token = api.authenticateApplicationAndGetToken(credentials); // and immediately authenticate to get a token
-
-    applications.put(applicationReference, applicationRegistration);
-    applicationsUsers.put(applicationReference, new HashMap<>());
-    applicationsTokens.put(applicationReference, token);
+  @Given("^I have an Event payload$")
+  public void i_have_an_Event_payload() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    Event event = new Event();
+    event.setTimestamp(DateTime.now());
+    event.setType("kill");
+    event.setUserId(USER_PASS);
+    event.setApplicationName(APPLICATION);
+    events.add(event);
   }
 
-  @Given("^a user (.*) of the gamified application (.*)$")
-  public void a_user_U_of_the_gamified_application_A(String userReference, String applicationReference) throws Throwable {
-    User user = new User();
-    String randomUserId = "user-" + (usersCounter++) + "-" + System.currentTimeMillis();
-    user.setUserId(userReference);
-    applicationsUsers.get(applicationReference).put(userReference, user);
+  @Given("^I have two Event payload$")
+  public void i_have_two_Event_payload() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    Event event = new Event();
+    event.setTimestamp(DateTime.now());
+    event.setType("IT Agent");
+    event.setUserId(USER_PASS);
+    event.setApplicationName(APPLICATION);
+    events.add(event);
+    event = new Event();
+    event.setTimestamp(DateTime.now());
+    event.setType("kill");
+    event.setUserId(USER_PASS);
+    event.setApplicationName(APPLICATION);
+    events.add(event);
   }
 
-  @When("^the application (.*) POSTs (\\d+) payload(?:s?) for events associated to user (.*) on the /events endpoint$")
-  public void the_application_A_POSTs_payload_s_for_events_associated_to_user_U_on_the_events_endpoint(String applicationReference, int numberOfEvents, String userReference) throws Throwable {
-    for (int i = 0; i < numberOfEvents; i++) {
-      Event event = new Event();
-      event.setTimestamp(DateTime.now());
-      //OffsetDateTime dateTime = OffsetDateTime.now();
-      //event.setTimestamp(dateTime.withOffsetSameInstant(ZoneOffset.UTC));
-      event.setType("USER_ACTION");
-      event.setUserId(applicationsUsers.get(applicationReference).get(userReference).getUserId());
-      try {
-        // 1 er param header 2nd payload
-        //api.reportEvent(applicationsTokens.get(applicationReference).getApplicationName(), event);
-        api.reportEvent(event);
-      } catch (ApiException e) {
-        e.printStackTrace();
-      }
-    }
-  }
-
-  @When("^the application (.*) GETs user (.*) from the /users/ endpoint$")
-  public void the_application_A_GETs_user_U_from_the_users_endpoint(String applicationReference, String userReference) throws Throwable {
+  @When("^I post it to the /events endpoint$")
+  public void i_post_it_to_the_events_endpoint() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
     try {
-      lastApiResponse = api.findUserByIdWithHttpInfo(applicationsTokens.get(applicationReference).getApplicationName(), applicationsUsers.get(applicationReference).get(userReference).getUserId());
+      for(int i = 0; i < events.size();++i) {
+        ApiResponse response = api.reportEventWithHttpInfo(events.get(i));
+        data.setStatusCode(response.getStatusCode());
+      }
     } catch (ApiException e) {
-      lastApiResponse = null;
+      data.setStatusCode(e.getCode());
     }
   }
 
-  @Then("^it receives a (\\d+) status code$")
-  public void it_receives_a_status_code(int expectedStatusCode) throws Throwable {
-    assertEquals(expectedStatusCode, lastApiResponse.getStatusCode());
+  @When("^I post the first to the /events endpoint$")
+  public void i_post_the_first_to_the_events_endpoint() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    try {
+        ApiResponse response = api.reportEventWithHttpInfo(events.get(0));
+        data.setStatusCode(response.getStatusCode());
+    } catch (ApiException e) {
+      data.setStatusCode(e.getCode());
+    }
+  }
+
+  @When("^I post the second to the /events endpoint$")
+  public void i_post_the_second_to_the_events_endpoint() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    try {
+      ApiResponse response = api.reportEventWithHttpInfo(events.get(1));
+      data.setStatusCode(response.getStatusCode());
+    } catch (ApiException e) {
+      data.setStatusCode(e.getCode());
+    }
+  }
+
+  @When("^I ask the user U(\\d+) from the /users/\\{id\\} endpoint$")
+  public void i_ask_the_user_U_from_the_users_endpoint(int arg1) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    ApiResponse response = api.findUserByIdWithHttpInfo(APPLICATION,USER_PASS);
+    data.setStatusCode(response.getStatusCode());
+    user = (User) response.getData();
   }
 
   @Then("^the payload in the response has a property numberOfEvents with a value of (\\d+)$")
   public void the_payload_in_the_response_has_a_property_numberOfEvents_with_a_value_of(int expectedNumberOfEvents) throws Throwable {
-    User retrievedUserState = (User) lastApiResponse.getData();
+    User retrievedUserState = (User) user;
     assertEquals(expectedNumberOfEvents, retrievedUserState.getNumberOfEvents().intValue());
   }
 

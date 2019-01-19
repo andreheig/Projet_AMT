@@ -37,7 +37,7 @@ public class PointRuleSteps {
     pointRuleDto.setApplicationSecret(data.getSECRETUUID());
     pointRuleDto.setDefaultNbPoints(data.getFaker().number().numberBetween(10, 100));
     pointRuleDto.setName(data.getFaker().harryPotter().character());
-    pointRuleDto.setEventType(data.getFaker().beer().name());
+    pointRuleDto.setEventType(data.getPointRuleEventType());
     pointRuleDto.setScale(data.getScaleName());
   }
 
@@ -53,7 +53,7 @@ public class PointRuleSteps {
     pointRuleDto.setApplicationSecret(data.getSECRETUUID());
     pointRuleDto.setDefaultNbPoints(data.getFaker().number().numberBetween(10, 100));
     pointRuleDto.setName(data.getFaker().harryPotter().character());
-    pointRuleDto.setEventType(data.getFaker().beer().name());
+    pointRuleDto.setEventType(data.getPointRuleEventType());
     pointRuleDto.setPointRuleParams(params);
     pointRuleDto.setScale(data.getScaleName());
     }
