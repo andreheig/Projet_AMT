@@ -66,10 +66,26 @@ public class RulesEndpoint implements RulesApi {
               return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
             }
           }
-          PointRule newRule = dtoToModel(body, app);
+          //PointRule newRule = dtoToModel(body, app);
+          PointRule newRule = new PointRule();
+          newRule.setApp(app);
+          newRule.setDefaultNbPoints(body.getDefaultNbPoints());
+          newRule.setEventType(body.getEventType());
+          newRule.setName(body.getName());
+          newRule.setScale(scale);
 
           pointRuleRepository.save(newRule);
-          pointRuleParamRepository.save(newRule.getPointRuleParams());
+
+          for(PointRuleParamDto param: body.getPointRuleParams()){
+              PointRuleParam pointRuleParam = new PointRuleParam();
+              pointRuleParam.setParamValue(param.getParamValue());
+              pointRuleParam.setNbPoints(param.getNbPoints());
+              pointRuleParam.setParamName(param.getParamName());
+              pointRuleParam.setPointRule(newRule);
+              pointRuleParamRepository.save(pointRuleParam);
+          }
+
+          pointRuleRepository.save(newRule);
           applicationsRepository.save(app);
           return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -87,12 +103,31 @@ public class RulesEndpoint implements RulesApi {
   public ResponseEntity<List<PointRuleDto>> findPointRules(
           @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid ) {
     List<PointRuleDto> result = new ArrayList<>();
+    List<PointRuleParamDto> paramResult = new ArrayList<>();
     Application app = applicationsRepository.findByKeyUUID(uuid);
     if(app == null){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
-    for (PointRule rule : app.getPointRules()) {
+    /*for (PointRule rule : app.getPointRules()) {
       result.add(modelToDto(rule));
+    }*/
+    for(PointRule rule: pointRuleRepository.findByApp(app)){
+        PointRuleDto rs = new PointRuleDto();
+        rs.setScale(rule.getScale().getName());
+        rs.setName(rule.getName());
+        rs.setEventType(rule.getEventType());
+        rs.setDefaultNbPoints(rule.getDefaultNbPoints());
+        if(pointRuleParamRepository.findByPointRule(rule).size() != 0) {
+            for (PointRuleParam param : pointRuleParamRepository.findByPointRule(rule)) {
+                PointRuleParamDto prs = new PointRuleParamDto();
+                prs.setParamValue(param.getParamValue());
+                prs.setNbPoints(param.getNbPoints());
+                prs.setParamName(param.getParamName());
+                paramResult.add(prs);
+            }
+        }
+        rs.setPointRuleParams(paramResult);
+        result.add(rs);
     }
     return ResponseEntity.ok(result);
   }
