@@ -12,17 +12,17 @@ public class BadgeThresholdRule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Application app;
 
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "badge_id")
+    //@JoinColumn(name = "badge_id")
     private Badge badge;
 
     @OneToOne
-    @JoinColumn(name = "scale_id")
+    //@JoinColumn(name = "scale_id")
     private Scale scale;
 
     private Integer threshold;

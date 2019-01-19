@@ -21,7 +21,6 @@ public class Application implements Serializable {
     @Column(nullable = false, unique = true)
     private String secretUUID;
 
-
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
     private List<Badge> badges = new ArrayList<>();
 
@@ -33,6 +32,9 @@ public class Application implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
     private List<EndUser> users = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "app")
+    private List<BadgeThresholdRule> badgeThresholdRules = new ArrayList<>();
 
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
@@ -139,6 +141,20 @@ public class Application implements Serializable {
     public void addUser(EndUser users){ this.users.add(users); }
 
     public void updateUser(EndUser users){
+
+    }
+
+    public List<BadgeThresholdRule> getBadgeThresholdRules() {
+        return badgeThresholdRules;
+    }
+
+    public void setBadgeThresholdRules(List<BadgeThresholdRule> badgeThresholdRules) {
+        this.badgeThresholdRules = badgeThresholdRules;
+    }
+
+    public void addbadgeThresholdRule(BadgeThresholdRule badgeThresholdRule){ this.badgeThresholdRules.add(badgeThresholdRule); }
+
+    public void updatebadgeThresholdRule(BadgeThresholdRule badgeThresholdRule){
 
     }
 }
