@@ -14,8 +14,8 @@ public class PointRuleParam {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "rule_id")
     private PointRule pointRule;
+
     private String paramName;
     private String paramValue;
     private Integer nbPoints;

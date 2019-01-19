@@ -37,7 +37,7 @@ public class EventsEndpoint implements EventsApi {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
     eventProcessor.processEvent(targetApplication, event);
-    return ResponseEntity.accepted().build();
+    return ResponseEntity.ok().build();
   }
 
 

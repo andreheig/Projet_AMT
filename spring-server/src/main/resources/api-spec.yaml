@@ -532,6 +532,10 @@ definitions:
         type: array
         items:
           type: string
+      badges:
+        type: array
+        items:
+          type: string
   RegistrationBadge:
     type: object
     properties:

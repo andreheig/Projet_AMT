@@ -7,13 +7,24 @@ INSERT INTO Application (id, name, keyUUID, secretUUID VALUES (4,'eleifend vitae
 INSERT INTO EndUser (id, idInGamifiedApplication, app_id, name, numberOfEvents, optlock) VALUES (1, '90011445-4354-4aff-8863-d55598867884', 1, 'Aladin', 0, 0);
 -- Permet de rentrer des badges:
 INSERT INTO Badge (id, app_id, name, optlock) VALUES (1, 1, 'beginner', 0);
+INSERT INTO Badge (id, app_id, name, optlock) VALUES (2, 1, 'Iona Corolla', 0);
+INSERT INTO Badge (id, app_id, name, optlock) VALUES (3, 1, 'Bing Ding', 0);
 -- Permet de rentrer des échelles:
 INSERT INTO Scale (id, app_id, max, name, optlock) VALUES (1, 1, 10000, 'Killpoints', 0);
+INSERT INTO Scale (id, app_id, max, name, optlock) VALUES (2, 1, 4806057, 'Chuck Norris doesn''t need an OS.', 0);
+INSERT INTO Scale (id, app_id, max, name, optlock) VALUES (3, 1, 76890, '', 0);
 -- Point rules: what event awards how many point
-INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (1, 1, 'Killing rule', 1, 'kill',100, 0);
+INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (1, 1, 'Killing rule', 1, 'kill', 100, 0);
+INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (2, 1, 'Dobby', 2, 'IT Agent', 42, 0);
 -- Point rule params: what event awards how many point
-INSERT INTO PointRuleParam (id, rule_id, paramName, paramValue, nbPoints, optlock) VALUES (1, 1, 'difficulty', 'easy', 50, 0);
-INSERT INTO PointRuleParam (id, rule_id, paramName, paramValue, nbPoints, optlock) VALUES (2, 1, 'difficulty', 'hard', 200, 0);
+INSERT INTO PointRuleParam (id, pointrule_id, paramName, paramValue, nbPoints, optlock) VALUES (1, 1, 'difficulty', 'easy', 50, 0);
+INSERT INTO PointRuleParam (id, pointrule_id, paramName, paramValue, nbPoints, optlock) VALUES (2, 1, 'difficulty', 'hard', 200, 0);
+INSERT INTO PointRuleParam (id, pointrule_id, paramName, paramValue, nbPoints, optlock) VALUES (3, 2, 'Number the Stars', 'Cloudy periods', 14, 0);
+INSERT INTO PointRuleParam (id, pointrule_id, paramName, paramValue, nbPoints, optlock) VALUES (4, 2, 'I Know Why the Caged Bird Sings', 'Partly cloudy', 22, 0);
 -- Threshold rule: with how many points a badge is won
 INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold, optlock) VALUES (1, 1, 'Beginner killer rule', 1, 1, 200, 0);
-
+INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold, optlock) VALUES (2, 1, 'Helen Highwater', 2, 2, 552, 0);
+INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold, optlock) VALUES (3, 1, 'Andy Structible', 3, 3, 469, 0);
+-- time rule
+INSERT INTO BadgeTimeRangeRule (id, app_id, badge_id, firstEventType, name, rangeInSeconds, secondEventType, optlock) VALUES (1, 1, 2, 'kill', 'Thorin Oakenshield', 29073, 'IT Agent', 0);
+INSERT INTO BadgeTimeRangeRule (id, app_id, badge_id, firstEventType, name, rangeInSeconds, secondEventType, optlock) VALUES (2, 1, 3, 'IT Agent', 'Tom', 585301, 'kill', 0);
