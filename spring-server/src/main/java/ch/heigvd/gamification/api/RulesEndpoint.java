@@ -20,6 +20,7 @@ public class RulesEndpoint implements RulesApi {
 
   private final ApplicationRepository applicationsRepository;
   private final PointRuleRepository pointRuleRepository;
+  private final PointRuleParamRepository pointRuleParamRepository;
   private final ScaleRepository scaleRepository;
   private final EventProcessor eventProcessor;
   private final BadgeRepository badgeRepository;
@@ -29,7 +30,8 @@ public class RulesEndpoint implements RulesApi {
   public RulesEndpoint(ApplicationRepository applicationsRepository, PointRuleRepository pointRuleRepository,
                        EndUserRepository endUsersRepository, ScaleRepository scaleRepository,
                        BadgeRepository badgeRepository,  EventProcessor eventProcessor,
-                       BadgeThresholdRuleRepository badgeThresholdRuleRepository, BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository) {
+                       BadgeThresholdRuleRepository badgeThresholdRuleRepository, BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository,
+                       PointRuleParamRepository pointRuleParamRepository) {
     this.applicationsRepository = applicationsRepository;
     this.pointRuleRepository = pointRuleRepository;
     this.scaleRepository = scaleRepository;
@@ -37,6 +39,7 @@ public class RulesEndpoint implements RulesApi {
     this.badgeRepository = badgeRepository;
     this.badgeThresholdRuleRepository = badgeThresholdRuleRepository;
     this.badgeTimeRangeRuleRepository = badgeTimeRangeRuleRepository;
+    this.pointRuleParamRepository = pointRuleParamRepository;
   }
 
   @Override
@@ -66,6 +69,7 @@ public class RulesEndpoint implements RulesApi {
           PointRule newRule = dtoToModel(body, app);
 
           pointRuleRepository.save(newRule);
+          pointRuleParamRepository.save(newRule.getPointRuleParams());
           applicationsRepository.save(app);
           return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -109,6 +113,7 @@ public class RulesEndpoint implements RulesApi {
     List<PointRuleParam> params = new ArrayList<>();
     for(PointRuleParamDto paramDto: body.getNewPointRuleParams()) {
       params.add(dtoToModel(paramDto));
+      pointRuleParamRepository.save(params);
     }
     updatedRule.setPointRuleParams(params);
     pointRuleRepository.save(updatedRule);
