@@ -517,6 +517,8 @@ definitions:
         format: date-time
       properties:
         type: object
+        additionalProperties:
+          type: string
   User:
     type: object
     properties:

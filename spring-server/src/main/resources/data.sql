@@ -11,6 +11,9 @@ INSERT INTO Badge (id, app_id, name, optlock) VALUES (1, 1, 'beginner', 0);
 INSERT INTO Scale (id, app_id, max, name, optlock) VALUES (1, 1, 10000, 'Killpoints', 0);
 -- Point rules: what event awards how many point
 INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (1, 1, 'Killing rule', 1, 'kill',100, 0);
+-- Point rule params: what event awards how many point
+INSERT INTO PointRuleParam (id, rule_id, paramName, paramValue, nbPoints, optlock) VALUES (1, 1, 'difficulty', 'easy', 50, 0);
+INSERT INTO PointRuleParam (id, rule_id, paramName, paramValue, nbPoints, optlock) VALUES (2, 1, 'difficulty', 'hard', 200, 0);
 -- Threshold rule: with how many points a badge is won
 INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold, optlock) VALUES (1, 1, 'Beginner killer rule', 1, 1, 200, 0);
 

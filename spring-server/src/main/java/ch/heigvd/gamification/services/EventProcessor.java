@@ -14,25 +14,21 @@ import java.util.List;
 @Service
 public class EventProcessor {
 
+  @Autowired
   private EndUserRepository endUsersRepository;
+  @Autowired
   private ScaleRepository scaleRepository;
+  @Autowired
   private UserScaleRepository userScaleRepository;
   @Autowired
   private UserBadgeRepository userBadgeRepository;
+  @Autowired
   private PointRuleRepository pointRuleRepository;
+  @Autowired
+  private PointRuleParamRepository pointRuleParamRepository;
   @Autowired
   private BadgeThresholdRuleRepository badgeThresholdRuleRepository;
 
-
-  public EventProcessor(EndUserRepository endUsersRepository,
-                        ScaleRepository scaleRepository,
-                        UserScaleRepository userScaleRepository,
-                        PointRuleRepository pointRuleRepository) {
-    this.endUsersRepository = endUsersRepository;
-    this.scaleRepository = scaleRepository;
-    this.userScaleRepository = userScaleRepository;
-    this.pointRuleRepository = pointRuleRepository;
-  }
 
   @Async
   @Transactional
@@ -83,11 +79,31 @@ public class EventProcessor {
           userScale.setNbPoints(0);
         }
 
-        userScale.setNbPoints(userScale.getNbPoints() + rule.getDefaultNbPoints());
+        int nbPointsAwarded = processRulePointParams(rule, event);
+        userScale.setNbPoints(userScale.getNbPoints() + nbPointsAwarded);
         userScaleRepository.save(userScale);
       }
     }
     return wasRuleApplied;
+  }
+
+  /** If event has params, goes through all params of this rule to find a matching parameter
+   * @return the default nbPoints for this rule, or if the event has a property with a name and value
+   * matching a RuleParam, then the nbPoints of this RuleParam
+   */
+  private int processRulePointParams(PointRule rule, Event event) {
+    int nbPoints = rule.getDefaultNbPoints();
+    if(event.getProperties() != null) {
+      for(PointRuleParam ruleParam : pointRuleParamRepository.findByPointRule(rule)) {
+
+        String eventParamValue = event.getProperties().get(ruleParam.getParamName());
+        if(eventParamValue != null && eventParamValue.equals(ruleParam.getParamValue())) {
+          nbPoints = ruleParam.getNbPoints();
+          break;
+        }
+      }
+    }
+    return nbPoints;
   }
 
   /**
