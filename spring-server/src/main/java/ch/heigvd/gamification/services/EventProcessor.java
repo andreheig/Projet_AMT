@@ -118,15 +118,16 @@ public class EventProcessor {
     List<BadgeThresholdRule>  rules = badgeThresholdRuleRepository.findByApp(app);
       for (BadgeThresholdRule rule : rules) {
         UserScale userScale = userScaleRepository.findByUserAndScale(user, rule.getScale());
-        if (userScale != null) {
-          if (userScale.getNbPoints() >= rule.getThreshold()) {
+        boolean badgeAlreadyWon =
+                userBadgeRepository.findByUserAndBadge(user, rule.getBadge()) != null;
+          if (userScale != null && userScale.getNbPoints() >= rule.getThreshold() && !badgeAlreadyWon) {
             UserBadge userBadge = new UserBadge();
             userBadge.setUser(user);
             userBadge.setBadge(rule.getBadge());
             userBadge.setDateAwarded(new Date());
             userBadgeRepository.save(userBadge);
           }
-        }
       }
   }
+
 }
