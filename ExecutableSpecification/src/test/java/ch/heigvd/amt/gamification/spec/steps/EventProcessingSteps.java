@@ -19,6 +19,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 import org.joda.time.DateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 /**
@@ -138,6 +139,51 @@ public class EventProcessingSteps {
   public void the_payload_in_the_response_has_a_property_numberOfEvents_with_a_value_of(int expectedNumberOfEvents) throws Throwable {
     User retrievedUserState = (User) user;
     assertEquals(expectedNumberOfEvents, retrievedUserState.getNumberOfEvents().intValue());
+  }
+
+  @Then("^I see the badge in the list$")
+  public void i_see_the_badge_in_the_list() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    ApplicationsBadgesSummary expected = new ApplicationsBadgesSummary();
+    expected.setBadgesName("beginner");
+    for(ApplicationsBadgesSummary b : user.getBadges()){
+      if(b.getBadgesName().equalsIgnoreCase(expected.getBadgesName())){
+        assert true;
+        return;
+      }
+    }
+   assert false;
+    return;
+  }
+
+  @Then("^I see the userScale in the list grow-up$")
+  public void i_see_the_userScale_in_the_list_grow_up() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    ApplicationsScalesSummary expectedKill = new ApplicationsScalesSummary();
+    expectedKill.setScaleName("Killpoints");
+    expectedKill.setScaleMax(100);
+
+    ApplicationsScalesSummary expectedChuck = new ApplicationsScalesSummary();
+    expectedChuck.setScaleName("Chuck Norris doesn't need an OS.");
+    expectedChuck.setScaleMax(28);
+
+    for(ApplicationsScalesSummary s : user.getScales()){
+      if(s.getScaleName().equalsIgnoreCase(expectedKill.getScaleName())) {
+        if (s.getScaleMax() > expectedKill.getScaleMax()) {
+          assert true;
+          return;
+        }
+      }
+      else if (s.getScaleName().equalsIgnoreCase(expectedChuck.getScaleName())){
+        if (s.getScaleMax() > expectedChuck.getScaleMax()) {
+          assert true;
+          return;
+        }
+      }
+    }
+    assert false;
+    return;
+
   }
 
 }

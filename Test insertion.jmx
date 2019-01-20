@@ -343,15 +343,11 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extracteur Expression régulière" enabled="true">
-          <stringProp name="RegexExtractor.useHeaders">message</stringProp>
-          <stringProp name="RegexExtractor.refname">numberOfEvents</stringProp>
-          <stringProp name="RegexExtractor.regex">.*numberOfEvents\&quot;: (.*),.*</stringProp>
-          <stringProp name="RegexExtractor.template">$1$</stringProp>
-          <stringProp name="RegexExtractor.default"></stringProp>
-          <stringProp name="RegexExtractor.match_number"></stringProp>
-          <stringProp name="Sample.scope">all</stringProp>
-        </RegexExtractor>
+        <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extracteur JSON" enabled="true">
+          <stringProp name="JSONPostProcessor.referenceNames">event</stringProp>
+          <stringProp name="JSONPostProcessor.jsonPathExprs">$.numberOfEvents</stringProp>
+          <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+        </JSONPostProcessor>
         <hashTree/>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Réponse" enabled="true">
           <collectionProp name="Asserion.test_strings">
@@ -360,9 +356,9 @@
           <stringProp name="Assertion.custom_message"></stringProp>
           <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
           <boolProp name="Assertion.assume_success">false</boolProp>
-          <intProp name="Assertion.test_type">16</intProp>
+          <intProp name="Assertion.test_type">1</intProp>
           <stringProp name="Assertion.scope">variable</stringProp>
-          <stringProp name="Scope.variable">numberOfEvents</stringProp>
+          <stringProp name="Scope.variable">event</stringProp>
         </ResponseAssertion>
         <hashTree/>
         <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Rapport consolidé" enabled="true">

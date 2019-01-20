@@ -65,7 +65,6 @@ public class BadgeSteps {
   public void i_see_my_badge_in_the_list() throws Throwable {
     ApplicationsBadgesSummary expected = new ApplicationsBadgesSummary();
     expected.setBadgesName(badge.getBadgeName());
-    //BADGENAME = badge.getBadgeName();
     assertThat(badges).extracting("badgesName").contains(badge.getBadgeName());
   }
 }
