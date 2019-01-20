@@ -82,6 +82,7 @@ public class EventProcessingSteps {
     event.setUserId(USER_PASS);
     event.setApplicationName(APPLICATION);
     events.add(event);
+
     event = new Event();
     event.setTimestamp(DateTime.now());
     event.setType("kill");
