@@ -9,24 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Olivier Liechti
- */
 @RestController
 public class ApplicationsEndpoint implements ApplicationsApi {
 
+  @Autowired
   private ApplicationRepository applicationsRepository;
 
-  public ApplicationsEndpoint(ApplicationRepository applicationsRepository) {
-    this.applicationsRepository = applicationsRepository;
-  }
 
   public ResponseEntity<List<ApplicationSummary>> getAllApplications() {
     List<ApplicationSummary> result = new ArrayList<>();

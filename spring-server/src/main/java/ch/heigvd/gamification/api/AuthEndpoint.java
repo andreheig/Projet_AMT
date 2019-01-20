@@ -4,23 +4,17 @@ import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.Token;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.model.Application;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Olivier Liechti
- */
 @RestController
 public class AuthEndpoint implements AuthApi {
 
+  @Autowired
   private ApplicationRepository applicationsRepository;
-
-  public AuthEndpoint(ApplicationRepository applicationsRepository) {
-    this.applicationsRepository = applicationsRepository;
-  }
 
   @Override
   public ResponseEntity authenticateApplicationAndGetToken(@RequestBody Credentials body) {

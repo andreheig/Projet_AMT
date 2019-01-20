@@ -8,6 +8,7 @@ import ch.heigvd.gamification.dao.ScaleRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.Scale;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,10 @@ import java.util.List;
 @RestController
 public class ScalesEndpoint implements ScalesApi {
 
-  private final ScaleRepository scaleRepository;
-  private final ApplicationRepository applicationRepository;
-
-  public ScalesEndpoint(ScaleRepository scaleRepository, ApplicationRepository applicationrepository) {
-    this.scaleRepository = scaleRepository;
-    this.applicationRepository = applicationrepository;
-  }
-
+  @Autowired
+  private ScaleRepository scaleRepository;
+  @Autowired
+  private ApplicationRepository applicationRepository;
 
   @Override
   public ResponseEntity<List<ApplicationsScalesSummary>> findApplicationScales(@ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid) {

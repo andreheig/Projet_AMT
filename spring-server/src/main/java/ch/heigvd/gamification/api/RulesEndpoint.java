@@ -5,6 +5,7 @@ import ch.heigvd.gamification.dao.*;
 import ch.heigvd.gamification.model.*;
 import ch.heigvd.gamification.services.EventProcessor;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,29 +19,20 @@ import java.util.List;
 @RestController
 public class RulesEndpoint implements RulesApi {
 
-  private final ApplicationRepository applicationsRepository;
-  private final PointRuleRepository pointRuleRepository;
-  private final PointRuleParamRepository pointRuleParamRepository;
-  private final ScaleRepository scaleRepository;
-  private final EventProcessor eventProcessor;
-  private final BadgeRepository badgeRepository;
-  private final BadgeThresholdRuleRepository badgeThresholdRuleRepository;
-  private final BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository;
-
-  public RulesEndpoint(ApplicationRepository applicationsRepository, PointRuleRepository pointRuleRepository,
-                       EndUserRepository endUsersRepository, ScaleRepository scaleRepository,
-                       BadgeRepository badgeRepository,  EventProcessor eventProcessor,
-                       BadgeThresholdRuleRepository badgeThresholdRuleRepository, BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository,
-                       PointRuleParamRepository pointRuleParamRepository) {
-    this.applicationsRepository = applicationsRepository;
-    this.pointRuleRepository = pointRuleRepository;
-    this.scaleRepository = scaleRepository;
-    this.eventProcessor = eventProcessor;
-    this.badgeRepository = badgeRepository;
-    this.badgeThresholdRuleRepository = badgeThresholdRuleRepository;
-    this.badgeTimeRangeRuleRepository = badgeTimeRangeRuleRepository;
-    this.pointRuleParamRepository = pointRuleParamRepository;
-  }
+    @Autowired
+    private ApplicationRepository applicationsRepository;
+    @Autowired
+    private PointRuleRepository pointRuleRepository;
+    @Autowired
+    private PointRuleParamRepository pointRuleParamRepository;
+    @Autowired
+    private ScaleRepository scaleRepository;
+    @Autowired
+    private BadgeRepository badgeRepository;
+    @Autowired
+    private BadgeThresholdRuleRepository badgeThresholdRuleRepository;
+    @Autowired
+    private BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository;
 
   @Override
   public ResponseEntity<Void> createPointRule(

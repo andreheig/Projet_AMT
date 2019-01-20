@@ -12,6 +12,7 @@ import ch.heigvd.gamification.model.EndUser;
 import ch.heigvd.gamification.model.UserBadge;
 import ch.heigvd.gamification.model.UserScale;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,18 +25,14 @@ import java.util.List;
 @RestController
 public class UsersEndpoint implements UsersApi {
 
-  private final ApplicationRepository applicationRepository;
-  private final EndUserRepository endUserRepository;
-  private final UserBadgeRepository userBadgeRepository;
-  private final UserScaleRepository userScaleRepository;
-
-  public UsersEndpoint(ApplicationRepository applicationRepository, EndUserRepository endUserRepository,
-                       UserBadgeRepository userBadgeRepository, UserScaleRepository userScaleRepository) {
-    this.applicationRepository = applicationRepository;
-    this.endUserRepository = endUserRepository;
-    this.userBadgeRepository = userBadgeRepository;
-    this.userScaleRepository = userScaleRepository;
-  }
+  @Autowired
+  private ApplicationRepository applicationRepository;
+  @Autowired
+  private EndUserRepository endUserRepository;
+  @Autowired
+  private UserBadgeRepository userBadgeRepository;
+  @Autowired
+  private UserScaleRepository userScaleRepository;
 
   @Override
   public ResponseEntity findUserById(@ApiParam(value = "token that identifies the application sending the request" ,required=true )

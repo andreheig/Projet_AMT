@@ -8,6 +8,7 @@ import ch.heigvd.gamification.dao.BadgeRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.Badge;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,10 @@ import java.util.List;
 @RestController
 public class BadgesEndpoint implements ch.heigvd.gamification.api.BadgesApi {
 
-  private final BadgeRepository badgeRepository;
-  private final ApplicationRepository applicationRepository;
-
-  public BadgesEndpoint(BadgeRepository badgeRepository, ApplicationRepository applicationrepository) {
-    this.badgeRepository = badgeRepository;
-    this.applicationRepository = applicationrepository;
-  }
+  @Autowired
+  private BadgeRepository badgeRepository;
+  @Autowired
+  private ApplicationRepository applicationRepository;
 
   @Override
   public ResponseEntity<List<ApplicationsBadgesSummary>> findApplicationBadges(@ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid){
