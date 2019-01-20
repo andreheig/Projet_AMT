@@ -536,6 +536,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ApplicationsBadgesSummary'
+      scales:
+        type: array
+        items:
+          $ref: '#/definitions/ApplicationsScalesSummary'
   RegistrationBadge:
     type: object
     properties:

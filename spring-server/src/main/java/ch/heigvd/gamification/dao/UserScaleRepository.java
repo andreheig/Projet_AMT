@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface UserScaleRepository extends CrudRepository<UserScale, Long> {
     UserScale findByUserAndScale(EndUser endUser, Scale scale);
+    List<UserScale> findByUser(EndUser user);
 }

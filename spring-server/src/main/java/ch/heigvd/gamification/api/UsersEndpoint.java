@@ -1,13 +1,16 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.ApplicationsBadgesSummary;
+import ch.heigvd.gamification.api.dto.ApplicationsScalesSummary;
 import ch.heigvd.gamification.api.dto.User;
 import ch.heigvd.gamification.dao.ApplicationRepository;
 import ch.heigvd.gamification.dao.EndUserRepository;
 import ch.heigvd.gamification.dao.UserBadgeRepository;
+import ch.heigvd.gamification.dao.UserScaleRepository;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.EndUser;
 import ch.heigvd.gamification.model.UserBadge;
+import ch.heigvd.gamification.model.UserScale;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +27,14 @@ public class UsersEndpoint implements UsersApi {
   private final ApplicationRepository applicationRepository;
   private final EndUserRepository endUserRepository;
   private final UserBadgeRepository userBadgeRepository;
+  private final UserScaleRepository userScaleRepository;
 
-  public UsersEndpoint(ApplicationRepository applicationRepository, EndUserRepository endUserRepository, UserBadgeRepository userBadgeRepository) {
+  public UsersEndpoint(ApplicationRepository applicationRepository, EndUserRepository endUserRepository,
+                       UserBadgeRepository userBadgeRepository, UserScaleRepository userScaleRepository) {
     this.applicationRepository = applicationRepository;
     this.endUserRepository = endUserRepository;
     this.userBadgeRepository = userBadgeRepository;
+    this.userScaleRepository = userScaleRepository;
   }
 
   @Override
@@ -53,7 +59,16 @@ public class UsersEndpoint implements UsersApi {
       badges.add(b);
     }
 
+    List<ApplicationsScalesSummary> scales = new ArrayList<>();
+    for(UserScale scale : userScaleRepository.findByUser(endUser)){
+      ApplicationsScalesSummary s = new ApplicationsScalesSummary();
+      s.setScaleName(scale.getScale().getName());
+      s.setScaleMax(scale.getNbPoints());
+      scales.add(s);
+    }
+
     user.setBadges(badges);
+    user.setScales(scales);
 
     return ResponseEntity.ok(user);
   }
