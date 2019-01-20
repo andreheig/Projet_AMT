@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UserBadgeRepository extends CrudRepository<UserBadge, Long> {
 
-    List<UserBadge> findByUser(String idInGamifiedApplication);
+    List<UserBadge> findByUserIdInGamifiedApplication(String idInGamifiedApplication);
 
 }
