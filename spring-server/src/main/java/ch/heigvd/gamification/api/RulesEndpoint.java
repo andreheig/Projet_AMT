@@ -95,7 +95,6 @@ public class RulesEndpoint implements RulesApi {
   public ResponseEntity<List<PointRuleDto>> findPointRules(
           @ApiParam(value = "uuid de l'application à trouver",required=true ) @PathVariable("uuid") String uuid ) {
     List<PointRuleDto> result = new ArrayList<>();
-    List<PointRuleParamDto> paramResult = new ArrayList<>();
     Application app = applicationsRepository.findByKeyUUID(uuid);
     if(app == null){
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -109,14 +108,13 @@ public class RulesEndpoint implements RulesApi {
         rs.setName(rule.getName());
         rs.setEventType(rule.getEventType());
         rs.setDefaultNbPoints(rule.getDefaultNbPoints());
-        if(pointRuleParamRepository.findByPointRule(rule).size() != 0) {
-            for (PointRuleParam param : pointRuleParamRepository.findByPointRule(rule)) {
-                PointRuleParamDto prs = new PointRuleParamDto();
-                prs.setParamValue(param.getParamValue());
-                prs.setNbPoints(param.getNbPoints());
-                prs.setParamName(param.getParamName());
-                paramResult.add(prs);
-            }
+        List<PointRuleParamDto> paramResult = new ArrayList<>();
+        for (PointRuleParam param : rule.getPointRuleParams()) {
+            PointRuleParamDto prs = new PointRuleParamDto();
+            prs.setParamValue(param.getParamValue());
+            prs.setNbPoints(param.getNbPoints());
+            prs.setParamName(param.getParamName());
+            paramResult.add(prs);
         }
         rs.setPointRuleParams(paramResult);
         result.add(rs);
