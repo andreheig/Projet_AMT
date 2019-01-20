@@ -47,6 +47,9 @@ public class EventProcessor {
       user.setApp(app);
       user.setIdInGamifiedApplication(event.getUserId());
       user.setNumberOfEvents(0);
+      for(Scale scale : scaleRepository.findByApp(app)){
+
+      }
       endUsersRepository.save(user);
     }
     user.setNumberOfEvents(user.getNumberOfEvents() + 1);
@@ -113,16 +116,17 @@ public class EventProcessor {
    */
   private void processBadgeThresholdRules(Application app, EndUser user, Event event) {
     List<BadgeThresholdRule>  rules = badgeThresholdRuleRepository.findByApp(app);
-    for(BadgeThresholdRule rule : rules) {
-      UserScale userScale = userScaleRepository.findByUserAndScale(user, rule.getScale());
-      if(userScale.getNbPoints() >= rule.getThreshold()) {
-        UserBadge userBadge = new UserBadge();
-        userBadge.setUser(user);
-        userBadge.setBadge(rule.getBadge());
-        userBadge.setDateAwarded(new Date());
-        userBadgeRepository.save(userBadge);
+      for (BadgeThresholdRule rule : rules) {
+        UserScale userScale = userScaleRepository.findByUserAndScale(user, rule.getScale());
+        if (userScale != null) {
+          if (userScale.getNbPoints() >= rule.getThreshold()) {
+            UserBadge userBadge = new UserBadge();
+            userBadge.setUser(user);
+            userBadge.setBadge(rule.getBadge());
+            userBadge.setDateAwarded(new Date());
+            userBadgeRepository.save(userBadge);
+          }
+        }
       }
-    }
-
   }
 }
