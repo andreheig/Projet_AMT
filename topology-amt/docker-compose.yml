@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+  java:
+     build: ../images/server
+     ports:
+      - "8090:8090"
+     
+      
+      
