@@ -28,12 +28,17 @@ public class EventProcessor {
   private PointRuleParamRepository pointRuleParamRepository;
   @Autowired
   private BadgeThresholdRuleRepository badgeThresholdRuleRepository;
+  @Autowired
+  private BadgeTimeRangeRuleRepository badgeTimeRangeRuleRepository;
+  @Autowired
+  private EventHistoryRepository eventHistoryRepository;
 
 
   @Async
   @Transactional
   public void processEvent(Application app, Event event) {
     EndUser user = findOrCreateUser(app, event);
+    updateEventHistoryAndCheckTimeRangeRules(user, event);
     boolean werePointsAwarded = processPointRules(app, user, event);
     if(werePointsAwarded) {
       processBadgeThresholdRules(app, user, event);
@@ -55,6 +60,43 @@ public class EventProcessor {
     user.setNumberOfEvents(user.getNumberOfEvents() + 1);
     endUsersRepository.save(user);
     return user;
+  }
+
+  /** UPdate the date of last occurrence of an event of this type for this user */
+  private void updateEventHistoryAndCheckTimeRangeRules(EndUser user, Event event) {
+    EventHistory eventHistory = eventHistoryRepository.findByUserAndEventType(user, event.getType());
+    if(eventHistory == null) {
+        eventHistory = new EventHistory();
+        eventHistory.setApp(user.getApp());
+        eventHistory.setUser(user);
+        eventHistory.setEventType(event.getType());
+    }
+    eventHistory.setLastOccurenceDate(new Date());
+    eventHistoryRepository.save(eventHistory);
+    processTimeRangeRules(user, event);
+  }
+
+  private void processTimeRangeRules(EndUser user, Event event) {
+      // Find all rules whose second type is the same as the incoming event's one
+      for(BadgeTimeRangeRule rule :
+              badgeTimeRangeRuleRepository.findByAppAndSecondEventType(user.getApp(), event.getType())) {
+
+          // Badge was already won
+          if(userBadgeRepository.findByUserAndBadge(user, rule.getBadge()) != null) {
+              continue;
+          }
+
+          Date lastOccurenceDate =
+                  eventHistoryRepository.findByUserAndEventType(user, event.getType()).getLastOccurenceDate();
+          long timeSinceLastOccurrence = (System.currentTimeMillis() - lastOccurenceDate.getTime()) / 1000;
+          if(timeSinceLastOccurrence < rule.getRangeInSeconds()) {
+              UserBadge userBadge = new UserBadge();
+              userBadge.setUser(user);
+              userBadge.setBadge(rule.getBadge());
+              userBadge.setDateAwarded(new Date());
+              userBadgeRepository.save(userBadge);
+          }
+      }
   }
 
   /**

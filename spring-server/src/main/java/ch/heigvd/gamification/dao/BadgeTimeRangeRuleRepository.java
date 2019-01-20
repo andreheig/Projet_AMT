@@ -14,6 +14,8 @@ public interface BadgeTimeRangeRuleRepository extends CrudRepository<BadgeTimeRa
 
   BadgeTimeRangeRule findByNameAndApp(String name, Application application);
 
+  List<BadgeTimeRangeRule> findByAppAndSecondEventType(Application application, String secondEventType);
+
   List<BadgeTimeRangeRule> findAll();
 
 }

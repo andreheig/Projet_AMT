@@ -28,5 +28,5 @@ INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold,
 INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold, optlock) VALUES (2, 1, 'Helen Highwater', 2, 3, 552, 0);
 INSERT INTO BadgeThresholdRule (id, app_id, name, scale_id, badge_id, threshold, optlock) VALUES (3, 1, 'Andy Structible', 3, 4, 469, 0);
 -- time rule
-INSERT INTO BadgeTimeRangeRule (id, app_id, badge_id, firstEventType, name, rangeInSeconds, secondEventType, optlock) VALUES (1, 1, 2, 'kill', 'Thorin Oakenshield', 29073, 'IT Agent', 0);
-INSERT INTO BadgeTimeRangeRule (id, app_id, badge_id, firstEventType, name, rangeInSeconds, secondEventType, optlock) VALUES (2, 1, 5, 'IT Agent', 'Tom', 585301, 'kill', 0);
+INSERT INTO BadgeTimeRangeRule (id, app_id, badge_id, name, firstEventType, secondEventType, rangeInSeconds, optlock) VALUES (1, 1, 2, 'Quick kill badge', 'kill', 'kill2', 10, 0);
+INSERT INTO BadgeTimeRangeRule (id, app_id, badge_id, name, firstEventType, secondEventType, rangeInSeconds, optlock) VALUES (2, 1, 5, 'Very quick kill badge', 'kill', 'kill2', 3, 0);
