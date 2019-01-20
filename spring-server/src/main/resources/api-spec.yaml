@@ -535,7 +535,7 @@ definitions:
       badges:
         type: array
         items:
-          type: string
+          $ref: '#/definitions/ApplicationsBadgesSummary'
   RegistrationBadge:
     type: object
     properties:
