@@ -44,16 +44,13 @@ public class UsersEndpoint implements UsersApi {
     User user = new User();
     user.setUserId(endUser.getIdInGamifiedApplication());
     user.setNumberOfEvents(endUser.getNumberOfEvents());
+    user.setName(endUser.getName());
 
-    /*List<ApplicationsBadgesSummary> badges = new ArrayList<>();
-    for(UserBadge badge: userBadgeRepository.findByEndUser(id)){
+    List<ApplicationsBadgesSummary> badges = new ArrayList<>();
+    for(UserBadge badge: userBadgeRepository.findByUserIdInGamifiedApplication(id)){
       ApplicationsBadgesSummary b = new ApplicationsBadgesSummary();
       b.setBadgesName(badge.getBadge().getName());
       badges.add(b);
-    }*/
-    List<String> badges = new ArrayList<>();
-    for(UserBadge badge: userBadgeRepository.findByUser(id)){
-      badges.add(badge.getBadge().getName());
     }
 
     user.setBadges(badges);
