@@ -74,6 +74,19 @@ public class EventProcessingSteps {
     events.add(event);
   }
 
+  @Given("^I have a loop Event payload$")
+  public void i_have_a_loop_Event_payload() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    for(int i = 0; i < 11; i++){
+      Event event = new Event();
+      event.setTimestamp(DateTime.now());
+      event.setType("IT Agent");
+      event.setUserId(USER_PASS);
+      event.setApplicationName(APPLICATION);
+      events.add(event);
+    }
+  }
+
   @Given("^I have two Event payload$")
   public void i_have_two_Event_payload() throws Throwable {
     // Write code here that turns the phrase above into concrete actions
@@ -185,5 +198,31 @@ public class EventProcessingSteps {
     return;
 
   }
+
+  @Then("^I see the badge in the list grow-up$")
+  public void i_see_the_badge_in_the_list_grow_up() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    boolean beginner = false;
+    boolean bing = false;
+    ApplicationsBadgesSummary expectedBeginner = new ApplicationsBadgesSummary();
+    expectedBeginner.setBadgesName("beginner");
+    ApplicationsBadgesSummary expectedBing = new ApplicationsBadgesSummary();
+    expectedBing.setBadgesName("Bing Ding");
+    for(ApplicationsBadgesSummary b : user.getBadges()){
+      if(b.getBadgesName().equalsIgnoreCase(expectedBeginner.getBadgesName())){
+        beginner = true;
+      }
+      if(b.getBadgesName().equalsIgnoreCase(expectedBing.getBadgesName())){
+        bing = true;
+      }
+      if(beginner && bing){
+        assert true;
+        return;
+      }
+    }
+    assert false;
+    return;
+  }
+
 
 }

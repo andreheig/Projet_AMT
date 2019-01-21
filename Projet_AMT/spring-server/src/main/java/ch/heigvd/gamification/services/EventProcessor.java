@@ -38,7 +38,7 @@ public class EventProcessor {
   @Transactional
   public void processEvent(Application app, Event event) {
     EndUser user = findOrCreateUser(app, event);
-    updateEventHistoryAndCheckTimeRangeRules(user, event);
+    checkTimeRangeRulesAndUpdateEventHistory(user, event);
     boolean werePointsAwarded = processPointRules(app, user, event);
     if(werePointsAwarded) {
       processBadgeThresholdRules(app, user, event);
@@ -52,9 +52,6 @@ public class EventProcessor {
       user.setApp(app);
       user.setIdInGamifiedApplication(event.getUserId());
       user.setNumberOfEvents(0);
-      for(Scale scale : scaleRepository.findByApp(app)){
-
-      }
       endUsersRepository.save(user);
     }
     user.setNumberOfEvents(user.getNumberOfEvents() + 1);
@@ -63,7 +60,9 @@ public class EventProcessor {
   }
 
   /** UPdate the date of last occurrence of an event of this type for this user */
-  private void updateEventHistoryAndCheckTimeRangeRules(EndUser user, Event event) {
+  private void checkTimeRangeRulesAndUpdateEventHistory(EndUser user, Event event) {
+    processTimeRangeRules(user, event);
+
     EventHistory eventHistory = eventHistoryRepository.findByUserAndEventType(user, event.getType());
     if(eventHistory == null) {
         eventHistory = new EventHistory();
@@ -73,7 +72,6 @@ public class EventProcessor {
     }
     eventHistory.setLastOccurenceDate(new Date());
     eventHistoryRepository.save(eventHistory);
-    processTimeRangeRules(user, event);
   }
 
   private void processTimeRangeRules(EndUser user, Event event) {
@@ -86,8 +84,7 @@ public class EventProcessor {
               continue;
           }
 
-          Date lastOccurenceDate =
-                  eventHistoryRepository.findByUserAndEventType(user, event.getType()).getLastOccurenceDate();
+          Date lastOccurenceDate = eventHistoryRepository.findByUserAndEventType(user, rule.getFirstEventType()).getLastOccurenceDate();
           long timeSinceLastOccurrence = (System.currentTimeMillis() - lastOccurenceDate.getTime()) / 1000;
           if(timeSinceLastOccurrence < rule.getRangeInSeconds()) {
               UserBadge userBadge = new UserBadge();

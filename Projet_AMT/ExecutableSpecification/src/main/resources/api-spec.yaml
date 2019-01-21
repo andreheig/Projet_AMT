@@ -517,6 +517,8 @@ definitions:
         format: date-time
       properties:
         type: object
+        additionalProperties:
+          type: string
   User:
     type: object
     properties:
@@ -530,6 +532,14 @@ definitions:
         type: array
         items:
           type: string
+      badges:
+        type: array
+        items:
+          $ref: '#/definitions/ApplicationsBadgesSummary'
+      scales:
+        type: array
+        items:
+          $ref: '#/definitions/ApplicationsScalesSummary'
   RegistrationBadge:
     type: object
     properties:
