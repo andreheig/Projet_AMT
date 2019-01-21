@@ -6,7 +6,7 @@ Afin de tester que notre application effectue les modifications en bonne et due 
 
 Pour les test de rollBack, nous avons utilisé ce test:
 
-![test_kill](C:\Users\Andre\IntelliJProject\Projet_AMT\.md\pictures\test_kill.png)
+![test_kill](https://github.com/andreheig/Projet_AMT/blob/partTwo/.md/pictures/test_kill.png)
 
 Qui est sous le contrôleur évent kill:
 
@@ -22,11 +22,11 @@ Puis une fois le test lancé, on obtient des erreurs de concurrence levé par Sp
 
 une fois que l'on observe le nombre d'évent passé, on peut voir que le nombre de point correspond bien au  nombre de point que l'on devrait avoir:
 
-![scale](C:\Users\Andre\IntelliJProject\Projet_AMT\.md\pictures\echelle.png)
+![scale](https://github.com/andreheig/Projet_AMT/blob/partTwo/.md/pictures/echelle.png)
 
 Ou sous JMeter grâce à Groovy, et les variables extraites:
 
-![groovy](C:\Users\Andre\IntelliJProject\Projet_AMT\.md\pictures\groovy.png)
+![groovy](https://github.com/andreheig/Projet_AMT/blob/partTwo/.md/pictures/groovy.png)
 
 On peut voir que 3699 * 100 = 369900 points, malgré les erreurs de concurrence annoncé, on se retrouve donc bien avec une échelle de point qui correspond bien à ce que l'on s'attend (nombre de points concordant avec le nombre d'évent, et pas un nombre de point n'étant pas en relation avec le nombre d'évent).
 
