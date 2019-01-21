@@ -29,3 +29,10 @@ Feature: Simple event processing
     And I ask the user U1 from the /users/{id} endpoint
     Then I receive a 200 status code
     And I see the userScale in the list grow-up
+
+  Scenario: send event for a user of the gamified application and check winning badge grow-up
+    Given I have a loop Event payload
+    When I post it to the /events endpoint
+    And I ask the user U1 from the /users/{id} endpoint
+    Then I receive a 200 status code
+    And I see the badge in the list grow-up

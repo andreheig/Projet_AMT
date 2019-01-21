@@ -43,9 +43,9 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Contrôleur event kill" enabled="true"/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Contrôleur event kill" enabled="false"/>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requête HTTP event" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requête HTTP event" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -77,7 +77,7 @@
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Réponse" enabled="true">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Réponse" enabled="false">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="49586">200</stringProp>
               </collectionProp>
@@ -90,7 +90,7 @@
           </hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Contrôleur event IT Agent" enabled="false"/>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requête HTTP event" enabled="false">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requête HTTP event" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -122,7 +122,7 @@
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Réponse" enabled="false">
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Réponse" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="49586">200</stringProp>
               </collectionProp>
@@ -337,7 +337,7 @@
         <hashTree/>
         <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extracteur JSON" enabled="true">
           <stringProp name="JSONPostProcessor.referenceNames">points</stringProp>
-          <stringProp name="JSONPostProcessor.jsonPathExprs">$.scales[?(@.scaleName == &apos;Killpoints&apos;)].scaleMax</stringProp>
+          <stringProp name="JSONPostProcessor.jsonPathExprs">$.scales[?(@.scaleName == &quot;Chuck Norris doesn&apos;t need an OS.&quot;)].scaleMax</stringProp>
           <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
         </JSONPostProcessor>
         <hashTree/>
@@ -349,8 +349,7 @@
 log.info(args[1]);
 def event = args[0].toInteger();
 def points = args[1].toInteger();
-log.info(&apos;|&apos; + event + &apos;|&apos;);
-def rule = 100;
+def rule = 50;
 def p = (event.multiply(rule));
 if(p == points){
 	log.info(&quot;OK&quot;);
