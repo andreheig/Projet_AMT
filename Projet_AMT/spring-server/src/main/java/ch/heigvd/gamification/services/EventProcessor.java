@@ -52,9 +52,6 @@ public class EventProcessor {
       user.setApp(app);
       user.setIdInGamifiedApplication(event.getUserId());
       user.setNumberOfEvents(0);
-      for(Scale scale : scaleRepository.findByApp(app)){
-
-      }
       endUsersRepository.save(user);
     }
     user.setNumberOfEvents(user.getNumberOfEvents() + 1);

@@ -62,27 +62,6 @@ paths:
           description: "Application not found"
         405:
           description: "Invalid input"
-  /auth:
-    post:
-      operationId: authenticateApplicationAndGetToken
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: body
-          in: body
-          description: "The info required to authenticate an application"
-          schema:
-            $ref: '#/definitions/Credentials'
-          required: true
-      responses:
-        200:
-          description: "Authentication sucessful"
-          schema:
-            $ref: '#/definitions/Token'
-        401:
-          description: "Authentication failed"
   /users/{id}:
     get:
       description: "Retrieve one user by id"
