@@ -341,17 +341,24 @@
           <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
         </JSONPostProcessor>
         <hashTree/>
-        <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assertion Réponse" enabled="true">
-          <collectionProp name="Asserion.test_strings">
-            <stringProp name="49715">245</stringProp>
-          </collectionProp>
-          <stringProp name="Assertion.custom_message"></stringProp>
-          <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-          <boolProp name="Assertion.assume_success">false</boolProp>
-          <intProp name="Assertion.test_type">1</intProp>
-          <stringProp name="Assertion.scope">variable</stringProp>
-          <stringProp name="Scope.variable">event</stringProp>
-        </ResponseAssertion>
+        <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Assertion JSR223" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${event} ${points}</stringProp>
+          <stringProp name="script">log.info(args[0]);
+log.info(args[1]);
+def event = args[0].toInteger();
+def points = args[1].toInteger();
+log.info(&apos;|&apos; + event + &apos;|&apos;);
+def rule = 100;
+def p = (event.multiply(rule));
+if(p == points){
+	log.info(&quot;OK&quot;);
+	AssertionResult.setFailure(false);
+}
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Assertion>
         <hashTree/>
         <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Rapport consolidé" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -426,21 +433,6 @@
           </objProp>
           <stringProp name="filename"></stringProp>
         </ResultCollector>
-        <hashTree/>
-        <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="Assertion JSR223" enabled="true">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters">${event} ${points}</stringProp>
-          <stringProp name="script">log.info(args[0]);
-log.info((args[1]);
-int event = vars.get(&quot;event&quot;);
-int points = vars.get(&quot;points&quot;)
-if((event * 100) == points){
-	AssertionResult.setFailure(true);
-}
-</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223Assertion>
         <hashTree/>
       </hashTree>
     </hashTree>
