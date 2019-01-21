@@ -18,7 +18,7 @@ Ce qui envoi un évent, qui une fois traité donnera 100 points à notre utilisa
 
 Puis une fois le test lancé, on obtient des erreurs de concurrence levé par Spring/JPA et traités par eux-même:
 
-![error](https://github.com/andreheig/Projet_AMT/blob/partTwo/.md/pictures/info erreur transaction.png)
+![error](https://github.com/andreheig/Projet_AMT/blob/partTwo/.md/pictures/info_erreur_transaction.png)
 
 une fois que l'on observe le nombre d'évent passé, on peut voir que le nombre de point correspond bien au  nombre de point que l'on devrait avoir:
 
