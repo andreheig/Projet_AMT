@@ -17,7 +17,7 @@ INSERT INTO Scale (id, app_id, max, name, optlock) VALUES (2, 1, 4806057, 'Chuck
 INSERT INTO Scale (id, app_id, max, name, optlock) VALUES (3, 1, 76890, 'Chuck Norris doesn''t need CTRL, nobody control Chuck Norris', 0);
 -- Point rules: what event awards how many point
 INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (1, 1, 'Killing rule', 1, 'kill', 100, 0);
-INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (2, 1, 'Dobby', 2, 'IT Agent', 42, 0);
+INSERT INTO PointRule (id, app_id, name, scale_id, eventtype, defaultNbPoints, optlock) VALUES (2, 1, 'Dobby', 2, 'IT Agent', 50, 0);
 -- Point rule params: what event awards how many point
 INSERT INTO PointRuleParam (id, pointrule_id, paramName, paramValue, nbPoints, optlock) VALUES (1, 1, 'difficulty', 'easy', 50, 0);
 INSERT INTO PointRuleParam (id, pointrule_id, paramName, paramValue, nbPoints, optlock) VALUES (2, 1, 'difficulty', 'hard', 200, 0);
